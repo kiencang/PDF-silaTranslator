@@ -10,8 +10,8 @@ import { TranslationMode } from './app';
   imports: [CommonModule, ReactiveFormsModule, LucideAngularModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm animate-in fade-in duration-200" role="dialog" aria-modal="true" aria-labelledby="settings-title">
-      <div class="bg-white rounded-2xl shadow-xl max-w-md w-full p-0 animate-in zoom-in-95 duration-200 overflow-hidden">
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm animate-in fade-in duration-200" role="dialog" aria-modal="true" aria-labelledby="settings-title" (click)="closeModal.emit()">
+      <div class="bg-white rounded-2xl shadow-xl max-w-md w-full p-0 animate-in zoom-in-95 duration-200 overflow-hidden" (click)="$event.stopPropagation()">
         <div class="p-5 border-b border-slate-100 flex items-center justify-between">
           <h3 id="settings-title" class="text-lg font-semibold text-slate-900">Thay đổi chế độ mặc định</h3>
           <button (click)="closeModal.emit()" class="text-slate-500 hover:text-slate-700 hover:bg-slate-200 transition-colors focus:outline-none rounded-full p-2 cursor-pointer" aria-label="Đóng cài đặt">

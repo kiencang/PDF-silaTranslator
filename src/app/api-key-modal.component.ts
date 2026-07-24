@@ -9,8 +9,8 @@ import { LucideAngularModule, Key, X, ExternalLink, EyeOff, Eye, Trash2 } from '
   imports: [CommonModule, FormsModule, LucideAngularModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm animate-in fade-in duration-200" role="dialog" aria-modal="true" aria-labelledby="api-key-title">
-      <div class="bg-white rounded-2xl shadow-xl max-w-2xl w-full p-0 animate-in zoom-in-95 duration-200 overflow-hidden">
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm animate-in fade-in duration-200" role="dialog" aria-modal="true" aria-labelledby="api-key-title" (click)="closeModal.emit()">
+      <div class="bg-white rounded-2xl shadow-xl max-w-2xl w-full p-0 animate-in zoom-in-95 duration-200 overflow-hidden" (click)="$event.stopPropagation()">
         <div class="p-5 border-b border-slate-100 flex items-center justify-between">
           <div class="flex items-center gap-2">
             <lucide-icon [img]="Key" class="w-5 h-5 text-slate-800" aria-hidden="true"></lucide-icon>

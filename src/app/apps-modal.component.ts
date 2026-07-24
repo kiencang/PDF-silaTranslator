@@ -8,8 +8,8 @@ import { LucideAngularModule, LayoutGrid, X, FileText, Youtube, Globe, ArrowRigh
   imports: [CommonModule, LucideAngularModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm animate-in fade-in duration-200" role="dialog" aria-modal="true" aria-labelledby="apps-title">
-      <div class="bg-white rounded-2xl shadow-xl max-w-3xl w-full p-0 animate-in zoom-in-95 duration-200 overflow-hidden flex flex-col max-h-[90vh]">
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm animate-in fade-in duration-200" role="dialog" aria-modal="true" aria-labelledby="apps-title" (click)="closeModal.emit()">
+      <div class="bg-white rounded-2xl shadow-xl max-w-3xl w-full p-0 animate-in zoom-in-95 duration-200 overflow-hidden flex flex-col max-h-[90vh]" (click)="$event.stopPropagation()">
         <!-- Header -->
         <div class="p-5 border-b border-slate-100 flex items-center justify-between shrink-0">
           <div class="flex items-center gap-3">

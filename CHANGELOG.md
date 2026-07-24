@@ -9,6 +9,11 @@ Riêng chỉ sửa nhỏ giao diện mà không động đến logic dịch thu�
 
 Ví dụ 1.0.19.i nghĩa là phiên bản này có lõi giống y phiên bản 1.0.19, chỉ có giao diện người dùng là chỉnh sửa nhỏ.
 
+## [1.0.64] - 2026-07-24
+### Fixed
+- Điều chỉnh câu chữ cho rõ ràng hơn;
+- Khi click ra ngoài modal thì modal tự đóng (tuân thủ chuẩn chung);
+
 ## [1.0.63] - 2026-07-23
 ### Fixed
 - Cung cấp thêm thông tin dịch bằng model AI nào trong phần `Lịch sử dịch`;
