@@ -4,10 +4,14 @@
 </p>
 
 Một số tính năng:
-- Dịch các file PDF ngắn chuyên ngành từ 25 - 30 trang đổ lại (ngưỡng chính xác là 25 ngàn token);
-- Có khả năng bảo toàn tương đối tốt định dạng của tài liệu gốc;
+- Dịch các file PDF ngắn, chuyên ngành từ 25 - 30 trang đổ lại (ngưỡng chính xác là 25 ngàn token);
+- Có khả năng tái tạo tương đối tốt định dạng của tài liệu gốc;
 - Có khả năng xử lý các công thức toán học phức tạp;
 - Giữ lại được các ảnh bitmap (dạng như ảnh chụp bằng điện thoại/máy ảnh nhúng trong file PDF) trong bản dịch;
+- Tìm kiếm tài liệu tiếng Anh trên Google Scholar bằng từ khóa tiếng Việt;
+- Các chế độ dịch cho các kiểu tài liệu khác nhau;
+- Tùy chọn model dịch là Pro hay Flash;
+- Lưu trữ 10 bài dịch gần nhất;
 
 Link dùng:
 - **Link web**: https://pdf-silatranslator.wpsila.com (cần API Key trả phí);
