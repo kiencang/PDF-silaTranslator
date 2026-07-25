@@ -3,13 +3,19 @@
    <br><em>Một file được dịch bởi công cụ</em>
 </p>
 
-Mã nguồn App dịch file PDF từ Anh sang Việt. Triển khai trên AI Studio. Có app sẵn để người dùng cá nhân dùng luôn (mà không cần viết thêm dòng code nào).
+Một số tính năng:
+- Dịch các file PDF ngắn chuyên ngành từ 25 - 30 trang đổ lại (ngưỡng chính xác là 25 ngàn token);
+- Có khả năng bảo toàn tương đối tốt định dạng của tài liệu gốc;
+- Có khả năng xử lý các công thức toán học phức tạp;
+- Giữ lại được các ảnh bitmap (dạng như ảnh chụp bằng điện thoại/máy ảnh nhúng trong file PDF) trong bản dịch;
 
-- **Link web**: https://pdf-silatranslator.wpsila.com
-- **Link app (để tận dụng ngưỡng miễn phí của AI Studio)**: https://aistudio.google.com/apps/bb5c61b7-e110-49aa-933c-04c4ccd18e16?showPreview=true&showAssistant=true
+Link dùng:
+- **Link web**: https://pdf-silatranslator.wpsila.com (cần API Key trả phí);
+- **Link app**: https://aistudio.google.com/apps/bb5c61b7-e110-49aa-933c-04c4ccd18e16?showPreview=true&showAssistant=true (API key miễn phí là đủ dùng);
+
+Chất lượng của 2 phiên bản trên như nhau, dùng qua AI Studio (link app) bạn sẽ tận dụng được ngưỡng miễn phí hàng ngày tương đối thoải mái của Gemini.
+
 ---
-- Ở phiên bản mới nhất cần tạo API Key miễn phí trên Gemini và nhập vào ứng dụng để dùng.
-- Cập nhật phiên bản online trên Cloudflare.
 - Đọc hướng dẫn cách dùng ở đây: https://pdf-translator.wpsila.com
 - Chương trình sử dụng SI/Prompt đã được tối ưu sẵn ở dự án này: https://github.com/kiencang/SI-Prompt-PDF-EV-Translate (v1.3.44)
 
