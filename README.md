@@ -15,6 +15,18 @@ Mã nguồn App dịch file PDF từ Anh sang Việt. Triển khai trên AI Stud
 
 Xem thêm Tuyên bố từ chối trách nhiệm: https://github.com/kiencang/PDF-silaTranslator-Online/blob/main/DISCLAIMERS.md
 
+## Phát triển thêm
+
+Nhìn chung, ở thời điểm hiện tại dùng Gemini để dịch tối ưu về nhiều khía cạnh: 
+- Họ cung cấp gói miễn phí hàng ngày tương đối rộng rãi để người dùng thoải mái mà không phải mua API;
+- Chất lượng dịch của Gemini rất tốt, nhất là dùng với model mới nhất Pro hoặc Flash;
+
+Nếu người dùng muốn sử dụng các model AI khác, có thể tự vibe coding, chẳng hạn để kết hợp với OpenAI, Claude, vân vân.
+
+Một cách khác là sử dụng OpenRouter, một cổng trung gian AI có thể kết hợp với hầu như bất cứ AI nào đang tồn tại. Làm như vậy mã nguồn sẽ đỡ phức tạp đi nhiều.
+
+Phần SI/Prompt của ứng dụng này cần kết hợp với các AI có khả năng nhận diện cả ảnh (để bản dịch có định dạng tốt và gần tương tự với bản gốc), do vậy bạn cần chọn các AI đa phương thức (Multimodal AI). Các AI mà chỉ nhận đầu vào là text sẽ không hợp với ứng dụng này.
+
 ## Ghi công
 
 Công cụ này được hoàn thành dựa vào nhiều thư viện khác. Một số thư viện quan trọng bao gồm:
