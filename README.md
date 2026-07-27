@@ -35,6 +35,8 @@ Nếu người dùng muốn sử dụng các model AI khác, có thể tự vibe
 
 Một cách khác là sử dụng OpenRouter, một cổng trung gian AI có thể kết hợp với hầu như bất cứ AI nào đang tồn tại. Làm như vậy mã nguồn sẽ đỡ phức tạp đi nhiều.
 
+Bạn có thể tham khảo repo này (cùng tác giả) để sử dụng OpenRouter kết nối với các AI khác khi dịch file PDF: https://github.com/kiencang/PDF-openSky
+
 Phần SI/Prompt của ứng dụng này cần kết hợp với các AI có khả năng nhận diện cả ảnh (để bản dịch có định dạng tốt và gần tương tự với bản gốc), do vậy bạn cần chọn các AI đa phương thức (Multimodal AI). Các AI mà chỉ nhận đầu vào là text sẽ không hợp với ứng dụng này.
 
 ## Ghi công
