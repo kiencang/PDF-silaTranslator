@@ -9,6 +9,12 @@ Riêng chỉ sửa nhỏ giao diện mà không động đến logic dịch thu�
 
 Ví dụ 1.0.19.i nghĩa là phiên bản này có lõi giống y phiên bản 1.0.19, chỉ có giao diện người dùng là chỉnh sửa nhỏ.
 
+## [1.0.65] - 2026-07-30
+### Fixed
+- Thêm tính năng lưu trữ file gốc vào Lịch sử dịch (tiện để đối chiếu với bản dịch sau này, đặc biệt khi bản gốc thất lạc);
+- Toggle +Search ít dùng được chuyển xuống footer;
+- Tinh chỉnh một số câu chữ cho gọn gàng hơn;
+
 ## [1.0.64] - 2026-07-24
 ### Fixed
 - Điều chỉnh câu chữ cho rõ ràng hơn;

@@ -21,6 +21,7 @@
             [isProcessing]="isProcessing()"
             [hasFile]="hasFile()"
             [isHistoryView]="isLoadedFromHistory()"
+            [hasOriginalFile]="hasOriginalFile()"
             [hasResult]="!!resultHtml()"
             [selectedFile]="selectedFile()"
             [pdfTotalPages]="pdfTotalPages()"
@@ -34,6 +35,7 @@
             (fileChange)="onFileSelected($event)"
             (pageChange)="pdfStartPage.set($event.start); pdfEndPage.set($event.end); onPageChange()"
             (resetApp)="resetApp()"
+            (downloadOriginal)="downloadOriginalFile()"
           ></app-upload-zone>
         </div>
 
@@ -41,7 +43,6 @@
         <div class="block">
           <app-config-section
             [modeControl]="modeControl"
-            [useGoogleSearchControl]="useGoogleSearchControl"
             [isHtmlUploaded]="isHtmlUploaded()"
             [isPdfUploaded]="isPdfUploaded()"
             [isTwoPhaseMode]="isTwoPhaseMode()"
@@ -94,21 +95,21 @@
           class="flex items-center gap-1.5 px-3 py-1 text-xs font-semibold rounded-lg border shadow-sm transition-all duration-150 cursor-pointer bg-emerald-50 border-emerald-100 hover:bg-emerald-100 text-emerald-700 hover:text-emerald-800 ml-2"
           title="Xem cách mở ngưỡng miễn phí">
           <lucide-icon [img]="Copy" class="w-3.5 h-3.5"></lucide-icon>
-          Cách remix ứng dụng
+          Cách remix app
         </button>
         <button
           (click)="openApps()"
           class="flex items-center gap-1.5 px-3 py-1 text-xs font-semibold rounded-lg border shadow-sm transition-all duration-150 cursor-pointer bg-indigo-50 border-indigo-100 hover:bg-indigo-100 text-indigo-700 hover:text-indigo-800 ml-2"
           title="Khám phá các ứng dụng dịch thuật khác">
           <lucide-icon [img]="LayoutGrid" class="w-3.5 h-3.5"></lucide-icon>
-          Các ứng dụng khác
+          Các app khác
         </button>
       </div>
 
       <!-- Right section -->
       <div class="flex items-center justify-center lg:justify-end">
         <p class="text-xs text-slate-500 flex flex-wrap items-center justify-center lg:justify-end gap-1.5 lg:whitespace-nowrap">
-          <span class="font-medium text-slate-600">v1.0.64</span>
+          <span class="font-medium text-slate-600">v1.0.65</span>
           <span class="text-slate-300 select-none">•</span>
           <a href="https://github.com/kiencang/PDF-silaTranslator-Online" target="_blank" rel="noopener noreferrer" class="text-indigo-600 hover:text-indigo-700 hover:underline font-medium transition-colors">
             GitHub
@@ -119,8 +120,31 @@
           <a href="mailto:contact@wpsila.com" class="hover:text-indigo-600 hover:underline transition-colors">contact@wpsila.com</a>
           <span class="text-slate-300 select-none">•</span>
           <a href="https://pdf-translator.wpsila.com/" target="_blank" rel="noopener noreferrer" class="text-indigo-600 hover:text-indigo-700 hover:underline font-medium transition-colors">
-            Hướng dẫn sử dụng
+            Hướng dẫn dùng
           </a>
+          @if (modeControl.value !== 'phase1') {
+            <span class="text-slate-300 select-none">•</span>
+            <label class="inline-flex items-center gap-2 cursor-pointer group relative px-2.5 py-1 bg-slate-100/80 hover:bg-indigo-50/80 border border-slate-200/80 rounded-full transition-colors select-none">
+              <span class="text-xs font-semibold transition-colors" [class.text-indigo-600]="useGoogleSearchControl.value" [class.text-slate-600]="!useGoogleSearchControl.value">+Search</span>
+              <div class="relative inline-flex h-5 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2">
+                <input type="checkbox" [formControl]="useGoogleSearchControl" class="peer sr-only">
+                <div class="h-full w-full rounded-full transition-colors duration-200 ease-in-out" [class.bg-indigo-600]="useGoogleSearchControl.value" [class.bg-slate-300]="!useGoogleSearchControl.value"></div>
+                <span class="pointer-events-none absolute left-0.5 top-0.5 h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out" [class.translate-x-4]="useGoogleSearchControl.value" [class.translate-x-0]="!useGoogleSearchControl.value"></span>
+              </div>
+              <!-- Tooltip -->
+              <div class="absolute bottom-full right-0 mb-2 hidden w-[240px] group-hover:block z-50 pointer-events-none">
+                <div class="bg-slate-800 text-white font-normal leading-relaxed text-xs rounded-lg py-2 px-3 shadow-xl relative text-left whitespace-normal">
+                  @if (useGoogleSearchControl.value) {
+                    <span class="font-semibold text-emerald-400">[Đang Bật]</span>
+                  } @else {
+                    <span class="font-semibold text-slate-400">[Đang Tắt]</span>
+                  }
+                  Bổ sung công cụ tìm kiếm cho AI, giúp quá trình dịch tốt hơn. Tuy vậy sẽ tốn thời gian và token hơn. Tính năng này trên tài khoản miễn phí có thể bị hạn chế.
+                  <div class="absolute top-full right-4 border-4 border-transparent border-t-slate-800"></div>
+                </div>
+              </div>
+            </label>
+          }
         </p>
       </div>
     </div>

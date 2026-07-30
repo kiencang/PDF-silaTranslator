@@ -10,6 +10,8 @@ export interface TranslatedDoc {
   timestamp: number;
   content: string;
   pdfHash?: string;
+  originalFileBlob?: Blob;
+  originalFileMimeType?: string;
 }
 
 @Injectable({
@@ -59,6 +61,21 @@ export class StorageService {
     });
   }
 
+  private async addItemToStore(db: IDBDatabase, doc: TranslatedDoc): Promise<void> {
+    return new Promise((resolve, reject) => {
+      try {
+        const transaction = db.transaction([this.storeName], 'readwrite');
+        const store = transaction.objectStore(this.storeName);
+        const request = store.add(doc);
+
+        request.onsuccess = () => resolve();
+        request.onerror = (e) => reject(request.error || e || 'Error saving translation');
+      } catch (err) {
+        reject(err);
+      }
+    });
+  }
+
   async saveTranslation(doc: TranslatedDoc): Promise<void> {
     if (!this.isBrowser) return;
     const db = await this.initDB();
@@ -76,18 +93,19 @@ export class StorageService {
       }
     }
 
-    return new Promise((resolve, reject) => {
-      try {
-        const transaction = db.transaction([this.storeName], 'readwrite');
-        const store = transaction.objectStore(this.storeName);
-        const request = store.add(doc);
-
-        request.onsuccess = () => resolve();
-        request.onerror = () => reject('Error saving translation');
-      } catch (err) {
-        reject(err);
+    try {
+      await this.addItemToStore(db, doc);
+    } catch (err) {
+      console.warn('Lỗi khi lưu kèm file gốc, đang thử lưu lại không kèm file gốc:', err);
+      if (doc.originalFileBlob) {
+        const fallbackDoc = { ...doc };
+        delete fallbackDoc.originalFileBlob;
+        delete fallbackDoc.originalFileMimeType;
+        await this.addItemToStore(db, fallbackDoc);
+      } else {
+        throw err;
       }
-    });
+    }
   }
 
   async getAll(): Promise<TranslatedDoc[]> {

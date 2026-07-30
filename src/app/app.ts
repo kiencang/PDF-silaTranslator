@@ -81,6 +81,7 @@ export class App {
   selectedModel = this.translationState.selectedModel;
   selectedFile = this.translationState.selectedFile;
   hasFile = this.translationState.hasFile;
+  hasOriginalFile = this.translationState.hasOriginalFile;
   isLoadedFromHistory = this.translationState.isLoadedFromHistory;
   resultHtml = this.translationState.resultHtml;
   pdfTotalPages = this.translationState.pdfTotalPages;
@@ -230,6 +231,10 @@ export class App {
 
   processFile() {
     this.translationState.processFile();
+  }
+
+  downloadOriginalFile() {
+    this.translationState.downloadOriginalFile();
   }
 
   resetApp() {

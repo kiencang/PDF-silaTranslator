@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LucideAngularModule, X, FileText, Trash2, Eye, Clock, AlertCircle } from 'lucide-angular';
+import { LucideAngularModule, X, FileText, Trash2, Eye, Clock, AlertCircle, Download } from 'lucide-angular';
 import { TranslatedDoc } from './storage.service';
 
 @Component({
@@ -105,6 +105,13 @@ import { TranslatedDoc } from './storage.service';
                         </button>
                       </div>
                     } @else {
+                      @if (item.originalFileBlob) {
+                        <button (click)="downloadFile(item, $event)" 
+                                class="p-2 text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50 rounded-lg transition-colors cursor-pointer" 
+                                title="Tải tệp gốc">
+                          <lucide-icon [img]="Download" class="w-4 h-4"></lucide-icon>
+                        </button>
+                      }
                       <button (click)="selectItem.emit(item)" 
                               class="p-2 text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors cursor-pointer" 
                               title="Xem lại bản dịch">
@@ -133,6 +140,7 @@ export class HistoryModalComponent {
   readonly Eye = Eye;
   readonly Clock = Clock;
   readonly AlertCircle = AlertCircle;
+  readonly Download = Download;
 
   @Input() historyItems: TranslatedDoc[] = [];
   @Output() selectItem = new EventEmitter<TranslatedDoc>();
@@ -141,12 +149,30 @@ export class HistoryModalComponent {
 
   deletingItemId: number | null = null;
 
+  downloadFile(item: TranslatedDoc, event: MouseEvent) {
+    event.stopPropagation();
+    if (!item.originalFileBlob) return;
+
+    try {
+      const url = URL.createObjectURL(item.originalFileBlob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = item.originalFileName || 'tai_lieu_goc.pdf';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch (e) {
+      console.error('Lỗi khi tải file từ lịch sử:', e);
+    }
+  }
+
   getModeLabel(mode: string): string {
     switch (mode) {
       case 'zero_math': return 'KH Xã hội';
       case 'zero_svg': return 'KH tổng hợp';
       case 'normal': return 'Toán Chuyên Ngành';
-      case 'phase1': return 'Cắt Lọc PDF (Phase 1)';
+      case 'phase1': return 'Chuyển định dạng (Phase 1)';
       case 'phase2': return 'Dịch HTML (Phase 2)';
       default: return mode;
     }

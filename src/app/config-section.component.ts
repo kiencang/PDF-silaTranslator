@@ -16,28 +16,6 @@ import { TranslationMode } from './app';
       <div class="p-5 border-b border-slate-100 bg-slate-50/50 flex flex-wrap items-center justify-between gap-3 rounded-t-2xl">
         <h2 class="text-sm font-semibold text-slate-900 uppercase tracking-wider">2. Cấu hình</h2>
         <div class="flex items-center gap-3 ml-auto">
-          @if (modeControl.value !== 'phase1') {
-            <label class="flex items-center gap-2 cursor-pointer group relative">
-              <span class="text-xs font-medium transition-colors" [class.text-indigo-600]="useGoogleSearchControl.value" [class.text-slate-500]="!useGoogleSearchControl.value">+Search</span>
-              <div class="relative inline-flex h-5 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2">
-                <input type="checkbox" [formControl]="useGoogleSearchControl" class="peer sr-only">
-                <div class="h-full w-full rounded-full transition-colors duration-200 ease-in-out" [class.bg-indigo-600]="useGoogleSearchControl.value" [class.bg-slate-200]="!useGoogleSearchControl.value"></div>
-                <span class="pointer-events-none absolute left-0.5 top-0.5 h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out" [class.translate-x-4]="useGoogleSearchControl.value" [class.translate-x-0]="!useGoogleSearchControl.value"></span>
-              </div>
-              <!-- Tooltip -->
-              <div class="absolute top-full left-1/2 -translate-x-1/2 mt-2 hidden w-[240px] group-hover:block z-50 pointer-events-none">
-                <div class="bg-slate-800 text-white font-normal leading-relaxed text-xs rounded-lg py-2 px-3 shadow-xl relative text-left">
-                  @if (useGoogleSearchControl.value) {
-                    <span class="font-semibold text-emerald-400">[Đang Bật]</span>
-                  } @else {
-                    <span class="font-semibold text-slate-400">[Đang Tắt]</span>
-                  }
-                  Bổ sung công cụ tìm kiếm cho AI, giúp quá trình dịch tốt hơn. Tuy vậy sẽ tốn thời gian và token hơn. Tính năng này trên tài khoản miễn phí có thể bị hạn chế.
-                  <div class="absolute bottom-full left-1/2 -translate-x-1/2 border-4 border-transparent border-b-slate-800"></div>
-                </div>
-              </div>
-            </label>
-          }
           <button (click)="openSettings.emit()" class="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-200/50 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer" title="Thay đổi chế độ mặc định">
             <lucide-icon [img]="Settings" class="w-4.5 h-4.5" aria-hidden="true"></lucide-icon>
           </button>
@@ -47,9 +25,9 @@ import { TranslationMode } from './app';
         
         <!-- Mode Selection -->
         <div class="space-y-3">
-          <div class="block text-sm font-medium text-slate-700" id="mode-group-label">Chế độ dịch</div>
+          <div class="block text-sm font-medium text-slate-700" id="mode-group-label">Phong cách dịch</div>
           <fieldset class="space-y-2" aria-labelledby="mode-group-label">
-            <legend class="sr-only">Chọn chế độ dịch</legend>
+            <legend class="sr-only">Chọn phong cách dịch</legend>
             <label class="flex items-start gap-3 p-3 border rounded-xl transition-colors"
                    [class.cursor-pointer]="!isHtmlUploaded"
                    [class.cursor-not-allowed]="isHtmlUploaded"

@@ -53,11 +53,17 @@ export class TranslationState {
   elapsedTime = signal<number>(0);
   isLoadedFromHistory = signal<boolean>(false);
   historyItems = signal<TranslatedDoc[]>([]);
+  rawOriginalFileBlob = signal<Blob | null>(null);
 
   isPdfUploaded = computed(() => this.mimeType() === 'application/pdf');
   isHtmlUploaded = computed(() => this.mimeType() === 'text/html');
   currentMaxTokens = computed(() => this.mimeType() === 'text/html' ? this.MAX_HTML_TOKENS : this.MAX_PDF_TOKENS);
   hasFile = computed(() => this.selectedFile() !== null);
+  hasOriginalFile = computed(() => {
+    const file = this.selectedFile();
+    if (file && file.size > 0) return true;
+    return !!this.rawOriginalFileBlob();
+  });
   canProcess = computed(() => this.hasFile() && !this.isProcessing() && !this.isCountingTokens() && this.tokenCount() <= this.currentMaxTokens());
   tokenPercentage = computed(() => Math.min((this.tokenCount() / this.currentMaxTokens()) * 100, 100));
   isTwoPhaseMode = computed(() => this.mode() === 'phase1' || this.mode() === 'phase2');
@@ -172,9 +178,23 @@ export class TranslationState {
     reader.readAsText(file);
   }
 
+  private readFileAsBase64(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const res = reader.result as string;
+        const base64 = res.includes(',') ? res.split(',')[1] : res;
+        resolve(base64);
+      };
+      reader.onerror = (err) => reject(err);
+      reader.readAsDataURL(file);
+    });
+  }
+
   private resetFileState() {
     this.selectedFile.set(null);
     this.fileBase64.set(null);
+    this.rawOriginalFileBlob.set(null);
   }
 
   private resetPartialState(file: File) {
@@ -184,6 +204,7 @@ export class TranslationState {
     this.resultHtml.set(null);
     this.croppedFile.set(null);
     this.pdfTotalPages.set(0);
+    this.rawOriginalFileBlob.set(file);
   }
 
   private async checkTokenLimit(base64String: string, mimeType: string) {
@@ -347,14 +368,21 @@ export class TranslationState {
         vietnameseTitle = vietnameseTitle.substring(0, 97) + '...';
       }
 
+      let fileBlobToSave: Blob | undefined = this.rawOriginalFileBlob() || undefined;
+      if (!fileBlobToSave && file && file.size > 0) {
+        fileBlobToSave = file;
+      }
+
       await this.storageService.saveTranslation({
-        originalFileName: file.name,
+        originalFileName: file?.name || 'tai_lieu_goc',
         vietnameseTitle: vietnameseTitle,
         mode: currentMode,
         model: this.selectedModel(),
         timestamp: Date.now(),
         content: content,
-        pdfHash: this.pdfHash() || undefined
+        pdfHash: this.pdfHash() || undefined,
+        originalFileBlob: fileBlobToSave,
+        originalFileMimeType: this.mimeType() || undefined
       }).catch(err => console.error('Lỗi khi lưu lịch sử:', err));
     }
   }
@@ -370,6 +398,7 @@ export class TranslationState {
     this.selectedFile.set(null);
     this.isLoadedFromHistory.set(false);
     this.fileBase64.set(null);
+    this.rawOriginalFileBlob.set(null);
     this.mimeType.set('');
     this.resultHtml.set(null);
     this.error.set(null);
@@ -401,16 +430,45 @@ export class TranslationState {
 
   restoreFromHistory(doc: TranslatedDoc) {
     const isHtml = doc.mode === 'phase2';
-    const dummyFile = new File([], doc.originalFileName, { type: isHtml ? 'text/html' : 'application/pdf' });
+    const mime = doc.originalFileMimeType || (isHtml ? 'text/html' : 'application/pdf');
+    const dummyFile = new File([], doc.originalFileName, { type: mime });
     
     this.selectedFile.set(dummyFile);
     this.isLoadedFromHistory.set(true);
     this.mimeType.set(dummyFile.type);
     this.resultHtml.set(doc.content);
     this.mode.set(doc.mode as TranslationMode);
+    this.rawOriginalFileBlob.set(doc.originalFileBlob || null);
     
     this.tokenCount.set(0);
     this.error.set(null);
     this.progressMessage.set('Đã khôi phục từ lịch sử');
+  }
+
+  downloadOriginalFile() {
+    const file = this.selectedFile();
+    const blob = this.rawOriginalFileBlob();
+    const fileName = file?.name || 'tai_lieu_goc.pdf';
+
+    let targetBlob: Blob | null = null;
+
+    if (file && file.size > 0) {
+      targetBlob = file;
+    } else if (blob) {
+      targetBlob = blob;
+    }
+
+    if (targetBlob) {
+      const url = URL.createObjectURL(targetBlob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } else {
+      this.showToast('error', 'Không tìm thấy file gốc để tải về.');
+    }
   }
 }
