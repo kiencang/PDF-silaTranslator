@@ -13,14 +13,14 @@ import { TranslationMode } from './app';
     <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm animate-in fade-in duration-200" role="dialog" aria-modal="true" aria-labelledby="settings-title" (click)="closeModal.emit()">
       <div class="bg-white rounded-2xl shadow-xl max-w-md w-full p-0 animate-in zoom-in-95 duration-200 overflow-hidden" (click)="$event.stopPropagation()">
         <div class="p-5 border-b border-slate-100 flex items-center justify-between">
-          <h3 id="settings-title" class="text-lg font-semibold text-slate-900">Thay đổi chế độ mặc định</h3>
+          <h3 id="settings-title" class="text-lg font-semibold text-slate-900">Thay đổi phong cách mặc định</h3>
           <button (click)="closeModal.emit()" class="text-slate-500 hover:text-slate-700 hover:bg-slate-200 transition-colors focus:outline-none rounded-full p-2 cursor-pointer" aria-label="Đóng cài đặt">
             <lucide-icon [img]="X" class="w-5 h-5" aria-hidden="true"></lucide-icon>
           </button>
         </div>
         <div class="p-6">
           <p class="text-slate-500 text-sm mb-5">
-            Chế độ được chọn sẽ tự động áp dụng mỗi khi bạn tải lại trang. Cấu hình chỉ lưu tại trình duyệt bạn đang dùng.
+            Phong cách được chọn sẽ tự động áp dụng mỗi khi bạn tải lại trang. Cấu hình chỉ lưu tại trình duyệt bạn đang dùng.
           </p>
           <div class="space-y-3">
             <label class="flex items-center gap-3 p-3 border rounded-xl cursor-pointer hover:bg-slate-50 transition-colors"

@@ -7,6 +7,7 @@ import { GoogleGenAI, HarmCategory, HarmBlockThreshold } from '@google/genai';
 export class GeminiService {
   private readonly MODEL_NAME_PRO = 'gemini-pro-latest';
   private readonly MODEL_NAME_FLASH = 'gemini-flash-latest';
+  private readonly MODEL_NAME_FLASH_LITE = 'gemini-flash-lite-latest';
 
   private getAiInstance(): GoogleGenAI {
     if (typeof localStorage !== 'undefined') {
@@ -206,7 +207,7 @@ QUY TẮC BẮT BUỘC TUÂN THỦ:
 
     try {
       const response = await ai.models.generateContent({
-        model: this.MODEL_NAME_FLASH,
+        model: this.MODEL_NAME_FLASH_LITE,
         contents: [
           { parts: [{ text: prompt }] }
         ],

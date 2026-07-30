@@ -14,9 +14,9 @@ import { TranslationMode } from './app';
              [class.opacity-50]="isProcessing" 
              [class.pointer-events-none]="isProcessing">
       <div class="p-5 border-b border-slate-100 bg-slate-50/50 flex flex-wrap items-center justify-between gap-3 rounded-t-2xl">
-        <h2 class="text-sm font-semibold text-slate-900 uppercase tracking-wider">2. Cấu hình</h2>
+        <h2 class="text-sm font-semibold text-slate-900 uppercase tracking-wider">2. Phong cách dịch</h2>
         <div class="flex items-center gap-3 ml-auto">
-          <button (click)="openSettings.emit()" class="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-200/50 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer" title="Thay đổi chế độ mặc định">
+          <button (click)="openSettings.emit()" class="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-200/50 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer" title="Thay đổi phong cách mặc định">
             <lucide-icon [img]="Settings" class="w-4.5 h-4.5" aria-hidden="true"></lucide-icon>
           </button>
         </div>
@@ -25,8 +25,7 @@ import { TranslationMode } from './app';
         
         <!-- Mode Selection -->
         <div class="space-y-3">
-          <div class="block text-sm font-medium text-slate-700" id="mode-group-label">Phong cách dịch</div>
-          <fieldset class="space-y-2" aria-labelledby="mode-group-label">
+          <fieldset class="space-y-2">
             <legend class="sr-only">Chọn phong cách dịch</legend>
             <label class="flex items-start gap-3 p-3 border rounded-xl transition-colors"
                    [class.cursor-pointer]="!isHtmlUploaded"
