@@ -10,7 +10,7 @@ import { TranslatedDoc } from './storage.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm animate-in fade-in duration-200" role="dialog" aria-modal="true" aria-labelledby="history-title" (click)="closeModal.emit()">
-      <div class="bg-white rounded-2xl shadow-xl max-w-2xl w-full p-0 animate-in zoom-in-95 duration-200 overflow-hidden flex flex-col max-h-[80vh]" (click)="$event.stopPropagation()">
+      <div class="bg-white rounded-2xl shadow-xl max-w-3xl w-full p-0 animate-in zoom-in-95 duration-200 overflow-hidden flex flex-col max-h-[80vh]" (click)="$event.stopPropagation()">
         
         <!-- Header -->
         <div class="p-5 border-b border-slate-100 bg-slate-50/50">
@@ -48,14 +48,32 @@ import { TranslatedDoc } from './storage.service';
           } @else {
             <div class="divide-y divide-slate-100">
               @for (item of historyItems; track item.id) {
-                <div class="py-3.5 flex items-center justify-between gap-4 group hover:bg-slate-50/70 px-3 -mx-3 rounded-xl transition-all duration-150">
+                <div class="py-3.5 flex items-center justify-between gap-4 group px-3 -mx-3 rounded-xl transition-all duration-150 border"
+                     [class.bg-indigo-50]="item.id === activeHistoryItemId"
+                     [class.border-indigo-200]="item.id === activeHistoryItemId"
+                     [class.shadow-sm]="item.id === activeHistoryItemId"
+                     [class.border-transparent]="item.id !== activeHistoryItemId"
+                     [class.hover:bg-slate-50]="item.id !== activeHistoryItemId">
                   <button type="button" class="flex items-start text-left gap-3 flex-1 min-w-0 cursor-pointer focus:outline-none" (click)="selectItem.emit(item)">
-                    <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0 mt-0.5">
+                    <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 mt-0.5 transition-colors"
+                         [class.bg-indigo-100]="item.id === activeHistoryItemId"
+                         [class.text-indigo-700]="item.id === activeHistoryItemId"
+                         [class.bg-slate-100]="item.id !== activeHistoryItemId"
+                         [class.text-slate-600]="item.id !== activeHistoryItemId"
+                         [class.group-hover:bg-indigo-50]="item.id !== activeHistoryItemId"
+                         [class.group-hover:text-indigo-600]="item.id !== activeHistoryItemId">
                       <lucide-icon [img]="FileText" class="w-5 h-5"></lucide-icon>
                     </div>
                     <div class="min-w-0 flex-1">
-                      <div class="text-sm font-semibold text-slate-900 truncate group-hover:text-indigo-600 transition-colors" [title]="item.vietnameseTitle">
+                      <div class="text-sm font-semibold truncate transition-colors" 
+                           [class.text-slate-900]="item.id !== activeHistoryItemId"
+                           [class.group-hover:text-indigo-600]="item.id !== activeHistoryItemId"
+                           [class.text-indigo-700]="item.id === activeHistoryItemId"
+                           [title]="item.vietnameseTitle">
                         {{ item.vietnameseTitle }}
+                        @if (item.id === activeHistoryItemId) {
+                          <span class="ml-2 inline-flex items-center rounded bg-indigo-600 px-1.5 py-0.5 text-[10px] font-semibold text-white">ĐANG MỞ</span>
+                        }
                       </div>
                       <div class="text-xs text-slate-500 truncate mt-0.5" [title]="item.originalFileName">
                         Tên tệp gốc: <span class="font-mono text-[11px] bg-slate-100 px-1 py-0.5 rounded text-slate-600">{{ item.originalFileName }}</span>
@@ -143,6 +161,7 @@ export class HistoryModalComponent {
   readonly Download = Download;
 
   @Input() historyItems: TranslatedDoc[] = [];
+  @Input() activeHistoryItemId: number | null = null;
   @Output() selectItem = new EventEmitter<TranslatedDoc>();
   @Output() deleteItem = new EventEmitter<number>();
   @Output() closeModal = new EventEmitter<void>();

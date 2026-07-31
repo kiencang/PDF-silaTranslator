@@ -9,6 +9,12 @@ Riêng chỉ sửa nhỏ giao diện mà không động đến logic dịch thu�
 
 Ví dụ 1.0.19.i nghĩa là phiên bản này có lõi giống y phiên bản 1.0.19, chỉ có giao diện người dùng là chỉnh sửa nhỏ.
 
+## [1.0.67] - 2026-07-31
+### Fixed
+- Thêm model sử dụng để dịch vào tên file cho dễ phân biệt;
+- Chuyển model mặc định là Pro thay vì Flash;
+- Cải tiến một chút giao diện của `Lịch sử dịch` (tăng chiều rộng modal; file nào đang được khôi phục thì card của file đó sẽ active để dễ nhận ra hơn);
+
 ## [1.0.66] - 2026-07-31
 ### Fixed
 - Chỉnh sửa câu chữ cột trái cho gọn gàng hơn;

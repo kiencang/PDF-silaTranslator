@@ -26,7 +26,7 @@ export class TranslationState {
   readonly MAX_PDF_TOKENS = 25000;
   readonly MAX_HTML_TOKENS = 35000;
 
-  selectedModel = signal<'gemini-pro-latest' | 'gemini-flash-latest'>('gemini-flash-latest');
+  selectedModel = signal<'gemini-pro-latest' | 'gemini-flash-latest'>('gemini-pro-latest');
   selectedFile = signal<File | null>(null);
   fileBase64 = signal<string | null>(null);
   mimeType = signal<string>('');
@@ -52,6 +52,7 @@ export class TranslationState {
   
   elapsedTime = signal<number>(0);
   isLoadedFromHistory = signal<boolean>(false);
+  activeHistoryItemId = signal<number | null>(null);
   historyItems = signal<TranslatedDoc[]>([]);
   rawOriginalFileBlob = signal<Blob | null>(null);
 
@@ -397,6 +398,8 @@ export class TranslationState {
     this.cancelTimer();
     this.selectedFile.set(null);
     this.isLoadedFromHistory.set(false);
+    this.activeHistoryItemId.set(null);
+    this.selectedModel.set('gemini-pro-latest');
     this.fileBase64.set(null);
     this.rawOriginalFileBlob.set(null);
     this.mimeType.set('');
@@ -435,10 +438,15 @@ export class TranslationState {
     
     this.selectedFile.set(dummyFile);
     this.isLoadedFromHistory.set(true);
+    this.activeHistoryItemId.set(doc.id || null);
     this.mimeType.set(dummyFile.type);
     this.resultHtml.set(doc.content);
     this.mode.set(doc.mode as TranslationMode);
     this.rawOriginalFileBlob.set(doc.originalFileBlob || null);
+    
+    if (doc.model === 'gemini-pro-latest' || doc.model === 'gemini-flash-latest') {
+      this.selectedModel.set(doc.model);
+    }
     
     this.tokenCount.set(0);
     this.error.set(null);

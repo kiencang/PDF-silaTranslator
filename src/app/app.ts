@@ -100,6 +100,7 @@ export class App {
   isTwoPhaseMode = this.translationState.isTwoPhaseMode;
   userApiKey = this.translationState.userApiKey;
   historyItems = this.translationState.historyItems;
+  activeHistoryItemId = this.translationState.activeHistoryItemId;
   mode = this.translationState.mode;
   useGoogleSearch = this.translationState.useGoogleSearch;
   canProcess = this.translationState.canProcess;
@@ -274,7 +275,15 @@ export class App {
       a.href = url;
       const file = this.selectedFile();
       const suffix = this.mode() === 'phase1' ? '_converted' : '_translated';
-      a.download = `${file?.name.replace(/\.[^/.]+$/, "") || 'document'}${suffix}.html`;
+      
+      let modelLabel = '';
+      if (this.selectedModel() === 'gemini-pro-latest') {
+        modelLabel = '[Gemini_Pro]';
+      } else if (this.selectedModel() === 'gemini-flash-latest') {
+        modelLabel = '[Gemini_Flash]';
+      }
+
+      a.download = `${file?.name.replace(/\.[^/.]+$/, "") || 'document'}_${modelLabel}${suffix}.html`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
