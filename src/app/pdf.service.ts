@@ -54,10 +54,11 @@ export class PdfService {
         const tempCanvas = document.createElement('canvas');
         tempCanvas.width = w;
         tempCanvas.height = h;
-        const tempCtx = tempCanvas.getContext('2d');
+        const tempCtx = tempCanvas.getContext('2d', { willReadFrequently: true });
         if (tempCtx) {
           tempCtx.drawImage(source as any, 0, 0, w, h);
-          const dataUrl = tempCanvas.toDataURL('image/jpeg', 0.95);
+          const format = this.detectOptimalImageFormat(tempCtx, w, h);
+          const dataUrl = tempCanvas.toDataURL(format.mimeType, format.quality);
           images.push({ id: `${pdfHash}_img_${imgCount++}`, dataUrl });
         }
       };
@@ -80,7 +81,7 @@ export class PdfService {
             const tempCanvas = document.createElement('canvas');
             tempCanvas.width = imgData.width;
             tempCanvas.height = imgData.height;
-            const tempCtx = tempCanvas.getContext('2d');
+            const tempCtx = tempCanvas.getContext('2d', { willReadFrequently: true });
             tempCtx?.putImageData(imgData, 0, 0);
             extractAndSave(tempCanvas);
           }
@@ -97,6 +98,45 @@ export class PdfService {
     }
     
     return images;
+  }
+
+  private detectOptimalImageFormat(
+    ctx: CanvasRenderingContext2D,
+    width: number,
+    height: number
+  ): { mimeType: 'image/png' | 'image/jpeg'; quality?: number } {
+    try {
+      const imageData = ctx.getImageData(0, 0, width, height);
+      const data = imageData.data;
+      const totalPixels = width * height;
+      const step = Math.max(1, Math.floor(totalPixels / 2500));
+
+      let hasTransparency = false;
+      const colorSet = new Set<number>();
+
+      for (let i = 0; i < data.length; i += step * 4) {
+        const r = data[i];
+        const g = data[i + 1];
+        const b = data[i + 2];
+        const a = data[i + 3];
+
+        if (a < 250) {
+          hasTransparency = true;
+          break;
+        }
+
+        const quantized = ((r >> 3) << 10) | ((g >> 3) << 5) | (b >> 3);
+        colorSet.add(quantized);
+      }
+
+      if (hasTransparency || colorSet.size < 350) {
+        return { mimeType: 'image/png' };
+      }
+
+      return { mimeType: 'image/jpeg', quality: 0.95 };
+    } catch (e) {
+      return { mimeType: 'image/jpeg', quality: 0.95 };
+    }
   }
 
   async getPageCount(file: File): Promise<number> {

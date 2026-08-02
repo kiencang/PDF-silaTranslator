@@ -9,6 +9,11 @@ Riêng chỉ sửa nhỏ giao diện mà không động đến logic dịch thu�
 
 Ví dụ 1.0.19.i nghĩa là phiên bản này có lõi giống y phiên bản 1.0.19, chỉ có giao diện người dùng là chỉnh sửa nhỏ.
 
+## [1.0.68] - 2026-08-02
+### Fixed
+- Với những ảnh ít màu sắc thì giữ định dạng là PNG để nét hơn;
+- Những ảnh nhiều màu sắc (thường là ảnh chụp) vẫn chuyển về định dạng JPG 95%;
+
 ## [1.0.67] - 2026-07-31
 ### Fixed
 - Thêm model sử dụng để dịch vào tên file cho dễ phân biệt;
