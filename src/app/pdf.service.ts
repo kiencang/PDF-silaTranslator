@@ -18,7 +18,10 @@ export class PdfService {
     const buffer = await file.arrayBuffer();
     const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
     const hashArray = Array.from(new Uint8Array(hashBuffer));
-    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    const sha256 = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    // Thêm mốc thời gian (timestamp) để đảm bảo tính duy nhất tuyệt đối cho mỗi phiên dịch,
+    // tránh trùng lặp hoặc chia sẻ tài nguyên ảnh giữa các lần dịch khác nhau.
+    return `${sha256}_${Date.now()}`;
   }
 
   async extractImagesFromPDF(file: File, pdfHash: string): Promise<{ id: string, dataUrl: string }[]> {
@@ -56,6 +59,8 @@ export class PdfService {
         tempCanvas.height = h;
         const tempCtx = tempCanvas.getContext('2d', { willReadFrequently: true });
         if (tempCtx) {
+          tempCtx.imageSmoothingEnabled = true;
+          tempCtx.imageSmoothingQuality = 'high';
           tempCtx.drawImage(source as any, 0, 0, w, h);
           const format = this.detectOptimalImageFormat(tempCtx, w, h);
           const dataUrl = tempCanvas.toDataURL(format.mimeType, format.quality);

@@ -89,7 +89,16 @@ export class StorageService {
       const toDeleteCount = all.length - 9; // We want to have 9 so after adding 1 it is 10
       const toDelete = sorted.slice(0, toDeleteCount);
       for (const item of toDelete) {
-        if (item.id) await this.delete(item.id);
+        if (item.id) {
+          if (item.pdfHash) {
+            try {
+              await this.dbService.clearImagesByPdf(item.pdfHash);
+            } catch (err) {
+              console.warn('Lỗi khi xóa ảnh của tài liệu cũ trong lịch sử:', err);
+            }
+          }
+          await this.delete(item.id);
+        }
       }
     }
 
