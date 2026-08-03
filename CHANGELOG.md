@@ -9,6 +9,12 @@ Riêng chỉ sửa nhỏ giao diện mà không động đến logic dịch thu�
 
 Ví dụ 1.0.19.i nghĩa là phiên bản này có lõi giống y phiên bản 1.0.19, chỉ có giao diện người dùng là chỉnh sửa nhỏ.
 
+## [1.0.69] - 2026-08-03
+### Fixed
+- Điều chỉnh để chất lượng vẽ ảnh tốt hơn;
+- Điều chỉnh để ảnh nào là của file PDF đó, kể cả là dịch lại từ 2 file PDF giống hệt nhau. Tức là hoàn toàn độc lập với nhau;
+- Xóa file PDF sẽ kèm luôn xóa ảnh tương ứng của file đó, không cần kiểm tra chéo xem có file PDF nào còn dùng ảnh hay không;
+
 ## [1.0.68] - 2026-08-02
 ### Fixed
 - Với những ảnh ít màu sắc thì giữ định dạng là PNG để nét hơn;
