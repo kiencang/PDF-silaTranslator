@@ -25,6 +25,23 @@ Chất lượng của 2 phiên bản trên như nhau, dùng qua AI Studio (link 
 
 Xem thêm Tuyên bố từ chối trách nhiệm: https://github.com/kiencang/PDF-silaTranslator-Online/blob/main/DISCLAIMERS.md
 
+## Cách thức hoạt động
+
+PDF-silaTranslator có cách thức hoạt động tương đối đơn giản. Nó chủ yếu dựa vào sức mạnh của AI trong việc dịch và tái tạo định dạng gốc của tài liệu. Nên không hề khiêm tốn khi nói rằng về cơ bản nó là dạng sản phẩm AI-Wrapper.
+
+Việc sử dụng định dạng HTML cho bản dịch có nhiều lợi thế:
+- AI rất hiểu HTML, CSS;
+- Và HTML, CSS rất mềm dẻo trong khả năng định dạng tài liệu;
+
+Để cho kết quả tốt, ứng dụng này:
+- Thực hiện thử nghiệm SI/Prompt để tối ưu kết quả (cả khía cạnh dịch & định dạng); Không chỉ nội dung chỉ thị, SI/Prompt còn được tối ưu thông qua định dạng markdown và các thẻ phụ để AI hiểu rõ yêu cầu hơn;
+- Cài đặt liên quan đến AI (Gemini nói riêng), chẳng hạn như để Thinking Level là HIGH, thay vì mặc định MEDIUM để tăng khả năng suy luận; Temperature để là 1 để phù hợp với khuyến cáo liên quan đến khả năng suy luận tối ưu;
+- Gemini cũng rất mạnh trong khả năng `nhìn`, do vậy việc tách ảnh từ file PDF (thông qua thư viện pdf.js) rồi gửi lên AI chèn lại ảnh không gặp quá nhiều khó khăn;
+
+Về giới hạn 25 ngàn token đầu vào là vì ứng dụng này chỉ sử dụng duy nhất một phiên gọi API để dịch, và giới hạn đầu ra của Gemini rơi vào khoảng 65 ngàn token, do đã mất tương đối nhiều token cho các thẻ HTML và CSS, nên giới hạn trần đầu vào 25 ngàn token là hợp lý, dù đôi khi con số này có thể tăng lên đôi chút mà vẫn dịch đầy đủ trọn vẹn được.
+
+Đối với người dùng có nhu cầu dịch file PDF rất dài mà vẫn giữ được định dạng tốt, bạn có thể thử repo này (cùng tác giả): https://github.com/kiencang/1987-Layout
+
 ## Phát triển thêm
 
 Nhìn chung, ở thời điểm hiện tại dùng Gemini để dịch tối ưu về nhiều khía cạnh: 
