@@ -1,53 +1,65 @@
 <main_task>
+
 **LỆNH THỰC THI CHÍNH:** 
 Dựa trên vai trò và toàn bộ quy tắc đã được nạp trong **System Instructions (SI)**, hãy tiếp nhận tài liệu đầu vào và thực hiện:
-1.  TẬP TRUNG hoàn toàn vào nhiệm vụ TÁI TẠO tài liệu dưới dạng một tệp HTML/CSS hoàn chỉnh.
-2.  GIỮ NGUYÊN toàn bộ nội dung gốc tiếng Anh.
+1. TẬP TRUNG hoàn toàn vào nhiệm vụ TÁI TẠO tài liệu dưới dạng một tệp HTML/CSS hoàn chỉnh.
+2. GIỮ NGUYÊN toàn bộ nội dung gốc tiếng Anh.
+
 </main_task>
 
 <strict_compliance_recall>
+
 **[A] KÍCH HOẠT BỘ NHỚ HỆ THỐNG (TUÂN THỦ NGHIÊM NGẶT):**
 Hãy gọi lại và áp dụng tuyệt đối **"Thứ tự Ưu tiên KHÔNG THAY ĐỔI"** trong SI:
-*   **[#1]** HTML hiển thị hoàn hảo, không vỡ layout, font chữ nội dung chính đủ lớn để đọc.
-*   **[#2]** Bảo toàn định dạng gốc ở mức nỗ lực tối đa (Best-effort).
+* **[#1]** HTML hiển thị hoàn hảo, không vỡ layout, font chữ nội dung chính đủ lớn để đọc.
+* **[#2]** Bảo toàn định dạng gốc ở mức nỗ lực tối đa (Best-effort).
+
 </strict_compliance_recall>
 
 <technical_checklist>
+
 **[B] CHECKLIST KỸ THUẬT QUAN TRỌNG:**
-*   **Cột & Layout:** Ép luồng văn bản chính về **1 CỘT DUY NHẤT**.
-*   **Bảng biểu:** BẮT BUỘC bọc mọi `<table>` bằng `<div class="table-wrapper">` (áp dụng CSS cơ sở trong SI) để chống tràn ngang.
-*   **Công thức Toán học:** Phải dùng cú pháp LaTeX `\(\)` và `\[\]`. BẮT BUỘC nhúng thẻ `<script>` MathJax vào `<head>`. (Giữ nguyên dấu chấm `.` thập phân bên trong block LaTeX).
-*   **TUYỆT ĐỐI KHÔNG** bọc các cú pháp LaTeX (cả `\( \)` và `\[ \]`) bên trong các thẻ HTML như `<code>` hay `<pre>`.
-*   **Tài liệu tham khảo (References):** Giữ nguyên định dạng gốc.
-*   **Hình ảnh:** Thẻ `<img>` phải có `alt` text tiếng Anh có ý nghĩa.
-*   **Xử lý "câu gãy" do PDF (Line breaks):** Tự động nhận diện và ghép nối (merge) các câu bị ngắt dòng vật lý do giới hạn trang PDF thành một câu hoàn chỉnh trong thẻ `<p>`.
-*   **Header/Footer PDF:** Tự động nhận diện và loại bỏ/gom nhóm các Header/Footer bị chèn ngang làm đứt gãy đoạn văn gốc, đảm bảo tính liên tục của đoạn văn bản.
-*   **Tối ưu thiết kế cho màn hình lớn:** Bản HTML/CSS cuối cùng có khả năng đọc được trên nhiều kích cỡ màn hình khác nhau, nhưng kích cỡ màn hình lớn (trên laptop/desktop) vẫn là ưu tiên cao nhất.
+* **Cột & Layout:** Ép luồng văn bản chính về **1 CỘT DUY NHẤT**.
+* **Bảng biểu:** BẮT BUỘC bọc mọi `<table>` bằng `<div class="table-wrapper">` (áp dụng CSS cơ sở trong SI) để chống tràn ngang.
+* **Công thức Toán học:** Phải dùng cú pháp LaTeX `\(\)` và `\[\]`. BẮT BUỘC nhúng thẻ `<script>` MathJax vào `<head>`. (Giữ nguyên dấu chấm `.` thập phân bên trong block LaTeX).
+* **TUYỆT ĐỐI KHÔNG** bọc các cú pháp LaTeX (cả `\( \)` và `\[ \]`) bên trong các thẻ HTML như `<code>` hay `<pre>`.
+* **Tài liệu tham khảo (References):** Giữ nguyên định dạng gốc.
+* **Hình ảnh:** Thẻ `<img>` phải có `alt` text tiếng Anh có ý nghĩa.
+* **Xử lý "câu gãy" do PDF (Line breaks):** Tự động nhận diện và ghép nối (merge) các câu bị ngắt dòng vật lý do giới hạn trang PDF thành một câu hoàn chỉnh trong thẻ `<p>`.
+* **Header/Footer PDF:** Tự động nhận diện và loại bỏ/gom nhóm các Header/Footer bị chèn ngang làm đứt gãy đoạn văn gốc, đảm bảo tính liên tục của đoạn văn bản.
+* **Tối ưu thiết kế cho màn hình lớn:** Bản HTML/CSS cuối cùng có khả năng đọc được trên nhiều kích cỡ màn hình khác nhau, nhưng kích cỡ màn hình lớn (trên laptop/desktop) vẫn là ưu tiên cao nhất.
+
 </technical_checklist>
 
 <internal_quality_assurance>
+
 **[C] BƯỚC TỰ ĐỐI SOÁT VÀ TINH CHỈNH (Internal QA - Thực hiện ngầm):**
 Trước khi xuất kết quả cuối cùng, tự kiểm tra nội bộ:
-1.  *Mã HTML có rủi ro tràn lề (overflow)?*
-2.  *Các văn bản khi hiển thị có che lấp nhau?* 
-3.  *Cấu trúc thẻ sai logic không?* 
+1. *Mã HTML có rủi ro tràn lề (overflow)?*
+2. *Các văn bản khi hiển thị có che lấp nhau?* 
+3. *Cấu trúc thẻ sai logic không?* 
 Nếu có vấn đề hãy Tự động tối ưu lại CSS/HTML.
+
 </internal_quality_assurance>
 
 <image_handling>
+
 **[D] XỬ LÝ HÌNH ẢNH RASTER (BITMAPS) TỪ PDF:**
 * Nếu tài liệu PDF gốc có chứa hình ảnh, bạn sẽ nhận được các file ảnh kèm theo với một ID định danh (ví dụ: (This image has ID: ...)).
 * BẮT BUỘC chèn lại chính xác các hình ảnh này vào bản dịch HTML ở vị trí tương ứng bằng cách sử dụng thẻ `<img>` với thuộc tính `src` là ID của ảnh đó (ví dụ: `<img src="[ID_CỦA_ẢNH]" alt="...">`).
 * Đừng bỏ sót ảnh nào nếu nó đóng vai trò quan trọng trong việc truyền tải nội dung của tài liệu.
 
 **[E] XỬ LÝ SƠ ĐỒ, BIỂU ĐỒ DẠNG VECTOR:**
-*   **Sơ đồ hoặc Biểu đồ thông thường**: Khôi phục text bên trong (nếu có) & cố gắng dùng HTML, CSS để tái tạo lại sơ đồ, biểu đồ chính xác nhất có thể. Sử dụng CSS để định vị một cách **khéo léo, linh hoạt và có kiểm soát** để đặt bản dịch vào vị trí tương ứng **mà không làm tràn hoặc che khuất thông tin quan trọng**. Điều chỉnh `font-size` nếu cần.
-    *   Nếu sơ đồ, biểu đồ dạng quá phức tạp, khiến cho việc tái tạo có khả năng cao thất bại, gây vỡ bố cục, chen lấn các phần nội dung khác thì hãy bỏ qua và chỉ cần ghi chú `Diagram (please see original)` là đủ.
-*   **Sơ đồ hoặc Biểu đồ toán học**: Nếu đó là sơ đồ, biểu đồ có đặc thù toán học (trục tọa độ, đồ thị, v.v...), hãy để riêng các chỉ thị trong SI liên quan đến `Tái tạo Đồ họa Toán học & Hình học bằng SVG (CHUẨN KHOA HỌC & ĐỘ CHÍNH XÁC CAO)` xử lý.
+* **Sơ đồ hoặc Biểu đồ thông thường**: Khôi phục text bên trong (nếu có) & cố gắng dùng HTML, CSS để tái tạo lại sơ đồ, biểu đồ chính xác nhất có thể. Sử dụng CSS để định vị một cách **khéo léo, linh hoạt và có kiểm soát** để đặt bản dịch vào vị trí tương ứng **mà không làm tràn hoặc che khuất thông tin quan trọng**. Điều chỉnh `font-size` nếu cần.
+    * Nếu sơ đồ, biểu đồ dạng quá phức tạp, khiến cho việc tái tạo có khả năng cao thất bại, gây vỡ bố cục, chen lấn các phần nội dung khác thì hãy bỏ qua và chỉ cần ghi chú `Diagram (please see original)` là đủ.
+* **Sơ đồ hoặc Biểu đồ toán học**: Nếu đó là sơ đồ, biểu đồ có đặc thù toán học (trục tọa độ, đồ thị, v.v...), hãy để riêng các chỉ thị trong SI liên quan đến `Tái tạo Đồ họa Toán học & Hình học bằng SVG (CHUẨN KHOA HỌC & ĐỘ CHÍNH XÁC CAO)` xử lý.
+
 </image_handling>
 
 <output_constraints>
+
 **[F] ĐỊNH DẠNG ĐẦU RA BẮT BUỘC (STRICT OUTPUT BOUNDARY):**
-*   Chỉ trả về MÃ HTML THÔ.
-*   Bắt đầu chính xác bằng `<!DOCTYPE html>` và kết thúc bằng `</html>`.
+* Chỉ trả về MÃ HTML THÔ.
+* Bắt đầu chính xác bằng `<!DOCTYPE html>` và kết thúc bằng `</html>`.
+
 </output_constraints>
