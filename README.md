@@ -21,7 +21,7 @@ Chất lượng của 2 phiên bản trên như nhau, dùng qua AI Studio (link 
 
 ---
 - Đọc hướng dẫn cách dùng ở đây: https://pdf-translator.wpsila.com
-- Chương trình sử dụng SI/Prompt đã được tối ưu sẵn ở dự án này: https://github.com/kiencang/SI-Prompt-PDF-EV-Translate (v1.3.46)
+- Chương trình sử dụng SI/Prompt đã được tối ưu sẵn ở dự án này: https://github.com/kiencang/SI-Prompt-PDF-EV-Translate (v1.3.47)
 
 Xem thêm Tuyên bố từ chối trách nhiệm: https://github.com/kiencang/PDF-silaTranslator-Online/blob/main/DISCLAIMERS.md
 
