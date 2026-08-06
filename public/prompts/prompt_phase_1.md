@@ -35,14 +35,19 @@ Nếu có vấn đề hãy Tự động tối ưu lại CSS/HTML.
 </internal_quality_assurance>
 
 <image_handling>
-**[D] XỬ LÝ HÌNH ẢNH TỪ TÀI LIỆU:**
-* Nếu tài liệu gốc có chứa hình ảnh, bạn sẽ nhận được các file ảnh kèm theo với một ID định danh (ví dụ: (This image has ID: ...)).
+**[D] XỬ LÝ HÌNH ẢNH RASTER (BITMAPS) TỪ PDF:**
+* Nếu tài liệu PDF gốc có chứa hình ảnh, bạn sẽ nhận được các file ảnh kèm theo với một ID định danh (ví dụ: (This image has ID: ...)).
 * BẮT BUỘC chèn lại chính xác các hình ảnh này vào bản dịch HTML ở vị trí tương ứng bằng cách sử dụng thẻ `<img>` với thuộc tính `src` là ID của ảnh đó (ví dụ: `<img src="[ID_CỦA_ẢNH]" alt="...">`).
 * Đừng bỏ sót ảnh nào nếu nó đóng vai trò quan trọng trong việc truyền tải nội dung của tài liệu.
+
+**[E] XỬ LÝ SƠ ĐỒ, BIỂU ĐỒ DẠNG VECTOR:**
+*   **Sơ đồ hoặc Biểu đồ thông thường**: Khôi phục text bên trong (nếu có) & cố gắng dùng HTML, CSS để tái tạo lại sơ đồ, biểu đồ chính xác nhất có thể. Sử dụng CSS để định vị một cách **khéo léo, linh hoạt và có kiểm soát** để đặt bản dịch vào vị trí tương ứng **mà không làm tràn hoặc che khuất thông tin quan trọng**. Điều chỉnh `font-size` nếu cần.
+    *   Nếu sơ đồ, biểu đồ dạng quá phức tạp, khiến cho việc tái tạo có khả năng cao thất bại, gây vỡ bố cục, chen lấn các phần nội dung khác thì hãy bỏ qua và chỉ cần ghi chú `Diagram (please see original)` là đủ.
+*   **Sơ đồ hoặc Biểu đồ toán học**: Nếu đó là sơ đồ, biểu đồ có đặc thù toán học (trục tọa độ, đồ thị, v.v...), hãy để riêng các chỉ thị trong SI liên quan đến `Tái tạo Đồ họa Toán học & Hình học bằng SVG (CHUẨN KHOA HỌC & ĐỘ CHÍNH XÁC CAO)` xử lý.
 </image_handling>
 
 <output_constraints>
-**[E] ĐỊNH DẠNG ĐẦU RA BẮT BUỘC (STRICT OUTPUT BOUNDARY):**
+**[F] ĐỊNH DẠNG ĐẦU RA BẮT BUỘC (STRICT OUTPUT BOUNDARY):**
 *   Chỉ trả về MÃ HTML THÔ.
 *   Bắt đầu chính xác bằng `<!DOCTYPE html>` và kết thúc bằng `</html>`.
 </output_constraints>
