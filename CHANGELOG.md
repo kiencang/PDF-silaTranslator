@@ -9,6 +9,11 @@ Riêng chỉ sửa nhỏ giao diện mà không động đến logic dịch thu�
 
 Ví dụ 1.0.19.i nghĩa là phiên bản này có lõi giống y phiên bản 1.0.19, chỉ có giao diện người dùng là chỉnh sửa nhỏ.
 
+## [1.0.70] - 2026-08-06
+### Fixed
+- Cập nhật prompt để nó xử lý các sơ đồ, biểu đồ vector tốt hơn;
+- Đang dịch thì cần vô hiệu hóa button `+Search`;
+
 ## [1.0.69] - 2026-08-03
 ### Fixed
 - Điều chỉnh để chất lượng vẽ ảnh tốt hơn;
