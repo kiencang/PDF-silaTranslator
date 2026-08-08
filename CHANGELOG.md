@@ -9,6 +9,11 @@ Riêng chỉ sửa nhỏ giao diện mà không động đến logic dịch thu�
 
 Ví dụ 1.0.19.i nghĩa là phiên bản này có lõi giống y phiên bản 1.0.19, chỉ có giao diện người dùng là chỉnh sửa nhỏ.
 
+## [1.0.75] - 2026-08-08
+### Fixed
+- Thiết lập timeout 5s để việc bị kẹt ở một ảnh nào đó không dẫn đến việc bị kẹt hoàn toàn ở một file;
+- Ngoài ra điều chỉnh mặc định cũ 1s, giúp các ảnh khó không bị bỏ qua quá sớm dẫn đến tình trạng thiếu ảnh;
+
 ## [1.0.74] - 2026-08-08
 ### Fixed
 - Cập nhật cơ chế bóc tách ảnh mới cho chất lượng bóc tách ảnh tốt hơn;

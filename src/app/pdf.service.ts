@@ -51,54 +51,44 @@ export class PdfService {
             try {
               let imgData: any = null;
               
-              if (typeof imgName === 'object' && imgName !== null) {
-                imgData = imgName;
-              } else if (typeof imgName === 'string') {
-                imgData = await new Promise((resolve) => {
-                  let resolved = false;
-                  const timer = setTimeout(() => {
-                    if (!resolved) {
-                      resolved = true;
+              const fetchObjectWithTimeout = (targetObjs: any, name: string, timeoutMs: number = 5000): Promise<any> => {
+                return new Promise((resolve) => {
+                  let isResolved = false;
+                  const timeoutId = setTimeout(() => {
+                    if (!isResolved) {
+                      console.warn(`[PDF Processor] Timeout khi lấy object ${name}`);
+                      isResolved = true;
                       resolve(null);
                     }
-                  }, 1000);
-
-                  const callback = (obj: any) => {
-                    if (!resolved) {
-                      resolved = true;
-                      clearTimeout(timer);
-                      resolve(obj);
-                    }
-                  };
+                  }, timeoutMs);
 
                   try {
-                    if ((page as any).objs && typeof (page as any).objs.get === 'function') {
-                      const res = (page as any).objs.get(imgName, callback);
-                      if (res && res !== imgName) {
-                        resolved = true;
-                        clearTimeout(timer);
-                        resolve(res);
+                    targetObjs.get(name, (obj: unknown) => {
+                      if (!isResolved) {
+                        clearTimeout(timeoutId);
+                        isResolved = true;
+                        resolve(obj);
                       }
-                    } else if ((page as any).commonObjs && typeof (page as any).commonObjs.get === 'function') {
-                      const res = (page as any).commonObjs.get(imgName, callback);
-                      if (res && res !== imgName) {
-                        resolved = true;
-                        clearTimeout(timer);
-                        resolve(res);
-                      }
-                    } else {
-                      resolved = true;
-                      clearTimeout(timer);
-                      resolve(null);
-                    }
-                  } catch {
-                    if (!resolved) {
-                      resolved = true;
-                      clearTimeout(timer);
+                    });
+                  } catch (err) {
+                    if (!isResolved) {
+                      clearTimeout(timeoutId);
+                      isResolved = true;
+                      console.warn(`[PDF Processor] Lỗi khi gọi get cho object ${name}:`, err);
                       resolve(null);
                     }
                   }
                 });
+              };
+              
+              if (typeof imgName === 'object' && imgName !== null) {
+                imgData = imgName;
+              } else if (typeof imgName === 'string') {
+                if ((page as any).objs && typeof (page as any).objs.get === 'function') {
+                  imgData = await fetchObjectWithTimeout((page as any).objs, imgName);
+                } else if ((page as any).commonObjs && typeof (page as any).commonObjs.get === 'function') {
+                  imgData = await fetchObjectWithTimeout((page as any).commonObjs, imgName);
+                }
               }
 
               if (!imgData) continue;
