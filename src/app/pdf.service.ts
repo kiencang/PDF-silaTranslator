@@ -26,122 +26,167 @@ export class PdfService {
 
   async extractImagesFromPDF(file: File, pdfHash: string): Promise<{ id: string, dataUrl: string }[]> {
     const arrayBuffer = await file.arrayBuffer();
-    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+    const data = new Uint8Array(arrayBuffer.slice(0));
+    const pdf = await pdfjsLib.getDocument({ data }).promise;
     const images: { id: string, dataUrl: string }[] = [];
     let imgCount = 0;
 
+    const validObjectTypes = [
+      (pdfjsLib as any).OPS?.paintImageXObject,
+      (pdfjsLib as any).OPS?.paintInlineImageXObject,
+      (pdfjsLib as any).OPS?.paintImageXObjectRepeat
+    ].filter(v => v !== undefined);
+
     for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-      const page = await pdf.getPage(pageNum);
-      const viewport = page.getViewport({ scale: 1.0 });
-      const canvas = document.createElement('canvas');
-      canvas.width = viewport.width;
-      canvas.height = viewport.height;
-      const ctx = canvas.getContext('2d', { willReadFrequently: true });
-      if (!ctx) continue;
-
-      const originalDrawImage = ctx.drawImage;
-      const originalPutImageData = ctx.putImageData;
-      
-      const extractAndSave = (source: HTMLImageElement | HTMLCanvasElement | ImageBitmap) => {
-        let w = source.width;
-        let h = source.height;
-        if (w < 100 || h < 100) return;
-
-        let scale = 1;
-        if (w > 1024) {
-          scale = 1024 / w;
-          w = 1024;
-          h = Math.round(h * scale);
-        }
-        
-        const tempCanvas = document.createElement('canvas');
-        tempCanvas.width = w;
-        tempCanvas.height = h;
-        const tempCtx = tempCanvas.getContext('2d', { willReadFrequently: true });
-        if (tempCtx) {
-          tempCtx.imageSmoothingEnabled = true;
-          tempCtx.imageSmoothingQuality = 'high';
-          tempCtx.drawImage(source as any, 0, 0, w, h);
-          const format = this.detectOptimalImageFormat(tempCtx, w, h);
-          const dataUrl = tempCanvas.toDataURL(format.mimeType, format.quality);
-          images.push({ id: `${pdfHash}_img_${imgCount++}`, dataUrl });
-        }
-      };
-
-      ctx.drawImage = function(...args: any[]) {
-        const imgSource = args[0];
-        try {
-          if (imgSource instanceof HTMLImageElement || imgSource instanceof HTMLCanvasElement || imgSource instanceof ImageBitmap) {
-            extractAndSave(imgSource);
-          }
-        } catch(e) {}
-        // @ts-ignore
-        return originalDrawImage.apply(this, args);
-      };
-
-      ctx.putImageData = function(...args: any[]) {
-        const imgData = args[0];
-        try {
-          if (imgData instanceof ImageData) {
-            const tempCanvas = document.createElement('canvas');
-            tempCanvas.width = imgData.width;
-            tempCanvas.height = imgData.height;
-            const tempCtx = tempCanvas.getContext('2d', { willReadFrequently: true });
-            tempCtx?.putImageData(imgData, 0, 0);
-            extractAndSave(tempCanvas);
-          }
-        } catch(e) {}
-        // @ts-ignore
-        return originalPutImageData.apply(this, args);
-      };
-
       try {
-        await page.render({ canvasContext: ctx, viewport: viewport } as any).promise;
-      } catch (err) {
-        console.warn(`Error rendering page ${pageNum} for image extraction:`, err);
-      }
-    }
-    
-    return images;
-  }
+        const page = await pdf.getPage(pageNum);
+        const operatorList = await page.getOperatorList();
 
-  private detectOptimalImageFormat(
-    ctx: CanvasRenderingContext2D,
-    width: number,
-    height: number
-  ): { mimeType: 'image/png' | 'image/jpeg'; quality?: number } {
-    try {
-      const imageData = ctx.getImageData(0, 0, width, height);
-      const data = imageData.data;
-      const totalPixels = width * height;
-      const step = Math.max(1, Math.floor(totalPixels / 2500));
+        for (let i = 0; i < operatorList.fnArray.length; i++) {
+          const fn = operatorList.fnArray[i];
 
-      let hasTransparency = false;
-      const colorSet = new Set<number>();
+          if (validObjectTypes.includes(fn)) {
+            const imgName = operatorList.argsArray[i][0];
+            
+            try {
+              let imgData: any = null;
+              
+              if (typeof imgName === 'object' && imgName !== null) {
+                imgData = imgName;
+              } else if (typeof imgName === 'string') {
+                imgData = await new Promise((resolve) => {
+                  let resolved = false;
+                  const timer = setTimeout(() => {
+                    if (!resolved) {
+                      resolved = true;
+                      resolve(null);
+                    }
+                  }, 1000);
 
-      for (let i = 0; i < data.length; i += step * 4) {
-        const r = data[i];
-        const g = data[i + 1];
-        const b = data[i + 2];
-        const a = data[i + 3];
+                  const callback = (obj: any) => {
+                    if (!resolved) {
+                      resolved = true;
+                      clearTimeout(timer);
+                      resolve(obj);
+                    }
+                  };
 
-        if (a < 250) {
-          hasTransparency = true;
-          break;
+                  try {
+                    if ((page as any).objs && typeof (page as any).objs.get === 'function') {
+                      const res = (page as any).objs.get(imgName, callback);
+                      if (res && res !== imgName) {
+                        resolved = true;
+                        clearTimeout(timer);
+                        resolve(res);
+                      }
+                    } else if ((page as any).commonObjs && typeof (page as any).commonObjs.get === 'function') {
+                      const res = (page as any).commonObjs.get(imgName, callback);
+                      if (res && res !== imgName) {
+                        resolved = true;
+                        clearTimeout(timer);
+                        resolve(res);
+                      }
+                    } else {
+                      resolved = true;
+                      clearTimeout(timer);
+                      resolve(null);
+                    }
+                  } catch {
+                    if (!resolved) {
+                      resolved = true;
+                      clearTimeout(timer);
+                      resolve(null);
+                    }
+                  }
+                });
+              }
+
+              if (!imgData) continue;
+
+              const width = imgData.width;
+              const height = imgData.height;
+
+              if (!width || !height) continue;
+              if (width < 100 || height < 100) continue;
+
+              const canvas = document.createElement('canvas');
+              canvas.width = width;
+              canvas.height = height;
+              const ctx = canvas.getContext('2d');
+
+              if (!ctx) continue;
+
+              if (imgData.data) {
+                const imgImageData = ctx.createImageData(width, height);
+                const srcData = imgData.data;
+                const destData = imgImageData.data;
+
+                if (srcData.length === width * height * 3) {
+                  let j = 0;
+                  for (let k = 0; k < srcData.length; k += 3) {
+                    destData[j] = srcData[k];
+                    destData[j + 1] = srcData[k + 1];
+                    destData[j + 2] = srcData[k + 2];
+                    destData[j + 3] = 255;
+                    j += 4;
+                  }
+                } else if (srcData.length === width * height * 4) {
+                  destData.set(srcData);
+                } else if (srcData.length === width * height) {
+                  let j = 0;
+                  for (let k = 0; k < srcData.length; k++) {
+                    const val = srcData[k];
+                    destData[j] = val;
+                    destData[j + 1] = val;
+                    destData[j + 2] = val;
+                    destData[j + 3] = 255;
+                    j += 4;
+                  }
+                } else {
+                  try {
+                    destData.set(srcData.subarray(0, destData.length));
+                  } catch {
+                    continue;
+                  }
+                }
+
+                ctx.putImageData(imgImageData, 0, 0);
+              } else if (imgData.bitmap) {
+                ctx.drawImage(imgData.bitmap, 0, 0);
+              } else {
+                continue;
+              }
+
+              let targetW = width;
+              let targetH = height;
+              if (targetW > 1024) {
+                const scale = 1024 / targetW;
+                targetW = 1024;
+                targetH = Math.round(targetH * scale);
+              }
+
+              const tempCanvas = document.createElement('canvas');
+              tempCanvas.width = targetW;
+              tempCanvas.height = targetH;
+              const tempCtx = tempCanvas.getContext('2d');
+              if (tempCtx) {
+                tempCtx.imageSmoothingEnabled = true;
+                tempCtx.imageSmoothingQuality = 'high';
+                tempCtx.drawImage(canvas, 0, 0, targetW, targetH);
+                const dataUrl = tempCanvas.toDataURL('image/jpeg', 0.95);
+                images.push({ id: `${pdfHash}_img_${imgCount++}`, dataUrl });
+              }
+            } catch (err) {
+              console.warn(`Lỗi khi trích xuất ảnh ${imgName} trang ${pageNum}:`, err);
+            }
+          }
         }
-
-        const quantized = ((r >> 3) << 10) | ((g >> 3) << 5) | (b >> 3);
-        colorSet.add(quantized);
+      } catch (err) {
+        console.warn(`Error processing page ${pageNum} for image extraction:`, err);
       }
-
-      if (hasTransparency || colorSet.size < 350) {
-        return { mimeType: 'image/png' };
-      }
-
-      return { mimeType: 'image/jpeg', quality: 0.95 };
-    } catch (e) {
-      return { mimeType: 'image/jpeg', quality: 0.95 };
     }
+
+    return images;
   }
 
   async getPageCount(file: File): Promise<number> {
