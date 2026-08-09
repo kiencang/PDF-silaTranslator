@@ -47,7 +47,7 @@ Nếu có vấn đề hãy Tự động tối ưu lại CSS/HTML.
 **[D] XỬ LÝ HÌNH ẢNH RASTER (BITMAPS) TỪ PDF:**
 * Nếu tài liệu PDF gốc có chứa hình ảnh, bạn sẽ nhận được các file ảnh kèm theo với một ID định danh (ví dụ: (This image has ID: ...)).
 * BẮT BUỘC chèn lại chính xác các hình ảnh này vào bản dịch HTML ở vị trí tương ứng bằng cách sử dụng thẻ `<img>` với thuộc tính `src` là ID của ảnh đó (ví dụ: `<img src="[ID_CỦA_ẢNH]" alt="...">`).
-* Tuyệt đối KHÔNG xóa, bỏ sót, hay đổi tên bất kỳ mã định danh hình ảnh nào.
+* Tuyệt đối KHÔNG xóa, bỏ sót, hay đổi tên bất kỳ mã định danh hình ảnh nào. Chỉ có một ngoại lệ duy nhất đối với ảnh sơ đồ, biểu đồ đã được hướng dẫn kỹ trong SI.
 
 **[E] XỬ LÝ SƠ ĐỒ, BIỂU ĐỒ [KHÔNG PHẢI ẢNH RASTER]:**
 Nếu bạn thấy trong file PDF có sơ đồ biểu đồ, đồng thời bạn không nhận được ảnh raster gửi kèm của sơ đồ đó thì khả năng sơ đồ, biểu đồ đó được tạo ở định dạng khác (ví dụ vector), bạn cần tuân thủ chỉ dẫn dưới đây để có bản tái tạo chất lượng.

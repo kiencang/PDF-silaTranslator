@@ -9,6 +9,10 @@ Riêng chỉ sửa nhỏ giao diện mà không động đến logic dịch thu�
 
 Ví dụ 1.0.19.i nghĩa là phiên bản này có lõi giống y phiên bản 1.0.19, chỉ có giao diện người dùng là chỉnh sửa nhỏ.
 
+## [1.0.79] - 2026-08-09
+### Fixed
+- Điều chỉnh SI/Prompt để xử lý tốt hơn phần ảnh dạng sơ đồ;
+
 ## [1.0.78] - 2026-08-09
 ### Fixed
 - Điều chỉnh SI/Prompt lần nữa, theo hướng tái tạo ảnh sơ đồ, biểu đồ, kể cả đó là ảnh raster;
