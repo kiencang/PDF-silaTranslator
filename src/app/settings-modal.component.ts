@@ -20,7 +20,7 @@ import { TranslationMode } from './app';
         </div>
         <div class="p-6">
           <p class="text-slate-500 text-sm mb-5">
-            Phong cách được chọn sẽ tự động áp dụng mỗi khi bạn tải lại trang. Cấu hình chỉ lưu tại trình duyệt bạn đang dùng.
+            Mỗi khi tải trang, công cụ sẽ sử dụng phong cách mặc định "Tài liệu khoa học nói chung", nếu bạn thường xuyên dịch tài liệu kiểu khác, bạn có thể chọn phong cách khác. Phong cách được chọn sẽ tự động áp dụng mỗi khi bạn tải lại trang. Cấu hình chỉ lưu tại trình duyệt bạn đang dùng.
           </p>
           <div class="space-y-3">
             <label class="flex items-center gap-3 p-3 border rounded-xl cursor-pointer hover:bg-slate-50 transition-colors"

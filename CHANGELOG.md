@@ -9,6 +9,10 @@ Riêng chỉ sửa nhỏ giao diện mà không động đến logic dịch thu�
 
 Ví dụ 1.0.19.i nghĩa là phiên bản này có lõi giống y phiên bản 1.0.19, chỉ có giao diện người dùng là chỉnh sửa nhỏ.
 
+## [1.0.80] - 2026-08-10
+### Fixed
+- Điều chỉnh nhỏ phần văn bản của modal điều chỉnh phong cách dịch mặc định;
+
 ## [1.0.79] - 2026-08-09
 ### Fixed
 - Điều chỉnh SI/Prompt để xử lý tốt hơn phần ảnh dạng sơ đồ;
