@@ -258,8 +258,8 @@ export class TranslationState {
       if (currentMode === 'zero_math') {
         this.progressMessage.set('Dịch file PDF sang tiếng Việt (Tài liệu khoa học xã hội)...');
         const [instruction, prompt] = await Promise.all([
-          this.loadPrompt('system_instructions_zero_math.md'),
-          this.loadPrompt('prompt_zero_math.md')
+          this.loadPrompt('zero_math_system_instructions.md'),
+          this.loadPrompt('zero_math_prompt.md')
         ]);
         const result = await this.geminiService.translate(base64, mime, prompt, instruction, this.useGoogleSearch(), this.selectedModel(), extractedImages);
         const rawHtml = this.imageProcessorService.extractHtml(result);
@@ -268,8 +268,8 @@ export class TranslationState {
       else if (currentMode === 'zero_svg') {
         this.progressMessage.set('Dịch file PDF sang tiếng Việt (Tài liệu khoa học nói chung)...');
         const [instruction, prompt] = await Promise.all([
-          this.loadPrompt('system_instructions_zero_svg.md'),
-          this.loadPrompt('prompt_zero_svg.md')
+          this.loadPrompt('zero_svg_system_instructions.md'),
+          this.loadPrompt('zero_svg_prompt.md')
         ]);
         const result = await this.geminiService.translate(base64, mime, prompt, instruction, this.useGoogleSearch(), this.selectedModel(), extractedImages);
         const rawHtml = this.imageProcessorService.extractHtml(result);
@@ -278,8 +278,8 @@ export class TranslationState {
       else if (currentMode === 'normal') {
         this.progressMessage.set('Dịch file PDF sang tiếng Việt (Tài liệu toán chuyên ngành)...');
         const [instruction, prompt] = await Promise.all([
-          this.loadPrompt('system_instructions.md'),
-          this.loadPrompt('prompt.md')
+          this.loadPrompt('math_system_instructions.md'),
+          this.loadPrompt('math_prompt.md')
         ]);
         const result = await this.geminiService.translate(base64, mime, prompt, instruction, this.useGoogleSearch(), this.selectedModel(), extractedImages);
         const rawHtml = this.imageProcessorService.extractHtml(result);
@@ -288,8 +288,8 @@ export class TranslationState {
       else if (currentMode === 'phase1') {
         this.progressMessage.set('Chuyển định dạng PDF sang HTML (English / Giữ nguyên nội dung)...');
         const [instruction, prompt] = await Promise.all([
-          this.loadPrompt('system_instructions_phase_1.md'),
-          this.loadPrompt('prompt_phase_1.md')
+          this.loadPrompt('phase_1_system_instructions.md'),
+          this.loadPrompt('phase_1_prompt.md')
         ]);
         const result = await this.geminiService.translate(base64, mime, prompt, instruction, false, this.selectedModel(), extractedImages);
         const rawHtml = this.imageProcessorService.extractHtml(result);
@@ -302,8 +302,8 @@ export class TranslationState {
         
         this.progressMessage.set('Dịch file HTML sang Tiếng Việt...');
         const [instruction, prompt] = await Promise.all([
-          this.loadPrompt('system_instructions_phase_2.md'),
-          this.loadPrompt('prompt_phase_2.md')
+          this.loadPrompt('phase_2_system_instructions.md'),
+          this.loadPrompt('phase_2_prompt.md')
         ]);
         
         const htmlContent = base64;

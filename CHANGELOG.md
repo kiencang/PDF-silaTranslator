@@ -9,6 +9,11 @@ Riêng chỉ sửa nhỏ giao diện mà không động đến logic dịch thu�
 
 Ví dụ 1.0.19.i nghĩa là phiên bản này có lõi giống y phiên bản 1.0.19, chỉ có giao diện người dùng là chỉnh sửa nhỏ.
 
+## [1.0.78] - 2026-08-09
+### Fixed
+- Điều chỉnh SI/Prompt lần nữa, theo hướng tái tạo ảnh sơ đồ, biểu đồ, kể cả đó là ảnh raster;
+- Đổi tên các SI/Prompt theo hướng khoa học hơn, tiền tố phân biệt được đặt lên trên trước (ví dụ `math_prompt` thay vì `prompt_math`);
+
 ## [1.0.77] - 2026-08-09
 ### Fixed
 - Điều chỉnh lại SI/Prompt để phân biệt chính xác ảnh raster với hình ảnh sơ đồ trong file PDF, mục đích là để điều chỉnh cách xử lý;
