@@ -14,9 +14,15 @@ import { LucideAngularModule, RefreshCw, UploadCloud, CheckCircle2, Scissors, Lo
       <div class="p-5 border-b border-slate-100 bg-slate-50/50 flex justify-between items-center">
         <h2 class="text-sm font-semibold text-slate-900 uppercase tracking-wider">1. Tải lên tài liệu</h2>
         @if (hasFile || hasResult) {
-          <button (click)="resetApp.emit()" class="text-xs flex items-center gap-1.5 text-slate-600 bg-white border border-slate-200 shadow-sm hover:text-indigo-600 hover:border-indigo-200 transition-colors px-2.5 py-1.5 rounded-md hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer">
-            <lucide-icon [img]="RefreshCw" class="w-3.5 h-3.5" aria-hidden="true"></lucide-icon> Làm mới
-          </button>
+          <div class="relative group">
+            <button (click)="resetApp.emit()" class="text-xs flex items-center gap-1.5 text-slate-600 bg-white border border-slate-200 shadow-sm hover:text-indigo-600 hover:border-indigo-200 transition-colors px-2.5 py-1.5 rounded-md hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer">
+              <lucide-icon [img]="RefreshCw" class="w-3.5 h-3.5" aria-hidden="true"></lucide-icon> Làm mới
+            </button>
+            <div class="absolute top-full right-0 mt-2 px-2.5 py-1.5 bg-slate-800 text-white text-xs font-medium rounded shadow-sm opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all whitespace-nowrap z-50 pointer-events-none">
+              Làm mới để tải lên tài liệu khác.
+              <div class="absolute bottom-full right-8 border-[5px] border-transparent border-b-slate-800"></div>
+            </div>
+          </div>
         }
       </div>
       <div class="p-6">

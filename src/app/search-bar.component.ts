@@ -22,6 +22,8 @@ import { ToastService } from './toast.service';
       <input 
         type="text" 
         #searchInput
+        [value]="searchQuery()"
+        (input)="searchQuery.set(searchInput.value)"
         [disabled]="isSearching() || isProcessing()"
         (keydown.enter)="onSearch(searchInput.value)"
         aria-label="Tìm kiếm tài liệu trên Google Scholar"
@@ -51,6 +53,7 @@ import { ToastService } from './toast.service';
               [href]="'https://scholar.google.com/scholar?q=' + translatedQuery()" 
               target="_blank" 
               rel="noopener noreferrer"
+              (click)="handleScholarClick()"
               class="w-full py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium flex items-center justify-center gap-2 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 cursor-pointer"
             >
               <span>Mở Google Scholar</span>
@@ -112,5 +115,11 @@ export class SearchBarComponent {
   closeSearch() {
     this.translatedQuery.set('');
     this.searchQuery.set('');
+  }
+
+  handleScholarClick() {
+    setTimeout(() => {
+      this.closeSearch();
+    }, 500);
   }
 }

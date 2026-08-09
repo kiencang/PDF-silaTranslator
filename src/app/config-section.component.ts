@@ -16,9 +16,15 @@ import { TranslationMode } from './app';
       <div class="p-5 border-b border-slate-100 bg-slate-50/50 flex flex-wrap items-center justify-between gap-3 rounded-t-2xl">
         <h2 class="text-sm font-semibold text-slate-900 uppercase tracking-wider">2. Phong cách dịch</h2>
         <div class="flex items-center gap-3 ml-auto">
-          <button (click)="openSettings.emit()" class="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-200/50 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer" title="Thay đổi phong cách mặc định">
-            <lucide-icon [img]="Settings" class="w-4.5 h-4.5" aria-hidden="true"></lucide-icon>
-          </button>
+          <div class="relative group">
+            <button (click)="openSettings.emit()" class="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-200/50 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer">
+              <lucide-icon [img]="Settings" class="w-4.5 h-4.5" aria-hidden="true"></lucide-icon>
+            </button>
+            <div class="absolute bottom-full right-0 mb-2 px-2.5 py-1.5 bg-slate-800 text-white text-xs font-medium rounded shadow-sm opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all whitespace-nowrap z-50 pointer-events-none">
+              Thay đổi phong cách mặc định.
+              <div class="absolute top-full right-1.5 border-[5px] border-transparent border-t-slate-800"></div>
+            </div>
+          </div>
         </div>
       </div>
       <div class="p-6 space-y-5">

@@ -35,20 +35,21 @@ import { LucideAngularModule, LayoutGrid, X, FileText, Youtube, Globe, ArrowRigh
                target="_blank" 
                rel="noopener noreferrer" 
                class="group flex items-start p-4 bg-slate-50/50 hover:bg-slate-50 border border-slate-200 hover:border-slate-300 rounded-2xl transition-all duration-200 text-left cursor-pointer no-underline focus:outline-none focus:ring-2 focus:ring-indigo-500">
-              <div class="mr-4 p-3 rounded-xl shrink-0 flex items-center justify-center transition-all group-hover:scale-105 duration-200 bg-rose-50 text-rose-600 border border-rose-100">
+              <div class="mr-4 p-3 rounded-xl shrink-0 flex items-center justify-center transition-all group-hover:scale-105 duration-200 bg-amber-50 text-amber-600 border border-amber-100">
                 <lucide-icon [img]="FileText" class="w-6 h-6"></lucide-icon>
               </div>
               <div class="flex-1 min-w-0">
                 <div class="flex items-center justify-between mb-1">
                   <h4 class="text-base font-semibold text-slate-900 group-hover:text-indigo-600 transition-colors">Dịch sách có nội dung dài</h4>
-                  <span class="text-[10px] font-bold uppercase tracking-wider text-rose-600 bg-rose-50/80 px-2 py-0.5 rounded-md border border-rose-100/50">BOOK</span>
                 </div>
                 <p class="text-xs text-slate-500 leading-relaxed">
                   Có khả năng dịch đa dạng từ truyện ngắn, tiểu thuyết, tài liệu chuyên ngành.
                 </p>
-                <div class="mt-2.5 flex items-center text-xs font-semibold text-indigo-600 group-hover:text-indigo-700">
-                  <span>Trải nghiệm ngay</span>
-                  <lucide-icon [img]="ArrowRight" class="w-3.5 h-3.5 ml-1 transition-transform group-hover:translate-x-1 duration-200"></lucide-icon>
+                <div class="mt-3 flex justify-end">
+                  <div class="flex items-center text-xs font-medium text-indigo-600 bg-indigo-50 border border-indigo-100 group-hover:bg-indigo-100 group-hover:border-indigo-200 transition-colors px-3 py-1.5 rounded-lg">
+                    <span>Trải nghiệm ngay</span>
+                    <lucide-icon [img]="ArrowRight" class="w-3.5 h-3.5 ml-1 transition-transform group-hover:translate-x-1 duration-200"></lucide-icon>
+                  </div>
                 </div>
               </div>
             </a>
@@ -58,20 +59,21 @@ import { LucideAngularModule, LayoutGrid, X, FileText, Youtube, Globe, ArrowRigh
                target="_blank" 
                rel="noopener noreferrer" 
                class="group flex items-start p-4 bg-slate-50/50 hover:bg-slate-50 border border-slate-200 hover:border-slate-300 rounded-2xl transition-all duration-200 text-left cursor-pointer no-underline focus:outline-none focus:ring-2 focus:ring-indigo-500">
-              <div class="mr-4 p-3 rounded-xl shrink-0 flex items-center justify-center transition-all group-hover:scale-105 duration-200 bg-sky-50 text-sky-600 border border-sky-100">
+              <div class="mr-4 p-3 rounded-xl shrink-0 flex items-center justify-center transition-all group-hover:scale-105 duration-200 bg-red-50 text-red-600 border border-red-100">
                 <lucide-icon [img]="Youtube" class="w-6 h-6"></lucide-icon>
               </div>
               <div class="flex-1 min-w-0">
                 <div class="flex items-center justify-between mb-1">
                   <h4 class="text-base font-semibold text-slate-900 group-hover:text-indigo-600 transition-colors">Dịch phụ đề YouTube</h4>
-                  <span class="text-[10px] font-bold uppercase tracking-wider text-sky-600 bg-sky-50/80 px-2 py-0.5 rounded-md border border-sky-100/50">YouTube</span>
                 </div>
                 <p class="text-xs text-slate-500 leading-relaxed">
                   Dịch phụ đề video YouTube chất lượng hơn, chế độ song ngữ, lịch sử dịch để tiện xem lại khi cần.
                 </p>
-                <div class="mt-2.5 flex items-center text-xs font-semibold text-indigo-600 group-hover:text-indigo-700">
-                  <span>Trải nghiệm ngay</span>
-                  <lucide-icon [img]="ArrowRight" class="w-3.5 h-3.5 ml-1 transition-transform group-hover:translate-x-1 duration-200"></lucide-icon>
+                <div class="mt-3 flex justify-end">
+                  <div class="flex items-center text-xs font-medium text-indigo-600 bg-indigo-50 border border-indigo-100 group-hover:bg-indigo-100 group-hover:border-indigo-200 transition-colors px-3 py-1.5 rounded-lg">
+                    <span>Trải nghiệm ngay</span>
+                    <lucide-icon [img]="ArrowRight" class="w-3.5 h-3.5 ml-1 transition-transform group-hover:translate-x-1 duration-200"></lucide-icon>
+                  </div>
                 </div>
               </div>
             </a>
@@ -81,20 +83,21 @@ import { LucideAngularModule, LayoutGrid, X, FileText, Youtube, Globe, ArrowRigh
                target="_blank" 
                rel="noopener noreferrer" 
                class="group flex items-start p-4 bg-slate-50/50 hover:bg-slate-50 border border-slate-200 hover:border-slate-300 rounded-2xl transition-all duration-200 text-left cursor-pointer no-underline focus:outline-none focus:ring-2 focus:ring-indigo-500">
-              <div class="mr-4 p-3 rounded-xl shrink-0 flex items-center justify-center transition-all group-hover:scale-105 duration-200 bg-violet-50 text-violet-600 border border-violet-100">
+              <div class="mr-4 p-3 rounded-xl shrink-0 flex items-center justify-center transition-all group-hover:scale-105 duration-200 bg-blue-50 text-blue-600 border border-blue-100">
                 <lucide-icon [img]="Globe" class="w-6 h-6"></lucide-icon>
               </div>
               <div class="flex-1 min-w-0">
                 <div class="flex items-center justify-between mb-1">
                   <h4 class="text-base font-semibold text-slate-900 group-hover:text-indigo-600 transition-colors">Dịch website</h4>
-                  <span class="text-[10px] font-bold uppercase tracking-wider text-violet-600 bg-violet-50/80 px-2 py-0.5 rounded-md border border-violet-100/50">Trang Web</span>
                 </div>
                 <p class="text-xs text-slate-500 leading-relaxed">
                   Dịch website chất lượng hơn & tối ưu cho việc đọc hiểu tài liệu.
                 </p>
-                <div class="mt-2.5 flex items-center text-xs font-semibold text-indigo-600 group-hover:text-indigo-700">
-                  <span>Trải nghiệm ngay</span>
-                  <lucide-icon [img]="ArrowRight" class="w-3.5 h-3.5 ml-1 transition-transform group-hover:translate-x-1 duration-200"></lucide-icon>
+                <div class="mt-3 flex justify-end">
+                  <div class="flex items-center text-xs font-medium text-indigo-600 bg-indigo-50 border border-indigo-100 group-hover:bg-indigo-100 group-hover:border-indigo-200 transition-colors px-3 py-1.5 rounded-lg">
+                    <span>Trải nghiệm ngay</span>
+                    <lucide-icon [img]="ArrowRight" class="w-3.5 h-3.5 ml-1 transition-transform group-hover:translate-x-1 duration-200"></lucide-icon>
+                  </div>
                 </div>
               </div>
             </a>
@@ -103,7 +106,7 @@ import { LucideAngularModule, LayoutGrid, X, FileText, Youtube, Globe, ArrowRigh
 
         <!-- Actions -->
         <div class="p-5 bg-slate-50 border-t border-slate-100 flex justify-end shrink-0">
-          <button (click)="closeModal.emit()" class="px-5 py-2.5 bg-indigo-600 text-white font-medium hover:bg-indigo-700 rounded-xl shadow-sm transition-all focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 text-sm cursor-pointer border-none">
+          <button (click)="closeModal.emit()" class="px-5 py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-800 rounded-xl font-medium transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-slate-400">
             Đóng
           </button>
         </div>
