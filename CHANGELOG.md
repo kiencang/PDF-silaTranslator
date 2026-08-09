@@ -9,6 +9,12 @@ Riêng chỉ sửa nhỏ giao diện mà không động đến logic dịch thu�
 
 Ví dụ 1.0.19.i nghĩa là phiên bản này có lõi giống y phiên bản 1.0.19, chỉ có giao diện người dùng là chỉnh sửa nhỏ.
 
+## [1.0.77] - 2026-08-09
+### Fixed
+- Điều chỉnh lại SI/Prompt để phân biệt chính xác ảnh raster với hình ảnh sơ đồ trong file PDF, mục đích là để điều chỉnh cách xử lý;
+- Đối với hình ảnh, sơ đồ không có ảnh raster đính kèm thì AI được lệnh cố gắng tái tạo bằng HTML, CSS hoặc SVG;
+- Đối với hình ảnh có text bên trong, AI được lệnh OCR để trích xuất văn bản;
+
 ## [1.0.76] - 2026-08-09
 ### Fixed
 - Tinh chỉnh một số thiết kế như tooltip (chuyển hết sang Tailwind), màu button (cho đồng bộ), và hành vi tự đóng lại search sau khi đã click mở kết quả (cho gọn gàng);

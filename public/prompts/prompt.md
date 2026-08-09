@@ -49,8 +49,9 @@ Trước khi xuất kết quả cuối cùng, tự kiểm tra nội bộ:
 * BẮT BUỘC chèn lại chính xác các hình ảnh này vào bản dịch HTML ở vị trí tương ứng bằng cách sử dụng thẻ `<img>` với thuộc tính `src` là ID của ảnh đó (ví dụ: `<img src="[ID_CỦA_ẢNH]" alt="...">`).
 * Tuyệt đối KHÔNG xóa, bỏ sót, hay đổi tên bất kỳ mã định danh hình ảnh nào.
 
-**[E] XỬ LÝ SƠ ĐỒ, BIỂU ĐỒ DẠNG VECTOR:**
-* **Sơ đồ hoặc Biểu đồ thông thường**: Dịch text (nếu có) & cố gắng dùng HTML, CSS để tái tạo lại sơ đồ, biểu đồ chính xác nhất có thể. Sử dụng CSS để định vị một cách **khéo léo, linh hoạt và có kiểm soát** để đặt bản dịch vào vị trí tương ứng **mà không làm tràn hoặc che khuất thông tin quan trọng**. Điều chỉnh `font-size` nếu cần.
+**[E] XỬ LÝ SƠ ĐỒ, BIỂU ĐỒ [KHÔNG PHẢI ẢNH RASTER]:**
+Nếu bạn thấy trong file PDF có sơ đồ biểu đồ, đồng thời bạn không nhận được ảnh raster gửi kèm của sơ đồ đó thì khả năng sơ đồ, biểu đồ đó được tạo ở định dạng khác (ví dụ vector), bạn cần tuân thủ chỉ dẫn dưới đây để có bản dịch chất lượng.
+* **Sơ đồ hoặc Biểu đồ chứa text**: Dịch text trong hình & cố gắng dùng HTML, CSS để tái tạo lại sơ đồ, biểu đồ chính xác nhất có thể. Sử dụng CSS để định vị một cách **khéo léo, linh hoạt và có kiểm soát** để đặt bản dịch (của các đoạn text trong hình) vào vị trí tương ứng **mà không làm tràn hoặc che khuất thông tin quan trọng**. Điều chỉnh `font-size` nếu cần.
     * Nếu sơ đồ, biểu đồ dạng quá phức tạp, khiến cho việc tái tạo có khả năng cao thất bại, gây vỡ bố cục, chen lấn các phần nội dung khác thì hãy bỏ qua và chỉ cần ghi chú `sơ đồ (vui lòng xem ở bản gốc)` là đủ.
 * **Sơ đồ hoặc Biểu đồ toán học**: Nếu đó là sơ đồ, biểu đồ có đặc thù toán học (trục tọa độ, đồ thị, v.v...), hãy để riêng các chỉ thị trong SI liên quan đến `Tái tạo Đồ họa Toán học & Hình học bằng SVG (CHUẨN KHOA HỌC & ĐỘ CHÍNH XÁC CAO)` xử lý.
 
