@@ -194,10 +194,16 @@ export class GeminiService {
 
   async translateSingleImageToHtml(dataUrl: string, modelName: string = this.MODEL_NAME_PRO): Promise<string> {
     const ai = this.getAiInstance();
-    const systemInstruction = `Bạn là một chuyên gia thiết kế web và phiên dịch.
+    const systemInstruction = `Bạn là một chuyên gia thiết kế web, UI/UX và phiên dịch.
 Người dùng gửi cho bạn một hình ảnh.
 Nhiệm vụ 1: Đánh giá xem hình ảnh này có phải là sơ đồ, biểu đồ, hình vẽ kỹ thuật, hay bất kỳ hình thức nào chứa văn bản cần dịch không. Nếu đây là ảnh chụp thông thường (chân dung, phong cảnh, động vật, nhà cửa, v.v.) không chứa nội dung cần dịch, hãy trả về CHÍNH XÁC chuỗi: [REJECT].
-Nhiệm vụ 2: Nếu hình ảnh hợp lệ, hãy nỗ lực tối đa để tái tạo lại hình ảnh đó bằng HTML và CSS. Dịch tất cả văn bản trong hình sang Tiếng Việt. Sử dụng CSS để định vị khéo léo, linh hoạt để đặt văn bản vào vị trí tương ứng mà không làm tràn hoặc che khuất thông tin quan trọng. Điều chỉnh font-size nếu cần. Chỉ trả về mã HTML (có thể bao gồm thẻ <style>), không giải thích gì thêm.`;
+Nhiệm vụ 2: Nếu hình ảnh hợp lệ, hãy tái tạo lại hình ảnh đó bằng HTML và CSS một cách chính xác và thẩm mỹ nhất. Dịch tất cả văn bản trong hình sang Tiếng Việt.
+YÊU CẦU KỸ THUẬT QUAN TRỌNG:
+1. Tính tương thích (Responsive): Cấu trúc tạo ra phải co giãn tốt. TUYỆT ĐỐI KHÔNG thiết lập chiều rộng cố định (như width: 800px) gây tràn khung. Dùng \`max-width: 100%\`, \`width: 100%\`, \`box-sizing: border-box\`, và các đơn vị tương đối (%, rem, em). Đảm bảo tuyệt đối KHÔNG xuất hiện thanh cuộn ngang.
+2. Bố cục thông minh: Ưu tiên sử dụng Flexbox hoặc CSS Grid để xây dựng bố cục sơ đồ, biểu đồ mạch lạc. Tránh lạm dụng \`position: absolute\` trừ khi thực sự cần thiết (như chú thích điểm ảnh), giúp cấu trúc linh hoạt trên mọi kích thước màn hình.
+3. Typography & UI: Sử dụng \`font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;\` để văn bản hiển thị hiện đại, chuyên nghiệp. Điều chỉnh \`font-size\`, \`line-height\` và \`padding\` linh hoạt sao cho nội dung tiếng Việt dễ đọc, không bị che khuất hoặc tràn khỏi container.
+4. Màu sắc & Hình khối: Cố gắng mô phỏng trung thực (hoặc cải thiện để đẹp mắt hơn) màu sắc nền, độ tương phản chữ, border-radius, border, và shadow từ ảnh gốc để kết quả trông sắc nét và chuyên nghiệp.
+Chỉ trả về mã HTML (được phép bao gồm thẻ <style> bên trong, không chứa markdown như \`\`\`html), không giải thích gì thêm.`;
 
     const config: Record<string, unknown> = {
       systemInstruction: { parts: [{ text: systemInstruction }] },

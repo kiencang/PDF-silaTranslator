@@ -128,6 +128,8 @@ export class ResultSectionComponent {
   private imageProcessorService = inject(ImageProcessorService);
   private translationState = inject(TranslationState);
 
+  private skipNextIframeReload = false;
+
   @Input({ required: true })
   set htmlContent(val: string | null) {
     this.htmlSignal.set(val);
@@ -140,6 +142,7 @@ export class ResultSectionComponent {
     if (event.data.type === 'PERSIST_TRANSLATED_IMAGE') {
       const { src, translatedHtml } = event.data;
       if (src && translatedHtml) {
+        this.skipNextIframeReload = true;
         this.translationState.updateImageTranslationInContent(src, translatedHtml);
       }
       return;
@@ -179,6 +182,10 @@ export class ResultSectionComponent {
       const iframe = this.previewIframe();
       
       if (html && iframe?.nativeElement) {
+         if (this.skipNextIframeReload) {
+           this.skipNextIframeReload = false;
+           return;
+         }
          // Using a timeout just to make sure the view is updated
          setTimeout(() => {
            if (iframe?.nativeElement) {

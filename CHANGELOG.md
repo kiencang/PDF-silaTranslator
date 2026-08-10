@@ -9,6 +9,12 @@ Riêng chỉ sửa nhỏ giao diện mà không động đến logic dịch thu�
 
 Ví dụ 1.0.19.i nghĩa là phiên bản này có lõi giống y phiên bản 1.0.19, chỉ có giao diện người dùng là chỉnh sửa nhỏ.
 
+## [1.0.83] - 2026-08-11
+### Fixed
+- Tinh chỉnh phần dịch ảnh để nó tốt hơn:
+	+ Giảm thiểu hiện tượng xuất hiện scrollbar khi ảnh chèn vào;
+	+ Không còn hiện tượng dịch xong thì giật về đầu trang mà giữ nguyên vị trí và hiển thị nội dung dịch;
+
 ## [1.0.82] - 2026-08-10
 ### Fixed
 - Bổ sung tính năng dịch ảnh cho công cụ, để dịch sơ đồ/biểu đồ chứa text từ tiếng Anh sang tiếng Việt;

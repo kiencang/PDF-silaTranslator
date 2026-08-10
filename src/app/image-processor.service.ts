@@ -73,7 +73,7 @@ export class ImageProcessorService {
   .img-trans-toast {
     pointer-events: auto; padding: 10px 14px; border-radius: 8px; font-size: 13px; font-weight: 500;
     box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
-    display: flex; align-items: center; gap: 8px; max-width: 360px;
+    display: flex; align-items: center; gap: 8px; max-width: 450px;
     animation: imgToastIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
   .img-trans-toast.error { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
