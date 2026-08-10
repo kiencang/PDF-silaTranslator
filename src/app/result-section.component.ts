@@ -1,6 +1,9 @@
-import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter, ElementRef, viewChild, effect, signal } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter, ElementRef, viewChild, effect, signal, HostListener, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LucideAngularModule, Download, Maximize, Minimize, Loader2, Clock, FileText } from 'lucide-angular';
+import { GeminiService } from './gemini.service';
+import { ImageProcessorService } from './image-processor.service';
+import { TranslationState } from './translation.state';
 
 @Component({
   selector: 'app-result-section',
@@ -89,7 +92,7 @@ import { LucideAngularModule, Download, Maximize, Minimize, Loader2, Clock, File
 
         @if (resultHtml) {
           <div class="absolute inset-0 overflow-hidden">
-            <iframe #previewIframe id="preview-iframe" class="w-full h-full border-0 bg-white" sandbox="allow-scripts" title="Bản xem trước tài liệu đã dịch"></iframe>
+            <iframe #previewIframe id="preview-iframe" class="w-full h-full border-0 bg-white" sandbox="allow-scripts allow-same-origin" title="Bản xem trước tài liệu đã dịch"></iframe>
           </div>
         }
       </div>
@@ -109,6 +112,7 @@ export class ResultSectionComponent {
   @Input() resultHtml: string | null = null;
   @Input() progressMessage = '';
   @Input() formattedTime = '';
+  @Input() selectedModel = 'gemini-pro-latest';
 
   @Output() downloadHtml = new EventEmitter<void>();
   @Output() toggleFullscreen = new EventEmitter<void>();
@@ -119,10 +123,54 @@ export class ResultSectionComponent {
   // Using an effect in the parent is generally required, but we can do it inside ngOnChanges or effect.
   // We'll use a signal driven approach
   private htmlSignal = signal<string | null>(null);
+  
+  private geminiService = inject(GeminiService);
+  private imageProcessorService = inject(ImageProcessorService);
+  private translationState = inject(TranslationState);
 
   @Input({ required: true })
   set htmlContent(val: string | null) {
     this.htmlSignal.set(val);
+  }
+
+  @HostListener('window:message', ['$event'])
+  async onMessage(event: MessageEvent) {
+    if (!event.data) return;
+
+    if (event.data.type === 'PERSIST_TRANSLATED_IMAGE') {
+      const { src, translatedHtml } = event.data;
+      if (src && translatedHtml) {
+        this.translationState.updateImageTranslationInContent(src, translatedHtml);
+      }
+      return;
+    }
+
+    // Check if the message is from our iframe
+    if (event.data.type === 'TRANSLATE_IMAGE') {
+      const { src, reqId } = event.data;
+      if (!src) return;
+      
+      try {
+         const translatedText = await this.geminiService.translateSingleImageToHtml(src, this.selectedModel);
+         if (translatedText.trim() === '[REJECT]') {
+            this.sendToIframe({ type: 'IMAGE_TRANSLATED', reqId, success: false, message: 'Ảnh này không phải sơ đồ/biểu đồ nên không thể tái tạo.' });
+         } else {
+            // Success
+            const cleanHtml = this.imageProcessorService.extractHtml(translatedText);
+            this.sendToIframe({ type: 'IMAGE_TRANSLATED', reqId, success: true, html: cleanHtml });
+         }
+      } catch (error: unknown) {
+         const message = error instanceof Error ? error.message : 'Lỗi không xác định.';
+         this.sendToIframe({ type: 'IMAGE_TRANSLATED', reqId, success: false, message });
+      }
+    }
+  }
+  
+  private sendToIframe(data: unknown) {
+    const iframe = this.previewIframe();
+    if (iframe?.nativeElement?.contentWindow) {
+      iframe.nativeElement.contentWindow.postMessage(data, '*');
+    }
   }
 
   constructor() {
@@ -134,7 +182,7 @@ export class ResultSectionComponent {
          // Using a timeout just to make sure the view is updated
          setTimeout(() => {
            if (iframe?.nativeElement) {
-             iframe.nativeElement.srcdoc = html;
+             iframe.nativeElement.srcdoc = this.imageProcessorService.attachInteractiveScript(html);
            }
          }, 50);
       }

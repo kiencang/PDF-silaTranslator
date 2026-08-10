@@ -374,7 +374,7 @@ export class TranslationState {
         fileBlobToSave = file;
       }
 
-      await this.storageService.saveTranslation({
+      const savedId = await this.storageService.saveTranslation({
         originalFileName: file?.name || 'tai_lieu_goc',
         vietnameseTitle: vietnameseTitle,
         mode: currentMode,
@@ -384,7 +384,54 @@ export class TranslationState {
         pdfHash: this.pdfHash() || undefined,
         originalFileBlob: fileBlobToSave,
         originalFileMimeType: this.mimeType() || undefined
-      }).catch(err => console.error('Lỗi khi lưu lịch sử:', err));
+      }).catch(err => {
+        console.error('Lỗi khi lưu lịch sử:', err);
+        return undefined;
+      });
+
+      if (savedId) {
+        this.activeHistoryItemId.set(savedId);
+        await this.fetchHistory();
+      }
+    }
+  }
+
+  async updateImageTranslationInContent(imageSrc: string, translatedHtml: string) {
+    const currentHtml = this.resultHtml();
+    if (!currentHtml || !imageSrc) return;
+
+    const encoded = encodeURIComponent(translatedHtml);
+    let updatedHtml = currentHtml;
+
+    if (typeof window !== 'undefined' && typeof DOMParser !== 'undefined') {
+      try {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(currentHtml, 'text/html');
+        const imgs = Array.from(doc.querySelectorAll('img'));
+        let found = false;
+        for (const img of imgs) {
+          const srcAttr = img.getAttribute('src');
+          if (srcAttr === imageSrc || (imageSrc.length > 20 && srcAttr && imageSrc.includes(srcAttr))) {
+            img.setAttribute('data-translated-html', encoded);
+            found = true;
+            break;
+          }
+        }
+        if (found) {
+          updatedHtml = doc.documentElement.outerHTML;
+        }
+      } catch (e) {
+        console.warn('Lỗi khi parse HTML để cập nhật data-translated-html:', e);
+      }
+    }
+
+    if (updatedHtml !== currentHtml) {
+      this.resultHtml.set(updatedHtml);
+      const activeId = this.activeHistoryItemId();
+      if (activeId) {
+        await this.storageService.updateTranslationContent(activeId, updatedHtml);
+        await this.fetchHistory();
+      }
     }
   }
 

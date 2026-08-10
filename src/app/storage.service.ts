@@ -61,14 +61,14 @@ export class StorageService {
     });
   }
 
-  private async addItemToStore(db: IDBDatabase, doc: TranslatedDoc): Promise<void> {
+  private async addItemToStore(db: IDBDatabase, doc: TranslatedDoc): Promise<number> {
     return new Promise((resolve, reject) => {
       try {
         const transaction = db.transaction([this.storeName], 'readwrite');
         const store = transaction.objectStore(this.storeName);
         const request = store.add(doc);
 
-        request.onsuccess = () => resolve();
+        request.onsuccess = () => resolve(request.result as number);
         request.onerror = (e) => reject(request.error || e || 'Error saving translation');
       } catch (err) {
         reject(err);
@@ -76,10 +76,10 @@ export class StorageService {
     });
   }
 
-  async saveTranslation(doc: TranslatedDoc): Promise<void> {
-    if (!this.isBrowser) return;
+  async saveTranslation(doc: TranslatedDoc): Promise<number | undefined> {
+    if (!this.isBrowser) return undefined;
     const db = await this.initDB();
-    if (!db) return;
+    if (!db) return undefined;
     
     // First, cleanup if more than 10
     const all = await this.getAll();
@@ -103,18 +103,47 @@ export class StorageService {
     }
 
     try {
-      await this.addItemToStore(db, doc);
+      return await this.addItemToStore(db, doc);
     } catch (err) {
       console.warn('Lỗi khi lưu kèm file gốc, đang thử lưu lại không kèm file gốc:', err);
       if (doc.originalFileBlob) {
         const fallbackDoc = { ...doc };
         delete fallbackDoc.originalFileBlob;
         delete fallbackDoc.originalFileMimeType;
-        await this.addItemToStore(db, fallbackDoc);
+        return await this.addItemToStore(db, fallbackDoc);
       } else {
         throw err;
       }
     }
+  }
+
+  async updateTranslationContent(id: number, content: string): Promise<void> {
+    if (!this.isBrowser) return;
+    const db = await this.initDB();
+    if (!db) return;
+
+    return new Promise((resolve, reject) => {
+      try {
+        const transaction = db.transaction([this.storeName], 'readwrite');
+        const store = transaction.objectStore(this.storeName);
+        const getReq = store.get(id);
+
+        getReq.onsuccess = () => {
+          const doc = getReq.result as TranslatedDoc;
+          if (doc) {
+            doc.content = content;
+            const putReq = store.put(doc);
+            putReq.onsuccess = () => resolve();
+            putReq.onerror = () => reject(putReq.error || 'Error updating translation content');
+          } else {
+            resolve();
+          }
+        };
+        getReq.onerror = () => reject(getReq.error || 'Error fetching item to update');
+      } catch (err) {
+        reject(err);
+      }
+    });
   }
 
   async getAll(): Promise<TranslatedDoc[]> {

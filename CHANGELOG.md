@@ -9,6 +9,11 @@ Riêng chỉ sửa nhỏ giao diện mà không động đến logic dịch thu�
 
 Ví dụ 1.0.19.i nghĩa là phiên bản này có lõi giống y phiên bản 1.0.19, chỉ có giao diện người dùng là chỉnh sửa nhỏ.
 
+## [1.0.82] - 2026-08-10
+### Fixed
+- Bổ sung tính năng dịch ảnh cho công cụ, để dịch sơ đồ/biểu đồ chứa text từ tiếng Anh sang tiếng Việt;
+- Tái tạo sơ đồ bằng HTML/CSS;
+
 ## [1.0.81] - 2026-08-10
 ### Fixed
 - Tinh chỉnh tiếp phần SI liên quan đến ảnh dạng sơ đồ;

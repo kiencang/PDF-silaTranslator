@@ -192,6 +192,52 @@ export class GeminiService {
     }
   }
 
+  async translateSingleImageToHtml(dataUrl: string, modelName: string = this.MODEL_NAME_PRO): Promise<string> {
+    const ai = this.getAiInstance();
+    const systemInstruction = `Bạn là một chuyên gia thiết kế web và phiên dịch.
+Người dùng gửi cho bạn một hình ảnh.
+Nhiệm vụ 1: Đánh giá xem hình ảnh này có phải là sơ đồ, biểu đồ, hình vẽ kỹ thuật, hay bất kỳ hình thức nào chứa văn bản cần dịch không. Nếu đây là ảnh chụp thông thường (chân dung, phong cảnh, động vật, nhà cửa, v.v.) không chứa nội dung cần dịch, hãy trả về CHÍNH XÁC chuỗi: [REJECT].
+Nhiệm vụ 2: Nếu hình ảnh hợp lệ, hãy nỗ lực tối đa để tái tạo lại hình ảnh đó bằng HTML và CSS. Dịch tất cả văn bản trong hình sang Tiếng Việt. Sử dụng CSS để định vị khéo léo, linh hoạt để đặt văn bản vào vị trí tương ứng mà không làm tràn hoặc che khuất thông tin quan trọng. Điều chỉnh font-size nếu cần. Chỉ trả về mã HTML (có thể bao gồm thẻ <style>), không giải thích gì thêm.`;
+
+    const config: Record<string, unknown> = {
+      systemInstruction: { parts: [{ text: systemInstruction }] },
+      thinkingConfig: { thinkingLevel: 'HIGH' },
+      safetySettings: [
+        { category: HarmCategory.HARM_CATEGORY_HARASSMENT, threshold: HarmBlockThreshold.BLOCK_NONE },
+        { category: HarmCategory.HARM_CATEGORY_HATE_SPEECH, threshold: HarmBlockThreshold.BLOCK_NONE },
+        { category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT, threshold: HarmBlockThreshold.BLOCK_NONE },
+        { category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, threshold: HarmBlockThreshold.BLOCK_NONE }
+      ]
+    };
+
+    const mime = dataUrl.split(';')[0].split(':')[1];
+    const data = dataUrl.split(',')[1];
+    
+    const parts: any[] = [
+      {
+        inlineData: {
+          data: data,
+          mimeType: mime
+        }
+      },
+      { text: "Hãy tái tạo và dịch hình ảnh này sang HTML/CSS. Nếu không phải hình cần dịch, trả về [REJECT]." }
+    ];
+
+    try {
+      const response = await ai.models.generateContent({
+        model: modelName,
+        contents: [{ parts: parts }],
+        config
+      });
+      return this.extractTextFromResponse(response);
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        throw new Error(e.message);
+      }
+      throw new Error('Lỗi khi dịch hình ảnh');
+    }
+  }
+
   async translateSearchQuery(query: string): Promise<string> {
     const ai = this.getAiInstance();
     const systemInstruction = `Bạn là một AI chuyên dịch truy vấn tìm kiếm (search queries) từ tiếng Việt sang Tiếng Anh. Nhiệm vụ DUY NHẤT của bạn là trả về MỘT (1) truy vấn tìm kiếm tiếng Anh hiệu quả nhất, dựa trên đánh giá của bạn về ý định (search intent) và cách tìm kiếm phổ biến nhất trong tiếng Anh.
