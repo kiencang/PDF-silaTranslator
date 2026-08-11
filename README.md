@@ -8,7 +8,7 @@ Một số tính năng:
 - Có khả năng tái tạo tương đối tốt định dạng của tài liệu gốc;
 - Có khả năng xử lý các công thức toán học phức tạp;
 - Giữ lại được các ảnh bitmap (dạng như ảnh chụp bằng điện thoại/máy ảnh nhúng trong file PDF) trong bản dịch;
-- Nếu ảnh được tách là dạng sơ đồ, biểu đồ bạn có thể dịch tiếp ảnh đó sau khi bản dịch hoàn tất;
+- Nếu ảnh được tách là dạng sơ đồ, biểu đồ chứa text, bạn có thể tiếp tục dịch tiếp ảnh đó sau khi bản dịch hoàn tất;
 - Tìm kiếm tài liệu tiếng Anh trên Google Scholar bằng từ khóa tiếng Việt;
 - Các chế độ dịch cho các kiểu tài liệu khác nhau;
 - Tùy chọn model dịch là Pro hay Flash;
@@ -63,7 +63,7 @@ Phần SI/Prompt của ứng dụng này cần kết hợp với các AI có kh�
 
 ## Tách ảnh với file PDF scan
 
-Với trường hợp file PDF dạng scan, công cụ này sẽ không tách được ảnh, sẽ chỉ dịch được text. Nếu Bạn muốn dịch giữ được ảnh, thì cách đơn giản nhất là dùng các công cụ OCR chuyên dụng để chuyển nó sang dạng markdown (ví dụ dùng [PaddleOCR](https://aistudio.baidu.com/paddleocr)), rồi tải định dạng đó lên các công cụ có khả năng dịch markdown, ví dụ silaBook (https://github.com/kiencang/silaBook).
+Với trường hợp file PDF dạng scan, công cụ này sẽ không tách được ảnh, nó chỉ dịch được text. Nếu Bạn muốn dịch giữ được ảnh, thì cách đơn giản nhất là dùng các công cụ OCR chuyên dụng để chuyển PDF sang dạng markdown (ví dụ dùng [PaddleOCR](https://aistudio.baidu.com/paddleocr)), rồi tải định dạng đó lên các công cụ có khả năng dịch markdown, ví dụ [silaBook](https://github.com/kiencang/silaBook).
 
 ## Ghi công
 
