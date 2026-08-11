@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
 import { GoogleGenAI, HarmCategory, HarmBlockThreshold } from '@google/genai';
 
+export interface TranslationResult {
+  text: string;
+  usageMetadata?: any;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -74,7 +79,7 @@ export class GeminiService {
     useGoogleSearch = false,
     modelName: string = this.MODEL_NAME_PRO,
     images: {id: string, dataUrl: string}[] = []
-  ): Promise<string> {
+  ): Promise<TranslationResult> {
     const ai = this.getAiInstance();
     const config: Record<string, unknown> = {
       systemInstruction: { parts: [{ text: systemInstruction }] },
@@ -127,7 +132,10 @@ export class GeminiService {
         config
       });
 
-      return this.extractTextFromResponse(response);
+      return {
+        text: this.extractTextFromResponse(response),
+        usageMetadata: response.usageMetadata
+      };
     } catch (e: unknown) {
       if (e instanceof Error) {
         throw new Error(e.message);
@@ -143,7 +151,7 @@ export class GeminiService {
     useGoogleSearch = false,
     modelName: string = this.MODEL_NAME_PRO,
     images: {id: string, dataUrl: string}[] = []
-  ): Promise<string> {
+  ): Promise<TranslationResult> {
     const ai = this.getAiInstance();
     const config: Record<string, unknown> = {
       systemInstruction: { parts: [{ text: systemInstruction }] },
@@ -183,7 +191,10 @@ export class GeminiService {
         config
       });
 
-      return this.extractTextFromResponse(response);
+      return {
+        text: this.extractTextFromResponse(response),
+        usageMetadata: response.usageMetadata
+      };
     } catch (e: unknown) {
       if (e instanceof Error) {
         throw new Error(e.message);

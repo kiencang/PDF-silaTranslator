@@ -21,6 +21,8 @@ export class TranslationState {
   private promptService = inject(PromptService);
   private imageProcessorService = inject(ImageProcessorService);
 
+  private lastTranslationUsageMetadata: any = null;
+
   readonly MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
   readonly MAX_FILE_SIZE_HTML = 0.5 * 1024 * 1024; // 500KB
   readonly MAX_PDF_TOKENS = 25000;
@@ -262,7 +264,8 @@ export class TranslationState {
           this.loadPrompt('zero_math_prompt.md')
         ]);
         const result = await this.geminiService.translate(base64, mime, prompt, instruction, this.useGoogleSearch(), this.selectedModel(), extractedImages);
-        const rawHtml = this.imageProcessorService.extractHtml(result);
+        this.lastTranslationUsageMetadata = result.usageMetadata;
+        const rawHtml = this.imageProcessorService.extractHtml(result.text);
         this.resultHtml.set(this.imageProcessorService.postProcessHtml(rawHtml, extractedImages));
       }
       else if (currentMode === 'zero_svg') {
@@ -272,7 +275,8 @@ export class TranslationState {
           this.loadPrompt('zero_svg_prompt.md')
         ]);
         const result = await this.geminiService.translate(base64, mime, prompt, instruction, this.useGoogleSearch(), this.selectedModel(), extractedImages);
-        const rawHtml = this.imageProcessorService.extractHtml(result);
+        this.lastTranslationUsageMetadata = result.usageMetadata;
+        const rawHtml = this.imageProcessorService.extractHtml(result.text);
         this.resultHtml.set(this.imageProcessorService.postProcessHtml(rawHtml, extractedImages));
       }
       else if (currentMode === 'normal') {
@@ -282,7 +286,8 @@ export class TranslationState {
           this.loadPrompt('math_prompt.md')
         ]);
         const result = await this.geminiService.translate(base64, mime, prompt, instruction, this.useGoogleSearch(), this.selectedModel(), extractedImages);
-        const rawHtml = this.imageProcessorService.extractHtml(result);
+        this.lastTranslationUsageMetadata = result.usageMetadata;
+        const rawHtml = this.imageProcessorService.extractHtml(result.text);
         this.resultHtml.set(this.imageProcessorService.postProcessHtml(rawHtml, extractedImages));
       }
       else if (currentMode === 'phase1') {
@@ -292,7 +297,8 @@ export class TranslationState {
           this.loadPrompt('phase_1_prompt.md')
         ]);
         const result = await this.geminiService.translate(base64, mime, prompt, instruction, false, this.selectedModel(), extractedImages);
-        const rawHtml = this.imageProcessorService.extractHtml(result);
+        this.lastTranslationUsageMetadata = result.usageMetadata;
+        const rawHtml = this.imageProcessorService.extractHtml(result.text);
         this.resultHtml.set(this.imageProcessorService.postProcessHtml(rawHtml, extractedImages));
       }
       else if (currentMode === 'phase2') {
@@ -308,7 +314,8 @@ export class TranslationState {
         
         const htmlContent = base64;
         const result = await this.geminiService.translateHtml(htmlContent, prompt, instruction, this.useGoogleSearch(), this.selectedModel(), this.htmlExtractedImages());
-        const rawHtml = this.imageProcessorService.extractHtml(result);
+        this.lastTranslationUsageMetadata = result.usageMetadata;
+        const rawHtml = this.imageProcessorService.extractHtml(result.text);
         this.resultHtml.set(this.imageProcessorService.postProcessHtml(rawHtml, this.htmlExtractedImages()));
       }
 
@@ -383,7 +390,9 @@ export class TranslationState {
         content: content,
         pdfHash: this.pdfHash() || undefined,
         originalFileBlob: fileBlobToSave,
-        originalFileMimeType: this.mimeType() || undefined
+        originalFileMimeType: this.mimeType() || undefined,
+        promptTokens: this.lastTranslationUsageMetadata?.promptTokenCount,
+        candidatesTokens: this.lastTranslationUsageMetadata?.candidatesTokenCount
       }).catch(err => {
         console.error('Lỗi khi lưu lịch sử:', err);
         return undefined;

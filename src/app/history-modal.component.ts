@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LucideAngularModule, X, FileText, Trash2, Eye, Clock, AlertCircle, Download } from 'lucide-angular';
+import { LucideAngularModule, X, FileText, Trash2, Eye, Clock, AlertCircle, Download, Coins } from 'lucide-angular';
 import { TranslatedDoc } from './storage.service';
 
 @Component({
@@ -103,6 +103,14 @@ import { TranslatedDoc } from './storage.service';
                           {{ formatDate(item.timestamp) }}
                         </span>
                       </div>
+                      @if (item.promptTokens !== undefined || item.candidatesTokens !== undefined) {
+                        <div class="flex items-center gap-1.5 mt-1.5">
+                          <span class="text-[11px] text-slate-500 flex items-center gap-1 bg-slate-50 px-1.5 py-0.5 rounded border border-slate-100" title="Tokens đầu vào / đầu ra">
+                            <lucide-icon [img]="Coins" class="w-3 h-3 text-amber-500"></lucide-icon>
+                            Input: {{ formatTokens(item.promptTokens) }} token <span class="text-slate-300">|</span> Output: {{ formatTokens(item.candidatesTokens) }} token
+                          </span>
+                        </div>
+                      }
                     </div>
                   </button>
 
@@ -159,6 +167,7 @@ export class HistoryModalComponent {
   readonly Clock = Clock;
   readonly AlertCircle = AlertCircle;
   readonly Download = Download;
+  readonly Coins = Coins;
 
   @Input() historyItems: TranslatedDoc[] = [];
   @Input() activeHistoryItemId: number | null = null;
@@ -202,6 +211,11 @@ export class HistoryModalComponent {
     if (model.includes('pro')) return 'Model Pro';
     if (model.includes('flash')) return 'Model Flash';
     return model;
+  }
+
+  formatTokens(tokens?: number): string {
+    if (tokens == null) return '0';
+    return (tokens / 1000).toFixed(1) + 'K';
   }
 
   formatDate(timestamp: number): string {

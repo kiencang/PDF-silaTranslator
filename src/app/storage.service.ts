@@ -12,6 +12,8 @@ export interface TranslatedDoc {
   pdfHash?: string;
   originalFileBlob?: Blob;
   originalFileMimeType?: string;
+  promptTokens?: number;
+  candidatesTokens?: number;
 }
 
 @Injectable({
