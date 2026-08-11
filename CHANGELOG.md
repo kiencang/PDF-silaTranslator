@@ -9,6 +9,10 @@ Riêng chỉ sửa nhỏ giao diện mà không động đến logic dịch thu�
 
 Ví dụ 1.0.19.i nghĩa là phiên bản này có lõi giống y phiên bản 1.0.19, chỉ có giao diện người dùng là chỉnh sửa nhỏ.
 
+## [1.0.86] - 2026-08-11
+### Fixed
+- Chỉ áp dụng tính năng dịch ảnh với ảnh có kích cỡ tối thiểu một chiều là 200px;
+
 ## [1.0.85] - 2026-08-11
 ### Fixed
 - Tính lượng token đầu vào & đầu ra rồi lưu vào lịch sử dịch tương ứng với từng bài, thông tin này có thể quan trọng cho ước tính chi phí sau này;

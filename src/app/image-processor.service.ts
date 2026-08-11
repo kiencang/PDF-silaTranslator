@@ -108,7 +108,13 @@ export class ImageProcessorService {
 
   function initImages() {
     document.querySelectorAll('img').forEach(img => {
-      if (!img.parentElement.classList.contains('interactive-img-wrapper')) {
+      if (img.dataset.processInit) return;
+      img.dataset.processInit = "true";
+
+      const process = () => {
+        if (img.naturalWidth < 200 && img.naturalHeight < 200) return;
+        if (img.parentElement.classList.contains('interactive-img-wrapper')) return;
+
         const wrapper = document.createElement('div');
         wrapper.className = 'interactive-img-wrapper';
         img.parentNode.insertBefore(wrapper, img);
@@ -161,6 +167,12 @@ export class ImageProcessorService {
               }
            }
         });
+      };
+
+      if (img.complete) {
+        process();
+      } else {
+        img.addEventListener('load', process);
       }
     });
   }
