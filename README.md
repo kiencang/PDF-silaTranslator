@@ -8,10 +8,15 @@ Một số tính năng:
 - Có khả năng tái tạo tương đối tốt định dạng của tài liệu gốc;
 - Có khả năng xử lý các công thức toán học phức tạp;
 - Giữ lại được các ảnh bitmap (dạng như ảnh chụp bằng điện thoại/máy ảnh nhúng trong file PDF) trong bản dịch;
+- Nếu ảnh được tách là dạng sơ đồ, biểu đồ bạn có thể dịch tiếp ảnh đó sau khi bản dịch hoàn tất;
 - Tìm kiếm tài liệu tiếng Anh trên Google Scholar bằng từ khóa tiếng Việt;
 - Các chế độ dịch cho các kiểu tài liệu khác nhau;
 - Tùy chọn model dịch là Pro hay Flash;
 - Lưu trữ 10 bài dịch gần nhất;
+
+Về khả năng tách ảnh:
+- Nhìn chung công cụ tách ảnh rất tốt đối với hầu hết các file PDF thông thường, tuy nhiên cũng có giới hạn: Đối với file PDF dạng scan, nó sẽ không tách được;
+- Một số file PDF không phải scan nhưng có cấu trúc, định dạng quá phức tạp cũng có thể không tách được ảnh;
 
 Link dùng:
 - **Link web**: https://pdf-silatranslator.wpsila.com (cần API Key trả phí);
@@ -55,6 +60,10 @@ Một cách khác là sử dụng OpenRouter, một cổng trung gian AI có th�
 Bạn có thể tham khảo repo này (cùng tác giả) để sử dụng OpenRouter kết nối với các AI khác khi dịch file PDF: https://github.com/kiencang/PDF-openSky
 
 Phần SI/Prompt của ứng dụng này cần kết hợp với các AI có khả năng nhận diện cả ảnh (để bản dịch có định dạng tốt và gần tương tự với bản gốc), do vậy bạn cần chọn các AI đa phương thức (Multimodal AI). Các AI mà chỉ nhận đầu vào là text sẽ không hợp với ứng dụng này.
+
+## Tách ảnh với file PDF scan
+
+Với trường hợp file PDF dạng scan, công cụ này sẽ không tách được ảnh, sẽ chỉ dịch được text. Nếu Bạn muốn dịch giữ được ảnh, thì cách đơn giản nhất là dùng các công cụ OCR chuyên dụng để chuyển nó sang dạng markdown (ví dụ dùng [PaddleOCR](https://aistudio.baidu.com/paddleocr)), rồi tải định dạng đó lên các công cụ có khả năng dịch markdown, ví dụ silaBook (https://github.com/kiencang/silaBook).
 
 ## Ghi công
 
