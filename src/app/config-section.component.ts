@@ -13,7 +13,7 @@ import { TranslationMode } from './app';
     <section class="bg-white rounded-2xl ring-1 ring-slate-900/5 shadow-[0_8px_30px_rgb(0,0,0,0.04)] relative transition-opacity duration-300"
              [class.opacity-50]="isProcessing" 
              [class.pointer-events-none]="isProcessing">
-      <div class="p-5 border-b border-slate-100 bg-slate-50/50 flex flex-wrap items-center justify-between gap-3 rounded-t-2xl">
+      <div class="min-h-[60px] px-4 py-3 border-b border-slate-100 bg-slate-50/50 flex flex-wrap items-center justify-between gap-3 rounded-t-2xl">
         <h2 class="text-sm font-semibold text-slate-900 uppercase tracking-wider">2. Phong cách dịch</h2>
         <div class="flex items-center gap-3 ml-auto">
           <div class="relative group">

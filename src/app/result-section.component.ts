@@ -16,7 +16,7 @@ import { TranslationState } from './translation.state';
              [class.relative]="!isFullscreen" [class.rounded-2xl]="!isFullscreen" [class.h-full]="!isFullscreen" [class.min-h-[600px]]="!isFullscreen" [class.lg:min-h-0]="!isFullscreen">
       
       <!-- Result Header -->
-      <div class="p-4 border-b border-slate-100 bg-white/80 backdrop-blur-md flex items-center justify-between shrink-0 z-10 sticky top-0">
+      <div class="min-h-[60px] px-4 py-3 border-b border-slate-100 bg-white/80 backdrop-blur-md flex items-center justify-between shrink-0 z-10 sticky top-0">
         <h2 class="text-sm font-semibold text-slate-900 uppercase tracking-wider">Result • Đọc tốt nhất trên màn hình lớn (laptop/desktop)</h2>
         
         @if (resultHtml) {

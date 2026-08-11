@@ -93,7 +93,7 @@ export class SearchBarComponent {
       const parsedError = this.geminiService.parseGeminiError(e);
 
       if (parsedError.includes('429') || parsedError.toLowerCase().includes('quota')) {
-        this.toastService.show('error', 'Lỗi: API Key của bạn đã vượt quá giới hạn (Quota exceeded). Vui lòng thử lại sau hoặc sử dụng Key khác.');
+        this.toastService.show('error', 'Lỗi: API Key của bạn đã vượt quá giới hạn (Quota exceeded). Sử dụng tài khoản khác để tiếp tục dùng ngay hoặc đợi đến ngày hôm sau dùng tiếp.');
       } 
       else if (parsedError.includes('503') || parsedError.toLowerCase().includes('overloaded')) {
         this.toastService.show('error', 'Lỗi: Máy chủ AI hiện đang bận (Overloaded). Vui lòng thử lại sau.');

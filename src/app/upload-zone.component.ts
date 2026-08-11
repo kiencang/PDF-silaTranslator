@@ -11,7 +11,7 @@ import { LucideAngularModule, RefreshCw, UploadCloud, CheckCircle2, Scissors, Lo
   providers: [DecimalPipe],
   template: `
     <section class="bg-white rounded-2xl ring-1 ring-slate-900/5 shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden" [class.opacity-50]="isProcessing" [class.pointer-events-none]="isProcessing">
-      <div class="p-5 border-b border-slate-100 bg-slate-50/50 flex justify-between items-center">
+      <div class="min-h-[60px] px-4 py-3 border-b border-slate-100 bg-slate-50/50 flex justify-between items-center">
         <h2 class="text-sm font-semibold text-slate-900 uppercase tracking-wider">1. Tải lên tài liệu</h2>
         @if (hasFile || hasResult) {
           <div class="relative group">

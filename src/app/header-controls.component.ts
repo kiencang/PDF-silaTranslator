@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LucideAngularModule, FileText, User, Zap, Key } from 'lucide-angular';
+import { LucideAngularModule, FileText, Sparkles, Zap, Key } from 'lucide-angular';
 import { SearchBarComponent } from './search-bar.component';
 
 @Component({
@@ -38,23 +38,23 @@ import { SearchBarComponent } from './search-bar.component';
           </div>
 
           <!-- Model Toggle -->
-          <div class="flex items-center bg-slate-100 p-1 rounded-lg border border-slate-200" role="radiogroup" aria-label="Lựa chọn mô hình AI">
+          <div class="flex items-center bg-slate-100 p-0.5 rounded-xl border border-slate-200/80 shadow-inner" role="radiogroup" aria-label="Lựa chọn mô hình AI">
             <button 
               type="button"
               role="radio"
               [disabled]="isProcessing"
               [attr.aria-checked]="selectedModel === 'gemini-pro-latest'"
               (click)="onModelChange('gemini-pro-latest')"
-              class="group relative flex items-center gap-1.5 px-2.5 py-1 rounded-md text-sm font-medium transition-all"
+              class="group relative flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-300"
               [class.cursor-not-allowed]="isProcessing"
               [class.cursor-pointer]="!isProcessing"
-              [class.opacity-60]="isProcessing && selectedModel !== 'gemini-pro-latest'"
-              [ngClass]="selectedModel === 'gemini-pro-latest' ? 'bg-amber-50 text-amber-700 shadow-[0_0_12px_rgba(251,191,36,0.4)] ring-1 ring-amber-300/50' : (isProcessing ? 'text-slate-400' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-200/50')"
+              [class.opacity-50]="isProcessing && selectedModel !== 'gemini-pro-latest'"
+              [ngClass]="selectedModel === 'gemini-pro-latest' ? 'bg-white text-indigo-600 shadow-sm ring-1 ring-slate-900/5' : (isProcessing ? 'text-slate-400' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-200/50')"
             >
-              <lucide-icon [img]="User" class="w-4 h-4"></lucide-icon>
+              <lucide-icon [img]="Sparkles" class="w-3.5 h-3.5"></lucide-icon>
               <span>Pro</span>
               <!-- Custom Tooltip for Pro -->
-              <div class="absolute top-full left-1/2 -translate-x-1/2 mt-2.5 w-56 sm:w-64 p-2.5 bg-slate-800 text-slate-100 text-xs text-left rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 pointer-events-none border border-slate-700">
+              <div class="absolute top-full left-1/2 -translate-x-1/2 mt-2.5 w-56 sm:w-64 p-2.5 bg-slate-800 text-slate-100 text-xs text-left rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 pointer-events-none border border-slate-700 font-normal tracking-wide">
                 <span class="font-semibold text-indigo-300">[Khuyên dùng]</span> - Sử dụng model AI tiên tiến nhất (Gemini Pro Latest) để dịch tài liệu chuyên ngành có độ khó cao.
                 <div class="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-slate-800 border-t border-l border-slate-700 rotate-45 transform origin-center"></div>
               </div>
@@ -65,22 +65,21 @@ import { SearchBarComponent } from './search-bar.component';
               [disabled]="isProcessing"
               [attr.aria-checked]="selectedModel === 'gemini-flash-latest'"
               (click)="onModelChange('gemini-flash-latest')"
-              class="group relative flex items-center gap-1.5 px-2.5 py-1 rounded-md text-sm font-medium transition-all"
+              class="group relative flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-300"
               [class.cursor-not-allowed]="isProcessing"
               [class.cursor-pointer]="!isProcessing"
-              [class.opacity-60]="isProcessing && selectedModel !== 'gemini-flash-latest'"
-              [ngClass]="selectedModel === 'gemini-flash-latest' ? 'bg-amber-50 text-amber-700 shadow-[0_0_12px_rgba(251,191,36,0.4)] ring-1 ring-amber-300/50' : (isProcessing ? 'text-slate-400' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-200/50')"
+              [class.opacity-50]="isProcessing && selectedModel !== 'gemini-flash-latest'"
+              [ngClass]="selectedModel === 'gemini-flash-latest' ? 'bg-white text-emerald-600 shadow-sm ring-1 ring-slate-900/5' : (isProcessing ? 'text-slate-400' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-200/50')"
             >
-              <lucide-icon [img]="Zap" class="w-4 h-4"></lucide-icon>
+              <lucide-icon [img]="Zap" class="w-3.5 h-3.5"></lucide-icon>
               <span>Flash</span>
               <!-- Custom Tooltip for Flash -->
-              <div class="absolute top-full left-1/2 -translate-x-1/2 mt-2.5 w-56 sm:w-64 p-2.5 bg-slate-800 text-slate-100 text-xs text-left rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 pointer-events-none border border-slate-700">
+              <div class="absolute top-full left-1/2 -translate-x-1/2 mt-2.5 w-56 sm:w-64 p-2.5 bg-slate-800 text-slate-100 text-xs text-left rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 pointer-events-none border border-slate-700 font-normal tracking-wide">
                 Model AI (Gemini Flash Latest) nhanh hơn và ngưỡng miễn phí rộng hơn. Thích hợp khi dịch nhiều & nội dung không quá phức tạp.
                 <div class="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-slate-800 border-t border-l border-slate-700 rotate-45 transform origin-center"></div>
               </div>
             </button>
           </div>
-
 
         </div>
         
@@ -91,7 +90,7 @@ import { SearchBarComponent } from './search-bar.component';
 })
 export class HeaderControlsComponent {
   readonly FileText = FileText;
-  readonly User = User;
+  readonly Sparkles = Sparkles;
   readonly Zap = Zap;
   readonly Key = Key;
 
