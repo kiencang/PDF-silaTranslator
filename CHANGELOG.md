@@ -9,6 +9,13 @@ Riêng chỉ sửa nhỏ giao diện mà không động đến logic dịch thu�
 
 Ví dụ 1.0.19.i nghĩa là phiên bản này có lõi giống y phiên bản 1.0.19, chỉ có giao diện người dùng là chỉnh sửa nhỏ.
 
+## [1.0.84] - 2026-08-11
+### Fixed
+- Tinh chỉnh giao diện:
+    + Điều chỉnh toogle chọn model cho hợp tông giao diện hơn;
+    + Nội dung của toast khi hết ngưỡng miễn phí, thông báo cụ thể hơn cần làm gì;
+    + Chiều cao các header ở các cột cho đồng bộ với nhau;
+
 ## [1.0.83] - 2026-08-11
 ### Fixed
 - Tinh chỉnh phần dịch ảnh để nó tốt hơn:
