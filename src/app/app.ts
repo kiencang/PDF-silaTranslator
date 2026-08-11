@@ -274,21 +274,23 @@ export class App {
       const a = document.createElement('a');
       a.href = url;
       const file = this.selectedFile();
-      const suffix = this.mode() === 'phase1' ? '_converted' : '_translated';
       
-      let modelLabel = '';
+      let modelLabel = 'Flash';
       if (this.selectedModel() === 'gemini-pro-latest') {
-        modelLabel = '[Gemini_Pro]';
-      } else if (this.selectedModel() === 'gemini-flash-latest') {
-        modelLabel = '[Gemini_Flash]';
+        modelLabel = 'Pro';
       }
+      
+      const actionLabel = this.mode() === 'phase1' ? 'Converted' : 'Translated';
+      const baseName = file?.name.replace(/\.[^/.]+$/, "") || 'document';
 
-      a.download = `${file?.name.replace(/\.[^/.]+$/, "") || 'document'}_${modelLabel}${suffix}.html`;
+      a.download = `${baseName}_[${modelLabel}]_${actionLabel}.html`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-      this.showToast('success', 'Đã tải file HTML xuống máy.');
+      
+      const toastMsg = this.mode() === 'phase1' ? 'Đã tải file HTML chuyển đổi xuống máy.' : 'Đã tải file HTML dịch xuống máy.';
+      this.showToast('success', toastMsg);
     }
   }
 

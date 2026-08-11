@@ -27,7 +27,7 @@ import { TranslationState } from './translation.state';
                 Download
               </button>
               <div class="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-2.5 py-1.5 bg-slate-800 text-white text-xs font-medium rounded shadow-sm opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all whitespace-nowrap z-50 pointer-events-none">
-                Tải về bản dịch.
+                {{ mode === 'phase1' ? 'Tải về bản chuyển đổi.' : 'Tải về bản dịch.' }}
                 <div class="absolute bottom-full left-1/2 -translate-x-1/2 border-[5px] border-transparent border-b-slate-800"></div>
               </div>
             </div>
@@ -113,6 +113,7 @@ export class ResultSectionComponent {
   @Input() progressMessage = '';
   @Input() formattedTime = '';
   @Input() selectedModel = 'gemini-pro-latest';
+  @Input() mode = 'normal';
 
   @Output() downloadHtml = new EventEmitter<void>();
   @Output() toggleFullscreen = new EventEmitter<void>();
