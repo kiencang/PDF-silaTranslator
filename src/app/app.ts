@@ -1,8 +1,7 @@
-import { Component, ChangeDetectionStrategy, signal, inject, ViewChild, ElementRef, DestroyRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, signal, inject, DestroyRef, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormControl, FormsModule } from '@angular/forms';
-import { ToastService } from './toast.service';
-import { LucideAngularModule, UploadCloud, FileText, Settings, Play, Download, CheckCircle2, AlertCircle, Loader2, ArrowDown, Maximize, Minimize, Clock, RefreshCw, Info, X, Search, ExternalLink, Scissors, FileEdit, User, Copy, Key, Eye, EyeOff, Trash2, LayoutGrid } from 'lucide-angular';
+import { ReactiveFormsModule, FormsModule, FormControl } from '@angular/forms';
+import { LucideAngularModule, UploadCloud, FileText, Settings, Play, Download, CheckCircle2, AlertCircle, Loader2, ArrowDown, RefreshCw, Maximize, Minimize, Clock, Info, X, Search, ExternalLink, Scissors, FileEdit, User, Copy, Key, Eye, EyeOff, Trash2, LayoutGrid } from 'lucide-angular';
 import { SettingsModalComponent } from './settings-modal.component';
 import { ApiKeyModalComponent } from './api-key-modal.component';
 import { ToastsComponent } from './toasts.component';
@@ -11,11 +10,13 @@ import { HeaderControlsComponent } from './header-controls.component';
 import { UploadZoneComponent } from './upload-zone.component';
 import { ConfigSectionComponent } from './config-section.component';
 import { ResultSectionComponent } from './result-section.component';
-import { TranslatedDoc } from './storage.service';
 import { HistoryModalComponent } from './history-modal.component';
 import { RemixModalComponent } from './remix-modal.component';
 import { AppsModalComponent } from './apps-modal.component';
-import { TranslationState, TranslationMode } from './translation.state';
+import { ToastService } from './toast.service';
+import { TranslationState } from './translation.state';
+import { TranslatedDoc } from './storage.service';
+import { TranslationMode, SearchModel } from './translation.state';
 export type { TranslationMode } from './translation.state';
 
 @Component({
@@ -62,6 +63,7 @@ export class App {
   // Form Controls
   modeControl = new FormControl<TranslationMode>('zero_svg', { nonNullable: true });
   defaultModeControl = new FormControl<TranslationMode>('zero_svg', { nonNullable: true });
+  defaultSearchModelControl = new FormControl<SearchModel>('gemini-flash-lite-latest', { nonNullable: true });
   useGoogleSearchControl = new FormControl<boolean>(false, { nonNullable: true });
   
   // UI States
@@ -126,6 +128,11 @@ export class App {
         this.modeControl.setValue(savedMode);
         this.translationState.mode.set(savedMode);
       }
+      
+      const savedSearchModel = localStorage.getItem('sila_pdf_translator_search_model') as SearchModel;
+      if (savedSearchModel) {
+        this.translationState.searchModel.set(savedSearchModel);
+      }
 
       // Load saved user API Key
       const savedKey = localStorage.getItem('sila_pdf_translator_user_api_key');
@@ -147,10 +154,13 @@ export class App {
 
   openSettings() {
     let savedMode: TranslationMode | null = null;
+    let savedSearchModel: SearchModel | null = null;
     if (typeof localStorage !== 'undefined') {
       savedMode = localStorage.getItem('sila_pdf_translator_default_mode') as TranslationMode;
+      savedSearchModel = localStorage.getItem('sila_pdf_translator_search_model') as SearchModel;
     }
     this.defaultModeControl.setValue(savedMode || 'zero_svg');
+    this.defaultSearchModelControl.setValue(savedSearchModel || 'gemini-flash-lite-latest');
     this.showSettingsModal.set(true);
   }
 
@@ -158,12 +168,21 @@ export class App {
     this.showSettingsModal.set(false);
   }
 
+  onSettingsSave(settings: {mode: TranslationMode, searchModel: SearchModel}) {
+    if (settings) {
+      this.defaultModeControl.setValue(settings.mode);
+      this.defaultSearchModelControl.setValue(settings.searchModel);
+    }
+    this.saveSettings();
+  }
   saveSettings() {
     if (typeof localStorage !== 'undefined') {
       localStorage.setItem('sila_pdf_translator_default_mode', this.defaultModeControl.value);
+      localStorage.setItem('sila_pdf_translator_search_model', this.defaultSearchModelControl.value);
     }
+    this.translationState.searchModel.set(this.defaultSearchModelControl.value);
     this.showSettingsModal.set(false);
-    this.showToast('success', 'Đã lưu chế độ mặc định!');
+    this.showToast('success', 'Đã lưu cấu hình mặc định!');
   }
 
   openApiKeyModal() {

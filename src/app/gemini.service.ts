@@ -255,7 +255,7 @@ Chỉ trả về mã HTML (được phép bao gồm thẻ <style> bên trong, kh
     }
   }
 
-  async translateSearchQuery(query: string): Promise<string> {
+  async translateSearchQuery(query: string, searchModel: 'gemini-flash-lite-latest' | 'gemini-flash-latest' = 'gemini-flash-lite-latest'): Promise<string> {
     const ai = this.getAiInstance();
     const systemInstruction = `Bạn là một AI chuyên dịch truy vấn tìm kiếm (search queries) từ tiếng Việt sang Tiếng Anh. Nhiệm vụ DUY NHẤT của bạn là trả về MỘT (1) truy vấn tìm kiếm tiếng Anh hiệu quả nhất, dựa trên đánh giá của bạn về ý định (search intent) và cách tìm kiếm phổ biến nhất trong tiếng Anh.
 
@@ -270,7 +270,7 @@ QUY TẮC BẮT BUỘC TUÂN THỦ:
 
     try {
       const response = await ai.models.generateContent({
-        model: this.MODEL_NAME_FLASH_LITE,
+        model: searchModel,
         contents: [
           { parts: [{ text: prompt }] }
         ],

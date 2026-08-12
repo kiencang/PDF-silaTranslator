@@ -9,6 +9,11 @@ Riêng chỉ sửa nhỏ giao diện mà không động đến logic dịch thu�
 
 Ví dụ 1.0.19.i nghĩa là phiên bản này có lõi giống y phiên bản 1.0.19, chỉ có giao diện người dùng là chỉnh sửa nhỏ.
 
+## [1.0.88] - 2026-08-12
+### Fixed
+- Bổ sung tùy chọn model AI cho phần dịch từ khóa Tìm kiếm; Mặc định vẫn dùng model ưu tiên tốc độ, nhưng cho phép người dùng điều chỉnh sang model suy nghĩ cẩn thận hơn;
+- Điều chỉnh thiết kế để kể cả trên màn hình nhỏ toàn bộ logo vẫn hiển thị đầy đủ (mặc dù công cụ này khuyến khích dùng trên màn hình lớn);
+
 ## [1.0.87] - 2026-08-11
 ### Fixed
 - Sửa phần Lịch sử dịch (điều chỉnh các nút download, để các card phân tách nhau rõ ràng hơn);

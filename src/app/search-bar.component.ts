@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { LucideAngularModule, Search, Loader2, X, ExternalLink } from 'lucide-angular';
 import { GeminiService } from './gemini.service';
 import { ToastService } from './toast.service';
+import { TranslationState } from './translation.state';
 
 @Component({
   selector: 'app-search-bar',
@@ -11,7 +12,7 @@ import { ToastService } from './toast.service';
   imports: [CommonModule, FormsModule, LucideAngularModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="relative w-full md:w-96 lg:w-[500px]">
+    <div class="relative w-full lg:w-[500px]">
       <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
         @if (isSearching()) {
           <lucide-icon [img]="Loader2" class="w-4 h-4 text-indigo-500 animate-spin" aria-hidden="true"></lucide-icon>
@@ -73,6 +74,7 @@ export class SearchBarComponent {
 
   private geminiService = inject(GeminiService);
   private toastService = inject(ToastService);
+  private translationState = inject(TranslationState);
 
   isSearching = signal<boolean>(false);
   isProcessing = input<boolean>(false);
@@ -87,7 +89,7 @@ export class SearchBarComponent {
     this.translatedQuery.set('');
 
     try {
-      const result = await this.geminiService.translateSearchQuery(query);
+      const result = await this.geminiService.translateSearchQuery(query, this.translationState.searchModel());
       this.translatedQuery.set(result);
     } catch (e: unknown) {
       const parsedError = this.geminiService.parseGeminiError(e);

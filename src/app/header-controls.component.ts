@@ -10,15 +10,18 @@ import { SearchBarComponent } from './search-bar.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <header class="bg-white border-b border-slate-200 relative z-40">
-      <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-3 md:h-16 md:py-0 flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-0">
-        <div class="flex items-center gap-4">
+      <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-4 lg:py-0 lg:h-16 flex flex-col sm:flex-row sm:flex-wrap lg:flex-nowrap items-center sm:justify-center lg:justify-between gap-3 sm:gap-4 lg:gap-0">
+        
+        <!-- Left side: Logo + Model Toggle -->
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 w-full lg:w-auto">
+          
           <!-- Logo and Title -->
           <div class="flex items-center gap-2">
             <div class="bg-indigo-600 text-white p-1.5 rounded-lg shrink-0">
               <lucide-icon [img]="FileText" class="w-5 h-5" aria-hidden="true"></lucide-icon>
             </div>
-            <div class="hidden sm:block">
-              <h1 class="text-xl font-bold font-display tracking-tight text-slate-900 leading-tight">
+            <div class="block">
+              <h1 class="text-lg sm:text-xl font-bold font-display tracking-tight text-slate-900 leading-tight">
                 PDF silaTranslator
               </h1>
               <button 
@@ -32,7 +35,8 @@ import { SearchBarComponent } from './search-bar.component';
                 [ngClass]="hasUserApiKey ? 'text-emerald-600 hover:text-emerald-700' : (isProcessing ? 'text-slate-400' : 'text-slate-500 hover:text-indigo-600 underline decoration-slate-300 hover:decoration-indigo-600 underline-offset-2')"
               >
                 <lucide-icon [img]="Key" class="w-3 h-3"></lucide-icon>
-                <span>{{ hasUserApiKey ? 'Đang dùng key của bạn' : 'Nhập (cấu hình) API Key' }}</span>
+                <span class="sm:hidden">{{ hasUserApiKey ? 'Đang dùng key của bạn' : 'Nhập API Key' }}</span>
+                <span class="hidden sm:inline">{{ hasUserApiKey ? 'Đang dùng key của bạn' : 'Nhập (cấu hình) API Key' }}</span>
               </button>
             </div>
           </div>
@@ -78,12 +82,14 @@ import { SearchBarComponent } from './search-bar.component';
                 Model AI (Gemini Flash Latest) nhanh hơn và ngưỡng miễn phí rộng hơn. Thích hợp khi dịch nhiều & nội dung không quá phức tạp.
                 <div class="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-slate-800 border-t border-l border-slate-700 rotate-45 transform origin-center"></div>
               </div>
-            </button>
+                        </button>
           </div>
-
         </div>
         
-        <app-search-bar [isProcessing]="isProcessing"></app-search-bar>
+        <!-- Search Bar -->
+        <div class="w-full lg:w-auto flex justify-center lg:justify-end mt-2 lg:mt-0">
+          <app-search-bar [isProcessing]="isProcessing" class="w-full lg:w-auto"></app-search-bar>
+        </div>
       </div>
     </header>
   `

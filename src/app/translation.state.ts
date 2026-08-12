@@ -8,6 +8,7 @@ import { PromptService } from './prompt.service';
 import { ImageProcessorService, ExtractedImage } from './image-processor.service';
 
 export type TranslationMode = 'zero_math' | 'zero_svg' | 'normal' | 'phase1' | 'phase2';
+export type SearchModel = 'gemini-flash-lite-latest' | 'gemini-flash-latest';
 
 @Injectable({
   providedIn: 'root'
@@ -36,6 +37,7 @@ export class TranslationState {
   userApiKey = signal<string>('');
   mode = signal<TranslationMode>('zero_svg');
   useGoogleSearch = signal<boolean>(false);
+  searchModel = signal<SearchModel>('gemini-flash-lite-latest');
   
   isProcessing = signal<boolean>(false);
   progressMessage = signal<string>('');
