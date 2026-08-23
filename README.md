@@ -19,13 +19,13 @@ Về khả năng tách ảnh:
 - Một số file PDF không phải scan nhưng có cấu trúc, định dạng quá phức tạp cũng có thể không tách được ảnh;
 
 Link dùng:
+- **Link app AI Studio**: https://aistudio.google.com/apps/bb5c61b7-e110-49aa-933c-04c4ccd18e16?showPreview=true&showAssistant=true&fullscreenApplet=true (API key miễn phí là đủ dùng);
 - **Link web**: https://pdf-silatranslator.wpsila.com (cần API Key trả phí);
-- **Link app**: https://aistudio.google.com/apps/bb5c61b7-e110-49aa-933c-04c4ccd18e16?showPreview=true&showAssistant=true (API key miễn phí là đủ dùng);
 
 Chất lượng của 2 phiên bản trên như nhau, dùng qua AI Studio (link app) bạn sẽ tận dụng được ngưỡng miễn phí hàng ngày tương đối thoải mái của Gemini.
 
 ---
-- Đọc hướng dẫn cách dùng ở đây: https://pdf-translator.wpsila.com
+- Đọc hướng dẫn cách dùng mọi người đọc ở đây: https://pdf-translator.wpsila.com
 - Chương trình sử dụng SI/Prompt đã được tối ưu sẵn ở dự án này (có điều chỉnh trong phiên bản thực tế): https://github.com/kiencang/SI-Prompt-PDF-EV-Translate (v1.3.48)
 
 Xem thêm Tuyên bố từ chối trách nhiệm: https://github.com/kiencang/PDF-silaTranslator-Online/blob/main/DISCLAIMERS.md
