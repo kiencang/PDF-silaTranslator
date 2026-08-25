@@ -142,25 +142,21 @@ import { TranslatedDoc } from './storage.service';
                     </div>
                   </div>
 
-                  <div class="flex items-center justify-between pt-2.5 border-t border-slate-100/60 mt-0.5">
-                    <div>
-                      @if (item.originalFileBlob) {
-                        <button (click)="downloadFile(item, $event)" 
-                                class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-700 bg-white border border-slate-200 hover:border-emerald-300 hover:text-emerald-700 hover:bg-emerald-50 shadow-sm rounded-lg transition-all cursor-pointer" 
-                                title="Tải bản gốc">
-                          <lucide-icon [img]="Download" class="w-3.5 h-3.5"></lucide-icon>
-                          Tải bản gốc
-                        </button>
-                      }
-                    </div>
-                    <div>
-                      <button (click)="downloadTranslatedHtml(item, $event)" 
-                              class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-700 bg-white border border-slate-200 hover:border-indigo-300 hover:text-indigo-700 hover:bg-indigo-50 shadow-sm rounded-lg transition-all cursor-pointer" 
-                              [title]="item.mode === 'phase1' ? 'Tải bản chuyển đổi' : 'Tải bản dịch'">
+                  <div class="flex items-center justify-end gap-2 pt-2.5 border-t border-slate-100/60 mt-0.5">
+                    @if (item.originalFileBlob) {
+                      <button (click)="downloadFile(item, $event)" 
+                              class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-700 bg-white border border-slate-200 hover:border-emerald-300 hover:text-emerald-700 hover:bg-emerald-50 shadow-sm rounded-lg transition-all cursor-pointer" 
+                              title="Tải bản gốc">
                         <lucide-icon [img]="Download" class="w-3.5 h-3.5"></lucide-icon>
-                        {{ item.mode === 'phase1' ? 'Tải bản chuyển đổi' : 'Tải bản dịch' }}
+                        Tải bản gốc
                       </button>
-                    </div>
+                    }
+                    <button (click)="downloadTranslatedHtml(item, $event)" 
+                            class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-700 bg-white border border-slate-200 hover:border-indigo-300 hover:text-indigo-700 hover:bg-indigo-50 shadow-sm rounded-lg transition-all cursor-pointer" 
+                            [title]="item.mode === 'phase1' ? 'Tải bản chuyển đổi' : 'Tải bản dịch'">
+                      <lucide-icon [img]="Download" class="w-3.5 h-3.5"></lucide-icon>
+                      {{ item.mode === 'phase1' ? 'Tải bản chuyển đổi' : 'Tải bản dịch' }}
+                    </button>
                   </div>
                 </div>
               }
