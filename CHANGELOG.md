@@ -1,6 +1,6 @@
 # Changelog
 
-Tất cả những thay đổi đáng chú ý của dự án **PDF-silaTranslator-Online** sẽ được ghi lại trong file này.
+Tất cả những thay đổi đáng chú ý của dự án **PDF-silaTranslator** sẽ được ghi lại trong file này.
 
 Định dạng dựa trên [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 và dự án này tuân thủ [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
@@ -8,6 +8,11 @@ và dự án này tuân thủ [Semantic Versioning](https://semver.org/spec/v2.0
 Riêng chỉ sửa nhỏ giao diện mà không động đến logic dịch thuật sẽ sử dụng thêm giá trị i, k, l... đằng sau.
 
 Ví dụ 1.0.19.i nghĩa là phiên bản này có lõi giống y phiên bản 1.0.19, chỉ có giao diện người dùng là chỉnh sửa nhỏ.
+
+## [1.0.89] - 2026-08-25
+### Fixed
+- Chỉnh sửa nhỏ liên quan đến tên ứng dụng (đổi `PDF-silaTranslator-Online` thành `PDF-silaTranslator`);
+- Chỉnh một chút thiết kế, để button `Tải bản gốc` và `Tải bản dịch` gần nhau và dạt về bên phải (thay vì mỗi button một bên như trước đây);
 
 ## [1.0.88] - 2026-08-12
 ### Fixed
