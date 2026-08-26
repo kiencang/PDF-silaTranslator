@@ -44,8 +44,6 @@ Việc sử dụng định dạng HTML cho bản dịch có nhiều lợi thế:
 
 Về giới hạn 25 ngàn token đầu vào là vì ứng dụng này chỉ sử dụng duy nhất một phiên gọi API để dịch, và giới hạn đầu ra của Gemini rơi vào khoảng 65 ngàn token, do đã mất tương đối nhiều token cho các thẻ HTML và CSS, nên giới hạn trần đầu vào 25 ngàn token là hợp lý, dù đôi khi con số này có thể tăng lên đôi chút mà vẫn dịch đầy đủ trọn vẹn được.
 
-Đối với người dùng có nhu cầu dịch file PDF rất dài mà vẫn giữ được định dạng tốt, bạn có thể thử repo này (cùng tác giả): https://github.com/kiencang/1987-Layout
-
 ## Phát triển thêm
 Nhìn chung, ở thời điểm hiện tại dùng Gemini để dịch tối ưu về nhiều khía cạnh: 
 - Họ cung cấp gói miễn phí hàng ngày tương đối rộng rãi để người dùng thoải mái mà không phải mua API;
