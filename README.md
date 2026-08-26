@@ -1,16 +1,16 @@
 <p align="center">
-  <img src="images/app-dich-intro.png" alt="Giao diện của công cụ dịch...">
+  <img src="images/pdf-silaTranslator.png" alt="Giao diện của công cụ dịch...">
    <br><em>Một file được dịch bởi công cụ</em>
 </p>
 
 Một số tính năng:
 - Dịch các file PDF ngắn, chuyên ngành từ 25 - 30 trang đổ lại (ngưỡng chính xác là 25 ngàn token);
 - Có khả năng tái tạo tương đối tốt định dạng của tài liệu gốc;
-- Có khả năng xử lý các công thức toán học phức tạp;
-- Giữ lại được các ảnh bitmap (dạng như ảnh chụp bằng điện thoại/máy ảnh nhúng trong file PDF) trong bản dịch;
+- Có khả năng **xử lý các công thức toán học phức tạp**;
+- **Giữ lại được các ảnh bitmap** (dạng như ảnh chụp bằng điện thoại/máy ảnh nhúng trong file PDF) trong bản dịch;
 - Nếu ảnh được tách là dạng sơ đồ, biểu đồ chứa text, bạn có thể tiếp tục dịch tiếp ảnh đó sau khi bản dịch hoàn tất;
 - Tìm kiếm tài liệu tiếng Anh trên Google Scholar bằng từ khóa tiếng Việt;
-- Các chế độ dịch cho các kiểu tài liệu khác nhau;
+- Các phong cách dịch cho các kiểu tài liệu khác nhau;
 - Tùy chọn model dịch là Pro hay Flash;
 - Lưu trữ 10 bài dịch gần nhất;
 
@@ -31,7 +31,6 @@ Chất lượng của 2 phiên bản trên như nhau, dùng qua AI Studio (link 
 Xem thêm Tuyên bố từ chối trách nhiệm: https://github.com/kiencang/PDF-silaTranslator-Online/blob/main/DISCLAIMERS.md
 
 ## Cách thức hoạt động
-
 PDF-silaTranslator có cách thức hoạt động tương đối đơn giản. Nó chủ yếu dựa vào sức mạnh của AI trong việc dịch và tái tạo định dạng gốc của tài liệu. Nên không hề khiêm tốn khi nói rằng về cơ bản nó là dạng sản phẩm AI-Wrapper.
 
 Việc sử dụng định dạng HTML cho bản dịch có nhiều lợi thế:
@@ -48,25 +47,24 @@ Về giới hạn 25 ngàn token đầu vào là vì ứng dụng này chỉ s�
 Đối với người dùng có nhu cầu dịch file PDF rất dài mà vẫn giữ được định dạng tốt, bạn có thể thử repo này (cùng tác giả): https://github.com/kiencang/1987-Layout
 
 ## Phát triển thêm
-
 Nhìn chung, ở thời điểm hiện tại dùng Gemini để dịch tối ưu về nhiều khía cạnh: 
 - Họ cung cấp gói miễn phí hàng ngày tương đối rộng rãi để người dùng thoải mái mà không phải mua API;
 - Chất lượng dịch của Gemini rất tốt, nhất là dùng với model mới nhất Pro hoặc Flash;
 
 Nếu người dùng muốn sử dụng các model AI khác, có thể tự vibe coding, chẳng hạn để kết hợp với OpenAI, Claude, vân vân.
 
-Một cách khác là sử dụng OpenRouter, một cổng trung gian AI có thể kết hợp với hầu như bất cứ AI nào đang tồn tại. Làm như vậy mã nguồn sẽ đỡ phức tạp đi nhiều.
+Một cách khác là sử dụng [OpenRouter](https://openrouter.ai/), một cổng trung gian AI có thể kết hợp với hầu như bất cứ AI nào đang tồn tại. Làm như vậy mã nguồn sẽ đỡ phức tạp đi nhiều.
 
 Bạn có thể tham khảo repo này (cùng tác giả) để sử dụng OpenRouter kết nối với các AI khác khi dịch file PDF: https://github.com/kiencang/PDF-openSky
 
-Phần SI/Prompt của ứng dụng này cần kết hợp với các AI có khả năng nhận diện cả ảnh (để bản dịch có định dạng tốt và gần tương tự với bản gốc), do vậy bạn cần chọn các AI đa phương thức (Multimodal AI). Các AI mà chỉ nhận đầu vào là text sẽ không hợp với ứng dụng này.
+Công cụ này cần các AI có khả năng nhận diện cả ảnh (để bản dịch có định dạng tốt và gần tương tự với bản gốc), do vậy bạn phải chọn các AI đa phương thức (Multimodal AI). Các AI mà chỉ nhận được đầu vào là text sẽ không hợp với ứng dụng này.
+
+Tôi cũng phát triển một nhánh khác là chuyên dùng model của Meta AI (công ty mẹ của Facebook): https://github.com/kiencang/PDF-ownWay
 
 ## Tách ảnh với file PDF scan
-
 Với trường hợp file PDF dạng scan, công cụ này sẽ không tách được ảnh, nó chỉ dịch được text. Nếu Bạn muốn dịch giữ được ảnh, thì cách đơn giản nhất là dùng các công cụ OCR chuyên dụng để chuyển PDF sang dạng markdown (ví dụ dùng [PaddleOCR](https://aistudio.baidu.com/paddleocr)), rồi tải định dạng đó lên các công cụ có khả năng dịch markdown, ví dụ [silaBook](https://github.com/kiencang/silaBook).
 
 ## Ghi công
-
 Công cụ này được hoàn thành dựa vào nhiều thư viện khác. Một số thư viện quan trọng bao gồm:
 
 ### 1. Nền tảng
