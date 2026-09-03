@@ -9,10 +9,10 @@ Một số tính năng:
 - Có khả năng **xử lý các công thức toán học phức tạp**;
 - **Giữ lại được các ảnh bitmap** (dạng như ảnh chụp bằng điện thoại/máy ảnh nhúng trong file PDF) trong bản dịch;
 - Nếu ảnh được tách là dạng sơ đồ, biểu đồ chứa text, bạn có thể tiếp tục dịch tiếp ảnh đó sau khi bản dịch hoàn tất;
-- Tìm kiếm tài liệu tiếng Anh trên Google Scholar bằng từ khóa tiếng Việt;
 - Các phong cách dịch cho các kiểu tài liệu khác nhau;
 - Tùy chọn model dịch là Pro hay Flash;
 - Lưu trữ 10 bài dịch gần nhất;
+- Tìm kiếm tài liệu tiếng Anh trên Google Scholar bằng từ khóa tiếng Việt;
 
 Về khả năng tách ảnh:
 - Nhìn chung công cụ tách ảnh rất tốt đối với hầu hết các file PDF thông thường, tuy nhiên cũng có giới hạn: Đối với file PDF dạng scan, nó sẽ không tách được;
