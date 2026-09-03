@@ -3,6 +3,12 @@
    <br><em>Một file được dịch bởi công cụ</em>
 </p>
 
+Link dùng:
+- **Link app AI Studio**: https://aistudio.google.com/apps/bb5c61b7-e110-49aa-933c-04c4ccd18e16?showPreview=true&showAssistant=true&fullscreenApplet=true (**API Key miễn phí** là đủ dùng);
+- Link web: https://pdf-silatranslator.wpsila.com (cần API Key trả phí);
+
+Chất lượng của 2 phiên bản trên như nhau, dùng qua AI Studio (link app) bạn sẽ tận dụng được ngưỡng miễn phí hàng ngày tương đối thoải mái của Gemini.
+
 Một số tính năng:
 - Dịch các file PDF ngắn, chuyên ngành từ 25 - 30 trang đổ lại (ngưỡng chính xác là 25 ngàn token);
 - Có khả năng tái tạo tương đối tốt định dạng của tài liệu gốc;
@@ -17,13 +23,6 @@ Một số tính năng:
 Về khả năng tách ảnh:
 - Nhìn chung công cụ tách ảnh rất tốt đối với hầu hết các file PDF thông thường, tuy nhiên cũng có giới hạn: Đối với file PDF dạng scan, nó sẽ không tách được;
 - Một số file PDF không phải scan nhưng có cấu trúc, định dạng quá phức tạp cũng có thể không tách được ảnh;
-
-Link dùng:
-- **Link app AI Studio**: https://aistudio.google.com/apps/bb5c61b7-e110-49aa-933c-04c4ccd18e16?showPreview=true&showAssistant=true&fullscreenApplet=true (**API Key miễn phí** là đủ dùng);
-- Link web: https://pdf-silatranslator.wpsila.com (cần API Key trả phí);
-
-Chất lượng của 2 phiên bản trên như nhau, dùng qua AI Studio (link app) bạn sẽ tận dụng được ngưỡng miễn phí hàng ngày tương đối thoải mái của Gemini.
-
 ---
 - Đọc hướng dẫn cách dùng mọi người đọc ở đây: https://pdf-translator.wpsila.com
 - Chương trình sử dụng SI/Prompt đã được tối ưu sẵn ở dự án này (có điều chỉnh trong phiên bản thực tế): https://github.com/kiencang/SI-Prompt-PDF-EV-Translate (v1.3.48)
