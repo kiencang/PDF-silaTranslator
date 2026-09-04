@@ -1,15 +1,19 @@
+# PDF-silaTranslator
 <p align="center">
   <img src="images/pdf-silaTranslator.png" alt="Giao diện của công cụ dịch...">
    <br><em>Một file được dịch bởi công cụ</em>
 </p>
 
-Link dùng:
+## Link dùng
 - **Link app AI Studio**: https://aistudio.google.com/apps/bb5c61b7-e110-49aa-933c-04c4ccd18e16?showPreview=true&showAssistant=true&fullscreenApplet=true (**API Key miễn phí** là đủ dùng);
 - Link web: https://pdf-silatranslator.wpsila.com (cần API Key trả phí);
 
 Chất lượng của 2 phiên bản trên như nhau, dùng qua AI Studio (link app) bạn sẽ tận dụng được ngưỡng miễn phí hàng ngày tương đối thoải mái của Gemini.
 
-Một số tính năng:
+- Đọc hướng dẫn cách dùng mọi người đọc thêm ở đây nhé: https://pdf-translator.wpsila.com
+- Chương trình sử dụng SI/Prompt đã được tối ưu sẵn ở dự án này (có điều chỉnh trong phiên bản thực tế): https://github.com/kiencang/SI-Prompt-PDF-EV-Translate (v1.3.48)
+
+## Một số tính năng
 - Dịch các file PDF ngắn, chuyên ngành từ 25 - 30 trang đổ lại (ngưỡng chính xác là 25 ngàn token);
 - Có khả năng tái tạo tương đối tốt định dạng của tài liệu gốc;
 - Có khả năng **xử lý các công thức toán học phức tạp**;
@@ -20,14 +24,9 @@ Một số tính năng:
 - Lưu trữ 10 bài dịch gần nhất;
 - Tìm kiếm tài liệu tiếng Anh trên Google Scholar bằng từ khóa tiếng Việt;
 
-Về khả năng tách ảnh:
+## Về khả năng tách ảnh
 - Nhìn chung công cụ tách ảnh rất tốt đối với hầu hết các file PDF thông thường, tuy nhiên cũng có giới hạn: Đối với file PDF dạng scan, nó sẽ không tách được;
 - Một số file PDF không phải scan nhưng có cấu trúc, định dạng quá phức tạp cũng có thể không tách được ảnh;
----
-- Đọc hướng dẫn cách dùng mọi người đọc ở đây: https://pdf-translator.wpsila.com
-- Chương trình sử dụng SI/Prompt đã được tối ưu sẵn ở dự án này (có điều chỉnh trong phiên bản thực tế): https://github.com/kiencang/SI-Prompt-PDF-EV-Translate (v1.3.48)
-
-Xem thêm Tuyên bố từ chối trách nhiệm: https://github.com/kiencang/PDF-silaTranslator-Online/blob/main/DISCLAIMERS.md
 
 ## Cách thức hoạt động
 PDF-silaTranslator có cách thức hoạt động tương đối đơn giản. Nó chủ yếu dựa vào sức mạnh của AI trong việc dịch và tái tạo định dạng gốc của tài liệu. Nên không hề khiêm tốn khi nói rằng về cơ bản nó là dạng sản phẩm AI-Wrapper.
@@ -74,3 +73,5 @@ Công cụ này được hoàn thành dựa vào nhiều thư viện khác. Mộ
 ### 2. PDF core
 *   **[pdf-lib](https://pdf-lib.js.org/)**: Giúp chia tách, cắt ngắn file PDF.
 *   **[Mozilla PDF.js](https://mozilla.github.io/pdf.js/)**: Phát triển bởi **Mozilla**. Thư viện chạy hoàn toàn trên Client-side, giúp trích xuất hình ảnh trong file PDF.
+
+Xem thêm Tuyên bố từ chối trách nhiệm: https://github.com/kiencang/PDF-silaTranslator-Online/blob/main/DISCLAIMERS.md
