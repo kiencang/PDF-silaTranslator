@@ -8,7 +8,7 @@
 - **Link app AI Studio**: https://aistudio.google.com/apps/bb5c61b7-e110-49aa-933c-04c4ccd18e16?showPreview=true&showAssistant=true&fullscreenApplet=true (**API Key miễn phí** là đủ dùng);
 - Link web: https://pdf-silatranslator.wpsila.com (cần API Key trả phí);
 
-Chất lượng của 2 phiên bản trên như nhau, dùng qua AI Studio (link app) bạn sẽ tận dụng được ngưỡng miễn phí hàng ngày tương đối thoải mái của Gemini.
+Chất lượng của 2 phiên bản trên như nhau, dùng qua AI Studio (link app) bạn sẽ tận dụng được ngưỡng miễn phí hàng ngày tương đối thoải mái của Gemini. Chỉ cần [tạo Key miễn phí](https://github.com/kiencang/PDF-silaTranslator/blob/main/create-api-key.md) để nhập vào.
 
 - Đọc hướng dẫn cách dùng mọi người đọc thêm ở đây nhé: https://pdf-translator.wpsila.com
 - Chương trình sử dụng SI/Prompt đã được tối ưu sẵn ở dự án này (có điều chỉnh trong phiên bản thực tế): https://github.com/kiencang/SI-Prompt-PDF-EV-Translate (v1.3.48)
