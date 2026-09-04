@@ -73,4 +73,4 @@ Công cụ này được hoàn thành dựa vào nhiều thư viện khác. Mộ
 
 ### 2. PDF core
 *   **[pdf-lib](https://pdf-lib.js.org/)**: Giúp chia tách, cắt ngắn file PDF.
-*   **[Mozilla PDF.js](https://mozilla.github.io/pdf.js/)** – Phát triển bởi **Mozilla**. Thư viện chạy hoàn toàn trên Client-side, giúp trích xuất hình ảnh trong file PDF.
+*   **[Mozilla PDF.js](https://mozilla.github.io/pdf.js/)**: Phát triển bởi **Mozilla**. Thư viện chạy hoàn toàn trên Client-side, giúp trích xuất hình ảnh trong file PDF.
