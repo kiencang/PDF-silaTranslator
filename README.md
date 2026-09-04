@@ -12,7 +12,7 @@ Người dùng cuối sử dụng ngay sản phẩm qua giao diện web mà khô
 Chất lượng của 2 phiên bản trên như nhau, dùng qua AI Studio (link app) bạn sẽ tận dụng được ngưỡng miễn phí hàng ngày tương đối thoải mái của Gemini. Chỉ cần [tạo Key miễn phí](https://github.com/kiencang/PDF-silaTranslator/blob/main/create-api-key.md) để nhập vào.
 
 - Đọc hướng dẫn cách dùng mọi người đọc thêm ở đây nhé: https://pdf-translator.wpsila.com
-- Chương trình sử dụng SI/Prompt đã được tối ưu sẵn ở dự án này (có điều chỉnh trong phiên bản thực tế): https://github.com/kiencang/SI-Prompt-PDF-EV-Translate (v1.3.48)
+- Chương trình sử dụng SI/Prompt đã được tối ưu sẵn ở dự án này (có điều chỉnh trong phiên bản thực tế/cùng tác giả): https://github.com/kiencang/SI-Prompt-PDF-EV-Translate (v1.3.48)
 
 ## Một số tính năng
 - Dịch các file PDF ngắn, chuyên ngành từ 25 - 30 trang đổ lại (ngưỡng chính xác là 25 ngàn token);
@@ -50,18 +50,20 @@ Nhìn chung, ở thời điểm hiện tại dùng Gemini để dịch tối ưu
 
 Nếu người dùng muốn sử dụng các model AI khác, có thể tự vibe coding, chẳng hạn để kết hợp với OpenAI, Claude, vân vân.
 
-Một cách khác là sử dụng [OpenRouter](https://openrouter.ai/), một **cổng trung gian AI API** có thể kết hợp với hầu như bất cứ AI nào đang tồn tại. Làm như vậy mã nguồn sẽ đỡ phức tạp đi nhiều.
+Một cách khác là sử dụng [OpenRouter](https://openrouter.ai/), một **cổng trung gian API AI** có thể kết hợp với hầu như bất cứ AI nào đang tồn tại. Làm như vậy mã nguồn sẽ đỡ phức tạp đi nhiều.
 
 Bạn có thể tham khảo repo này (cùng tác giả) để sử dụng OpenRouter kết nối với các AI khác khi dịch file PDF: https://github.com/kiencang/PDF-openSky
 
-Công cụ này cần các AI có khả năng nhận diện cả ảnh (để bản dịch có định dạng tốt và gần tương tự với bản gốc), do vậy bạn phải chọn các AI đa phương thức (Multimodal AI). Các AI mà chỉ nhận được đầu vào là text sẽ không hợp với ứng dụng này.
+Công cụ vừa nhắc cần các AI có khả năng nhận diện cả ảnh (để bản dịch có định dạng tốt và gần tương tự với bản gốc), do vậy bạn phải chọn các AI đa phương thức (Multimodal AI). Các AI mà chỉ nhận được đầu vào là text sẽ không hợp với ứng dụng này.
 
 Tôi cũng phát triển một nhánh khác, chuyên dùng model của Meta AI (công ty mẹ của Facebook): https://github.com/kiencang/PDF-ownWay
 
 Lưu ý: Các model AI trên OpenRouter hoặc khi bạn dùng nhánh Meta AI đều có phí (phí cụ thể tùy thuộc bạn dùng model nào). Kể cả bạn dùng Gemini thông qua OpenRouter thì vẫn mất phí. Nếu muốn tiết kiệm tối đa, dùng repo này (PDF-silaTranslator) trên AI Studio là giải pháp tốt nhất. Chỉ khi bắt buộc cần dùng đến các AI khác thì mới dùng nhánh OpenRouter ở trên (PDF-openSky).
 
 ## Tách ảnh với file PDF scan
-Với trường hợp file PDF dạng scan, công cụ này sẽ không tách được ảnh, nó chỉ dịch được text. Nếu Bạn muốn dịch giữ được ảnh, thì cách đơn giản nhất là dùng các công cụ OCR chuyên dụng để chuyển PDF sang dạng markdown (ví dụ dùng [PaddleOCR](https://aistudio.baidu.com/paddleocr)), rồi tải định dạng đó lên các công cụ có khả năng dịch markdown, ví dụ [silaBook](https://github.com/kiencang/silaBook).
+Với trường hợp file PDF dạng scan, công cụ này sẽ không tách được ảnh, nó chỉ dịch được text. Nếu Bạn muốn dịch giữ được ảnh, thì cách đơn giản nhất là dùng các công cụ OCR chuyên dụng để chuyển PDF sang dạng markdown (ví dụ dùng [PaddleOCR](https://aistudio.baidu.com/paddleocr) hoặc [MinerU](https://mineru.net/)), rồi tải định dạng đó lên các công cụ có khả năng dịch markdown, ví dụ [silaBook](https://github.com/kiencang/silaBook).
+
+PS: Một số công cụ trực tuyến chuyển PDF -> Markdown hiện nay có vẻ hơi quá tải, vì thế tốc độ chuyển bị chậm, giải pháp tốt hơn là tải phần mềm của họ về, ví dụ MinerU có phần mềm cho các hệ điều hành khác nhau, tải về rồi chuyển đổi cho tốc độ tốt hơn khá nhiều cách dùng trực tuyến.
 
 ## Ghi công
 Công cụ này được hoàn thành dựa vào nhiều thư viện khác. Một số thư viện quan trọng bao gồm:
