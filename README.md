@@ -11,13 +11,13 @@ Người dùng cuối sử dụng ngay sản phẩm qua giao diện web mà khô
 
 Chất lượng của 2 phiên bản trên như nhau, dùng qua AI Studio (link app) bạn sẽ tận dụng được ngưỡng miễn phí hàng ngày tương đối thoải mái của Gemini. Chỉ cần [tạo Key miễn phí](https://github.com/kiencang/PDF-silaTranslator/blob/main/create-api-key.md) để nhập vào.
 
-- Đọc hướng dẫn cách dùng mọi người đọc thêm ở đây nhé: https://pdf-translator.wpsila.com
+- Hướng dẫn cách dùng mọi người đọc thêm ở đây nhé: https://pdf-translator.wpsila.com
 - Chương trình sử dụng SI/Prompt đã được tối ưu sẵn ở dự án này (có điều chỉnh trong phiên bản thực tế/cùng tác giả): https://github.com/kiencang/SI-Prompt-PDF-EV-Translate (v1.3.48)
 
 ## Một số tính năng
 - Dịch các file PDF ngắn, chuyên ngành từ 25 - 30 trang đổ lại (ngưỡng chính xác là 25 ngàn token);
 - Có khả năng tái tạo tương đối tốt định dạng của tài liệu gốc;
-- Có khả năng **xử lý các công thức toán học phức tạp**;
+- Có khả năng **xử lý các công thức toán học phức tạp** (AI trả về LaTeX, công cụ dùng thư viện MathJax để hiển thị);
 - **Giữ lại được các ảnh bitmap** (dạng như ảnh chụp bằng điện thoại/máy ảnh nhúng trong file PDF) trong bản dịch;
 - Nếu ảnh được tách là dạng sơ đồ, biểu đồ chứa text, bạn có thể tiếp tục dịch tiếp ảnh đó sau khi bản dịch hoàn tất;
 - Các phong cách dịch cho các kiểu tài liệu khác nhau;
