@@ -9,6 +9,12 @@ Riêng chỉ sửa nhỏ giao diện mà không động đến logic dịch thu�
 
 Ví dụ 1.0.19.i nghĩa là phiên bản này có lõi giống y phiên bản 1.0.19, chỉ có giao diện người dùng là chỉnh sửa nhỏ.
 
+## [1.0.90] - 2026-10-20
+### Fixed
+- Điều chỉnh model dịch mặc định từ Pro sang Flash;
+- Điều chỉnh một chút thiết kế của modal `Thay đổi phong cách mặc định` (bổ sung scrollbar, tránh bị cụt trên màn hình có chiều cao thấp);
+- Điều chỉnh nhỏ câu chữ ở một số chỗ cho phù hợp hơn;
+
 ## [1.0.89] - 2026-08-25
 ### Fixed
 - Chỉnh sửa nhỏ liên quan đến tên ứng dụng (đổi `PDF-silaTranslator-Online` thành `PDF-silaTranslator`);

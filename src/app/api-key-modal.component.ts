@@ -31,7 +31,7 @@ import { LucideAngularModule, Key, X, ExternalLink, EyeOff, Eye, Trash2 } from '
               {{ hasUserApiKey ? 'Đang dùng API Key của bạn' : 'Bạn chưa nhập API Key cho ứng dụng' }}
             </span>
             <span class="text-slate-300">|</span>
-            <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-xs text-indigo-600 hover:text-indigo-800 hover:underline font-medium transition-colors cursor-pointer">
+            <a href="https://aistudio.google.com/app/api-keys" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-xs text-indigo-600 hover:text-indigo-800 hover:underline font-medium transition-colors cursor-pointer">
               <lucide-icon [img]="ExternalLink" class="w-3.5 h-3.5" aria-hidden="true"></lucide-icon>
               <span>Nơi lấy API Key Gemini</span>
             </a>

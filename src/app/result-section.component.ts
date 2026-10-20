@@ -112,7 +112,7 @@ export class ResultSectionComponent {
   @Input() resultHtml: string | null = null;
   @Input() progressMessage = '';
   @Input() formattedTime = '';
-  @Input() selectedModel = 'gemini-pro-latest';
+  @Input() selectedModel = 'gemini-flash-latest';
   @Input() mode = 'normal';
 
   @Output() downloadHtml = new EventEmitter<void>();

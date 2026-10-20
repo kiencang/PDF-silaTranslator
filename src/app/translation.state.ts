@@ -29,7 +29,7 @@ export class TranslationState {
   readonly MAX_PDF_TOKENS = 25000;
   readonly MAX_HTML_TOKENS = 35000;
 
-  selectedModel = signal<'gemini-pro-latest' | 'gemini-flash-latest'>('gemini-pro-latest');
+  selectedModel = signal<'gemini-pro-latest' | 'gemini-flash-latest'>('gemini-flash-latest');
   selectedFile = signal<File | null>(null);
   fileBase64 = signal<string | null>(null);
   mimeType = signal<string>('');
@@ -457,7 +457,7 @@ export class TranslationState {
     this.selectedFile.set(null);
     this.isLoadedFromHistory.set(false);
     this.activeHistoryItemId.set(null);
-    this.selectedModel.set('gemini-pro-latest');
+    this.selectedModel.set('gemini-flash-latest');
     this.fileBase64.set(null);
     this.rawOriginalFileBlob.set(null);
     this.mimeType.set('');

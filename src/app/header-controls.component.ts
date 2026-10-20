@@ -101,7 +101,7 @@ export class HeaderControlsComponent {
   readonly Key = Key;
 
   @Input() isProcessing = false;
-  @Input() selectedModel = 'gemini-pro-latest';
+  @Input() selectedModel: 'gemini-pro-latest' | 'gemini-flash-latest' = 'gemini-flash-latest';
   @Input() hasUserApiKey = false;
   
   @Output() modelChange = new EventEmitter<'gemini-pro-latest' | 'gemini-flash-latest'>();

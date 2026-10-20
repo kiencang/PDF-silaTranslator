@@ -77,7 +77,7 @@ export class GeminiService {
     prompt: string,
     systemInstruction: string,
     useGoogleSearch = false,
-    modelName: string = this.MODEL_NAME_PRO,
+    modelName: string = this.MODEL_NAME_FLASH,
     images: {id: string, dataUrl: string}[] = []
   ): Promise<TranslationResult> {
     const ai = this.getAiInstance();
@@ -149,7 +149,7 @@ export class GeminiService {
     prompt: string,
     systemInstruction: string,
     useGoogleSearch = false,
-    modelName: string = this.MODEL_NAME_PRO,
+    modelName: string = this.MODEL_NAME_FLASH,
     images: {id: string, dataUrl: string}[] = []
   ): Promise<TranslationResult> {
     const ai = this.getAiInstance();
@@ -203,7 +203,7 @@ export class GeminiService {
     }
   }
 
-  async translateSingleImageToHtml(dataUrl: string, modelName: string = this.MODEL_NAME_PRO): Promise<string> {
+  async translateSingleImageToHtml(dataUrl: string, modelName: string = this.MODEL_NAME_FLASH): Promise<string> {
     const ai = this.getAiInstance();
     const systemInstruction = `Bạn là một chuyên gia thiết kế web, UI/UX và phiên dịch.
 Người dùng gửi cho bạn một hình ảnh.

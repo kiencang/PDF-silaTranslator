@@ -40,7 +40,7 @@ import { LucideAngularModule, LayoutGrid, X, FileText, Youtube, Globe, ArrowRigh
               </div>
               <div class="flex-1 min-w-0">
                 <div class="flex items-center justify-between mb-1">
-                  <h4 class="text-base font-semibold text-slate-900 group-hover:text-indigo-600 transition-colors">Dịch sách có nội dung dài</h4>
+                  <h4 class="text-base font-semibold text-slate-900 group-hover:text-indigo-600 transition-colors">Dịch ebook, tài liệu dài</h4>
                 </div>
                 <p class="text-xs text-slate-500 leading-relaxed">
                   Có khả năng dịch đa dạng từ truyện ngắn, tiểu thuyết, tài liệu chuyên ngành.
