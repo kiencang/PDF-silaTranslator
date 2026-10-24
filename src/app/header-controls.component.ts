@@ -29,12 +29,21 @@ import { SearchBarComponent } from './search-bar.component';
                 [disabled]="isProcessing"
                 (click)="onOpenApiKeyModal()"
                 title="{{ isProcessing ? 'Không thể cấu hình khi đang xử lý' : (hasUserApiKey ? 'Sửa API Key của bạn' : 'Cấu hình API Key của bạn') }}"
-                class="flex items-center gap-1 text-[11px] font-medium mt-0.5 transition-colors focus:outline-none text-left"
+                class="flex items-center gap-1.5 text-[11px] font-medium mt-0.5 transition-colors focus:outline-none text-left"
                 [class.cursor-not-allowed]="isProcessing"
                 [class.cursor-pointer]="!isProcessing"
-                [ngClass]="hasUserApiKey ? 'text-emerald-600 hover:text-emerald-700' : (isProcessing ? 'text-slate-400' : 'text-slate-500 hover:text-indigo-600 underline decoration-slate-300 hover:decoration-indigo-600 underline-offset-2')"
+                [class.text-emerald-600]="hasUserApiKey"
+                [class.hover:text-emerald-700]="hasUserApiKey"
+                [class.text-slate-400]="!hasUserApiKey && isProcessing"
+                [class.text-slate-500]="!hasUserApiKey && !isProcessing"
+                [class.hover:text-indigo-600]="!hasUserApiKey && !isProcessing"
               >
-                <lucide-icon [img]="Key" class="w-3 h-3"></lucide-icon>
+                <lucide-icon 
+                  [img]="Key" 
+                  class="w-3 h-3 inline-block shrink-0 transition-transform duration-200 origin-center -translate-y-[1px]"
+                  [class.rotate-[15deg]]="hasUserApiKey"
+                  [class.rotate-[75deg]]="!hasUserApiKey"
+                ></lucide-icon>
                 <span class="sm:hidden">{{ hasUserApiKey ? 'Đang dùng key của bạn' : 'Nhập API Key' }}</span>
                 <span class="hidden sm:inline">{{ hasUserApiKey ? 'Đang dùng key của bạn' : 'Nhập (cấu hình) API Key' }}</span>
               </button>
@@ -59,7 +68,7 @@ import { SearchBarComponent } from './search-bar.component';
               <span>Pro</span>
               <!-- Custom Tooltip for Pro -->
               <div class="absolute top-full left-1/2 -translate-x-1/2 mt-2.5 w-56 sm:w-64 p-2.5 bg-slate-800 text-slate-100 text-xs text-left rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 pointer-events-none border border-slate-700 font-normal tracking-wide">
-                <span class="font-semibold text-indigo-300">[Khuyên dùng]</span> - Sử dụng model AI tiên tiến nhất (Gemini Pro Latest) để dịch tài liệu chuyên ngành có độ khó cao.
+                Sử dụng model AI tiên tiến nhất (Gemini Pro Latest) để dịch tài liệu chuyên ngành có độ khó cao.
                 <div class="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-slate-800 border-t border-l border-slate-700 rotate-45 transform origin-center"></div>
               </div>
             </button>

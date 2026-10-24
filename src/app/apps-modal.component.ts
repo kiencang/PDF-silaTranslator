@@ -26,7 +26,7 @@ import { LucideAngularModule, LayoutGrid, X, FileText, Youtube, Globe, ArrowRigh
         <!-- Content -->
         <div class="p-6 overflow-y-auto bg-white flex-1">
           <p class="text-sm text-slate-600 leading-relaxed mb-4">
-            Ngoài dịch tài liệu chuyên ngành PDF, chúng tôi còn cung cấp bộ giải pháp dịch thuật chuyên sâu bằng AI, miễn phí trên AI Studio. Hãy tham khảo ứng dụng bạn muốn sử dụng dưới đây:
+            Ngoài dịch tài liệu chuyên ngành định dạng PDF, chúng tôi còn cung cấp bộ giải pháp dịch thuật chuyên sâu bằng AI, miễn phí trên AI Studio. Hãy tham khảo ứng dụng bạn muốn sử dụng dưới đây:
           </p>
           
           <div class="grid grid-cols-1 gap-4">

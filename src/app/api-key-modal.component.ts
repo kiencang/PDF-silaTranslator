@@ -12,8 +12,16 @@ import { LucideAngularModule, Key, X, ExternalLink, EyeOff, Eye, Trash2 } from '
     <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm animate-in fade-in duration-200" role="dialog" aria-modal="true" aria-labelledby="api-key-title" (click)="closeModal.emit()">
       <div class="bg-white rounded-2xl shadow-xl max-w-2xl w-full p-0 animate-in zoom-in-95 duration-200 overflow-hidden" (click)="$event.stopPropagation()">
         <div class="p-5 border-b border-slate-100 flex items-center justify-between">
-          <div class="flex items-center gap-2">
-            <lucide-icon [img]="Key" class="w-5 h-5 text-slate-800" aria-hidden="true"></lucide-icon>
+          <div class="flex items-center gap-2.5">
+            <lucide-icon 
+              [img]="Key" 
+              class="w-5 h-5 shrink-0 transition-all duration-300 origin-center"
+              [class.text-emerald-600]="hasUserApiKey"
+              [class.rotate-[15deg]]="hasUserApiKey"
+              [class.text-slate-600]="!hasUserApiKey"
+              [class.rotate-[75deg]]="!hasUserApiKey"
+              aria-hidden="true"
+            ></lucide-icon>
             <h3 id="api-key-title" class="text-lg font-bold text-slate-900">Cấu hình Gemini API Key</h3>
           </div>
           <button (click)="closeModal.emit()" class="text-slate-500 hover:text-slate-700 hover:bg-slate-200 transition-colors focus:outline-none rounded-full p-2 cursor-pointer" aria-label="Đóng cấu hình">
@@ -22,18 +30,26 @@ import { LucideAngularModule, Key, X, ExternalLink, EyeOff, Eye, Trash2 } from '
         </div>
         <div class="p-6">
           <p class="text-slate-500 text-sm mb-4 leading-relaxed">
-            Để sử dụng công cụ dịch file PDF này bạn cần khóa API Key của Gemini. Bạn hãy vào link "Nơi lấy API Key Gemini" để thao tác. Key miễn phí chỉ có hiệu lực nếu bạn dùng <a href="https://aistudio.google.com/apps/bb5c61b7-e110-49aa-933c-04c4ccd18e16?showPreview=true&showAssistant=true" target="_blank" rel="noopener noreferrer" class="text-indigo-600 hover:text-indigo-700 hover:underline transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-sm">ứng dụng qua AI Studio</a>, với ai dùng trên pdf-silatranslator.wpsila.com, chỉ Key trả phí mới dùng được. Hãy remix ứng dụng trên AI Studio để dùng miễn phí.
+            Để sử dụng công cụ dịch file PDF này bạn cần khóa API Key của Gemini. Bạn hãy vào link "Nơi lấy Gemini API Key" để thao tác. Key miễn phí (Free tier) chỉ có hiệu lực nếu bạn dùng <a href="https://aistudio.google.com/apps/bb5c61b7-e110-49aa-933c-04c4ccd18e16?showPreview=true&showAssistant=true" target="_blank" rel="noopener noreferrer" class="text-indigo-600 hover:text-indigo-700 hover:underline transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-sm">ứng dụng qua AI Studio</a>, với ai dùng trên pdf-silatranslator.wpsila.com, chỉ Key trả phí mới dùng được. Hãy Remix ứng dụng trên AI Studio để dùng miễn phí.
           </p>
 
-          <div class="flex items-center gap-2 text-sm mt-3 bg-slate-50/50 px-3 py-2 rounded-xl border border-slate-100">
-            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold"
-                  [ngClass]="hasUserApiKey ? 'bg-emerald-100 text-emerald-800 border border-emerald-200' : 'bg-slate-100 text-slate-700 border border-slate-200'">
+          <div class="flex items-center justify-between gap-3 text-sm mt-3 bg-slate-50/50 px-3 py-2 rounded-xl border border-slate-100">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border transition-colors shrink-0"
+                  [class.bg-emerald-50]="hasUserApiKey"
+                  [class.text-emerald-800]="hasUserApiKey"
+                  [class.border-emerald-200]="hasUserApiKey"
+                  [class.bg-slate-100]="!hasUserApiKey"
+                  [class.text-slate-700]="!hasUserApiKey"
+                  [class.border-slate-200]="!hasUserApiKey">
+              <span class="w-1.5 h-1.5 rounded-full"
+                    [class.bg-emerald-500]="hasUserApiKey"
+                    [class.animate-pulse]="hasUserApiKey"
+                    [class.bg-slate-400]="!hasUserApiKey"></span>
               {{ hasUserApiKey ? 'Đang dùng API Key của bạn' : 'Bạn chưa nhập API Key cho ứng dụng' }}
             </span>
-            <span class="text-slate-300">|</span>
-            <a href="https://aistudio.google.com/app/api-keys" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-xs text-indigo-600 hover:text-indigo-800 hover:underline font-medium transition-colors cursor-pointer">
+            <a href="https://aistudio.google.com/app/api-keys" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-xs text-indigo-600 hover:text-indigo-800 hover:underline font-medium transition-colors cursor-pointer shrink-0 ml-auto">
               <lucide-icon [img]="ExternalLink" class="w-3.5 h-3.5" aria-hidden="true"></lucide-icon>
-              <span>Nơi lấy API Key Gemini</span>
+              <span>Nơi lấy Gemini API Key</span>
             </a>
           </div>
 

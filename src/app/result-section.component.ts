@@ -20,7 +20,7 @@ import { TranslationState } from './translation.state';
         <h2 class="text-sm font-semibold text-slate-900 uppercase tracking-wider">Bản dịch • Đọc tốt nhất trên màn hình lớn</h2>
         
         @if (resultHtml) {
-          <div class="flex items-center gap-2">
+          <div class="flex items-center">
             <div class="relative group">
               <button (click)="downloadHtml.emit()" class="px-3 py-1.5 bg-indigo-50 text-indigo-700 border border-indigo-200 hover:bg-indigo-100 hover:border-indigo-300 rounded-md transition-colors flex items-center gap-1.5 text-xs font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer">
                 <lucide-icon [img]="DownloadIcon" class="w-3.5 h-3.5" aria-hidden="true"></lucide-icon>
@@ -31,9 +31,12 @@ import { TranslationState } from './translation.state';
                 <div class="absolute bottom-full left-1/2 -translate-x-1/2 border-[5px] border-transparent border-b-slate-800"></div>
               </div>
             </div>
-            <div class="w-px h-6 bg-slate-200 mx-1"></div>
-            <div class="relative group">
-              <button (click)="toggleFullscreen.emit()" class="p-2 text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer" [attr.aria-label]="isFullscreen ? 'Thu nhỏ.' : 'Đọc toàn màn hình.'">
+
+            <!-- Balanced Divider -->
+            <div class="w-px h-4 bg-slate-200 ml-2.5 mr-1 shrink-0" aria-hidden="true"></div>
+
+            <div class="relative group flex items-center">
+              <button (click)="toggleFullscreen.emit()" class="p-1.5 text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer" [attr.aria-label]="isFullscreen ? 'Thu nhỏ.' : 'Đọc toàn màn hình.'">
                 @if (isFullscreen) {
                   <lucide-icon [img]="MinimizeIcon" class="w-4 h-4" aria-hidden="true"></lucide-icon>
                 } @else {

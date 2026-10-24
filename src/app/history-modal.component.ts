@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LucideAngularModule, X, FileText, Trash2, Eye, Clock, AlertCircle, Download, Coins } from 'lucide-angular';
+import { LucideAngularModule, X, FileText, Trash2, Eye, Clock, Download, Coins } from 'lucide-angular';
 import { TranslatedDoc } from './storage.service';
 
 @Component({
@@ -25,8 +25,7 @@ import { TranslatedDoc } from './storage.service';
               <lucide-icon [img]="X" class="w-5 h-5" aria-hidden="true"></lucide-icon>
             </button>
           </div>
-          <div class="mt-4 flex gap-2.5 bg-amber-50/70 border border-amber-100/60 rounded-xl p-3">
-            <lucide-icon [img]="AlertCircle" class="w-4 h-4 text-amber-500 shrink-0 mt-0.5"></lucide-icon>
+          <div class="mt-4 bg-amber-50/70 border border-amber-100/60 rounded-xl p-3">
             <p class="text-xs tracking-wide text-amber-800/90 leading-relaxed">
               Danh sách 10 file gần nhất bạn dịch/chuyển đổi định dạng. Chúng được lưu cục bộ trên trình duyệt đang dùng để tiện xem lại. Hãy chủ động "Tải bản dịch" để lưu trữ lâu dài, danh sách này có thể bị mất nếu bạn xóa dữ liệu web.
             </p>
@@ -173,7 +172,6 @@ export class HistoryModalComponent {
   readonly Trash2 = Trash2;
   readonly Eye = Eye;
   readonly Clock = Clock;
-  readonly AlertCircle = AlertCircle;
   readonly Download = Download;
   readonly Coins = Coins;
 

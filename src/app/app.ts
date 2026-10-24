@@ -308,7 +308,9 @@ export class App {
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
       
-      const toastMsg = this.mode() === 'phase1' ? 'Đã tải file HTML chuyển đổi xuống máy.' : 'Đã tải file HTML dịch xuống máy.';
+      const toastMsg = this.mode() === 'phase1' 
+        ? 'Đã tải file HTML chuyển đổi xuống máy.' 
+        : 'Đã tải bản dịch xuống máy. Định dạng HTML (web), có thể mở bằng bất cứ trình duyệt nào.';
       this.showToast('success', toastMsg);
     }
   }
