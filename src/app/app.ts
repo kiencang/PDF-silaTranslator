@@ -1,11 +1,10 @@
-import { Component, ChangeDetectionStrategy, signal, inject, DestroyRef, ViewChild, ElementRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, signal, inject, DestroyRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule, FormControl } from '@angular/forms';
 import { LucideAngularModule, UploadCloud, FileText, Settings, Play, Download, CheckCircle2, AlertCircle, Loader2, ArrowDown, RefreshCw, Maximize, Minimize, Clock, Info, X, Search, ExternalLink, Scissors, FileEdit, User, Copy, Key, Eye, EyeOff, Trash2, LayoutGrid } from 'lucide-angular';
 import { SettingsModalComponent } from './settings-modal.component';
 import { ApiKeyModalComponent } from './api-key-modal.component';
 import { ToastsComponent } from './toasts.component';
-import { ResetConfirmModalComponent } from './reset-confirm-modal.component';
 import { HeaderControlsComponent } from './header-controls.component';
 import { UploadZoneComponent } from './upload-zone.component';
 import { ConfigSectionComponent } from './config-section.component';
@@ -22,7 +21,7 @@ export type { TranslationMode } from './translation.state';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, LucideAngularModule, SettingsModalComponent, ApiKeyModalComponent, ToastsComponent, ResetConfirmModalComponent, HeaderControlsComponent, UploadZoneComponent, ConfigSectionComponent, ResultSectionComponent, HistoryModalComponent, RemixModalComponent, AppsModalComponent],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, LucideAngularModule, SettingsModalComponent, ApiKeyModalComponent, ToastsComponent, HeaderControlsComponent, UploadZoneComponent, ConfigSectionComponent, ResultSectionComponent, HistoryModalComponent, RemixModalComponent, AppsModalComponent],
   templateUrl: './app.html',
   styleUrl: './app.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -71,13 +70,10 @@ export class App {
   showApiKeyModal = signal<boolean>(false);
   tempApiKey = signal<string>('');
   showKeyPlain = signal<boolean>(false);
-  showResetConfirm = signal<boolean>(false);
   showHistoryModal = signal<boolean>(false);
   showRemixModal = signal<boolean>(false);
   showAppsModal = signal<boolean>(false);
   isFullscreen = signal<boolean>(false);
-  
-  @ViewChild('resetBtn') resetBtn?: ElementRef<HTMLButtonElement>;
 
   // Expose store state to view
   selectedModel = this.translationState.selectedModel;
@@ -95,6 +91,7 @@ export class App {
   tokenPercentage = this.translationState.tokenPercentage;
   error = this.translationState.error;
   isProcessing = this.translationState.isProcessing;
+  isBusy = this.translationState.isBusy;
   progressMessage = this.translationState.progressMessage;
   formattedTime = this.translationState.formattedTime;
   isHtmlUploaded = this.translationState.isHtmlUploaded;
@@ -186,7 +183,7 @@ export class App {
   }
 
   openApiKeyModal() {
-    if (this.isProcessing()) return;
+    if (this.isBusy()) return;
     if (typeof localStorage !== 'undefined') {
       const savedKey = localStorage.getItem('sila_pdf_translator_user_api_key') || '';
       this.tempApiKey.set(savedKey);
@@ -257,32 +254,12 @@ export class App {
     this.translationState.downloadOriginalFile();
   }
 
-  resetApp() {
-    if (this.resultHtml()) {
-      this.showResetConfirm.set(true);
-    } else {
-      this.confirmReset();
-    }
-  }
-
-  confirmReset() {
+  resetToHome() {
+    if (this.isBusy()) return;
     this.translationState.resetSession();
     this.isFullscreen.set(false);
-    this.showResetConfirm.set(false);
-    
     this.modeControl.setValue('zero_svg');
-
-    this.showToast('info', 'Đã làm mới phiên làm việc.');
-    setTimeout(() => {
-      this.resetBtn?.nativeElement?.focus();
-    }, 50);
-  }
-
-  cancelReset() {
-    this.showResetConfirm.set(false);
-    setTimeout(() => {
-      this.resetBtn?.nativeElement?.focus();
-    }, 50);
+    this.showToast('info', 'Đã quay về màn hình chính.');
   }
 
   downloadHtml() {

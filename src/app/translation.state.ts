@@ -40,6 +40,8 @@ export class TranslationState {
   searchModel = signal<SearchModel>('gemini-flash-lite-latest');
   
   isProcessing = signal<boolean>(false);
+  isSearchingKeyword = signal<boolean>(false);
+  isBusy = computed(() => this.isProcessing() || this.isSearchingKeyword());
   progressMessage = signal<string>('');
   error = signal<string | null>(null);
   
@@ -69,7 +71,7 @@ export class TranslationState {
     if (file && file.size > 0) return true;
     return !!this.rawOriginalFileBlob();
   });
-  canProcess = computed(() => this.hasFile() && !this.isProcessing() && !this.isCountingTokens() && this.tokenCount() <= this.currentMaxTokens());
+  canProcess = computed(() => this.hasFile() && !this.isBusy() && !this.isCountingTokens() && this.tokenCount() <= this.currentMaxTokens());
   tokenPercentage = computed(() => Math.min((this.tokenCount() / this.currentMaxTokens()) * 100, 100));
   isTwoPhaseMode = computed(() => this.mode() === 'phase1' || this.mode() === 'phase2');
   

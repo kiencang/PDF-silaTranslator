@@ -17,11 +17,39 @@ import { SearchBarComponent } from './search-bar.component';
           
           <!-- Logo and Title -->
           <div class="flex items-center gap-2">
-            <div class="bg-indigo-600 text-white p-1.5 rounded-lg shrink-0">
+            <div 
+              (click)="onLogoClick()"
+              (keydown.enter)="onLogoClick()"
+              (keydown.space)="onLogoClick(); $event.preventDefault()"
+              [attr.role]="!isProcessing ? 'button' : null"
+              [attr.tabindex]="!isProcessing ? 0 : -1"
+              [attr.aria-disabled]="isProcessing ? 'true' : null"
+              [title]="isProcessing ? 'Đang trong tiến trình xử lý, không thể làm mới' : 'Về trang chính / Tải tài liệu mới'"
+              class="bg-indigo-600 text-white p-1.5 rounded-lg shrink-0 shadow-sm transition-all select-none"
+              [class.cursor-pointer]="!isProcessing"
+              [class.hover:bg-indigo-700]="!isProcessing"
+              [class.hover:scale-105]="!isProcessing"
+              [class.active:scale-95]="!isProcessing"
+              [class.cursor-not-allowed]="isProcessing"
+              [class.opacity-60]="isProcessing"
+            >
               <lucide-icon [img]="FileText" class="w-5 h-5" aria-hidden="true"></lucide-icon>
             </div>
             <div class="block">
-              <h1 class="text-lg sm:text-xl font-bold font-display tracking-tight text-slate-900 leading-tight">
+              <h1 
+                (click)="onLogoClick()"
+                (keydown.enter)="onLogoClick()"
+                (keydown.space)="onLogoClick(); $event.preventDefault()"
+                [attr.role]="!isProcessing ? 'button' : null"
+                [attr.tabindex]="!isProcessing ? 0 : -1"
+                [attr.aria-disabled]="isProcessing ? 'true' : null"
+                [title]="isProcessing ? 'Đang trong tiến trình xử lý, không thể làm mới' : 'Về trang chính / Tải tài liệu mới'"
+                class="text-lg sm:text-xl font-bold font-display tracking-tight text-slate-900 leading-tight transition-colors select-none"
+                [class.cursor-pointer]="!isProcessing"
+                [class.hover:text-indigo-600]="!isProcessing"
+                [class.cursor-not-allowed]="isProcessing"
+                [class.opacity-60]="isProcessing"
+              >
                 PDF silaTranslator
               </h1>
               <button 
@@ -115,6 +143,12 @@ export class HeaderControlsComponent {
   
   @Output() modelChange = new EventEmitter<'gemini-pro-latest' | 'gemini-flash-latest'>();
   @Output() openApiKeyModal = new EventEmitter<void>();
+  @Output() logoClick = new EventEmitter<void>();
+
+  onLogoClick() {
+    if (this.isProcessing) return;
+    this.logoClick.emit();
+  }
 
   onModelChange(model: 'gemini-pro-latest' | 'gemini-flash-latest') {
     this.modelChange.emit(model);

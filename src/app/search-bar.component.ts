@@ -86,6 +86,7 @@ export class SearchBarComponent {
 
     this.searchQuery.set(query);
     this.isSearching.set(true);
+    this.translationState.isSearchingKeyword.set(true);
     this.translatedQuery.set('');
 
     try {
@@ -111,12 +112,14 @@ export class SearchBarComponent {
       }
     } finally {
       this.isSearching.set(false);
+      this.translationState.isSearchingKeyword.set(false);
     }
   }
 
   closeSearch() {
     this.translatedQuery.set('');
     this.searchQuery.set('');
+    this.translationState.isSearchingKeyword.set(false);
   }
 
   handleScholarClick() {

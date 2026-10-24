@@ -9,6 +9,11 @@ Riêng chỉ sửa nhỏ giao diện mà không động đến logic dịch thu�
 
 Ví dụ 1.0.19.i nghĩa là phiên bản này có lõi giống y phiên bản 1.0.19, chỉ có giao diện người dùng là chỉnh sửa nhỏ.
 
+## [1.0.92] - 2026-10-24
+### Fixed
+- Loại bỏ tính năng dư thừa của button `Làm mới`;
+- Thêm tính năng click vào logo để về giao diện chính;
+
 ## [1.0.91] - 2026-10-24
 ### Fixed
 - Điều chỉnh nhỏ thiết kế (modal API Key, tooltip model, toast, một số text trong modal);

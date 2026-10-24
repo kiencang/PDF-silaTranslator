@@ -1,15 +1,15 @@
 <div class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 text-slate-900 font-sans">
   <!-- Header -->
   <app-header-controls 
-    [attr.inert]="showResetConfirm() ? true : null"
-    [isProcessing]="isProcessing()"
+    [isProcessing]="isBusy()"
     [selectedModel]="selectedModel()"
     [hasUserApiKey]="userApiKey() !== ''"
     (modelChange)="selectedModel.set($event)"
-    (openApiKeyModal)="openApiKeyModal()">
+    (openApiKeyModal)="openApiKeyModal()"
+    (logoClick)="resetToHome()">
   </app-header-controls>
 
-  <main class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8" [attr.inert]="showResetConfirm() || showHistoryModal() ? true : null">
+  <main class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8" [attr.inert]="showHistoryModal() ? true : null">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
       
       <!-- Left Column: Controls & Upload -->
@@ -34,7 +34,6 @@
             [error]="error()"
             (fileChange)="onFileSelected($event)"
             (pageChange)="pdfStartPage.set($event.start); pdfEndPage.set($event.end); onPageChange()"
-            (resetApp)="resetApp()"
             (downloadOriginal)="downloadOriginalFile()"
           ></app-upload-zone>
         </div>
@@ -76,7 +75,7 @@
   </main>
 
   <!-- Footer -->
-  <footer class="border-t border-slate-200 mt-8" [attr.inert]="showResetConfirm() || showHistoryModal() ? true : null">
+  <footer class="border-t border-slate-200 mt-8" [attr.inert]="showHistoryModal() ? true : null">
     <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 relative">
       <!-- Left side: History Button -->
       <div class="flex items-center justify-center lg:justify-start">
@@ -111,7 +110,7 @@
       <!-- Right section -->
       <div class="flex items-center justify-center lg:justify-end">
         <p class="text-xs text-slate-500 flex flex-wrap items-center justify-center lg:justify-end gap-1.5 lg:whitespace-nowrap">
-          <span class="font-medium text-slate-600">v1.0.91</span>
+          <span class="font-medium text-slate-600">v1.0.92</span>
           <span class="text-slate-300 select-none">•</span>
           <a href="https://github.com/kiencang/PDF-silaTranslator" target="_blank" rel="noopener noreferrer" class="text-indigo-600 hover:text-indigo-700 hover:underline font-medium transition-colors">
             GitHub
@@ -164,14 +163,6 @@
       (deleteItem)="deleteHistoryItem($event)"
       (closeModal)="closeHistory()">
     </app-history-modal>
-  }
-
-  <!-- Reset Confirmation Modal -->
-  @if (showResetConfirm()) {
-    <app-reset-confirm-modal
-      (confirm)="confirmReset()"
-      (cancelConfirm)="cancelReset()">
-    </app-reset-confirm-modal>
   }
 
   <!-- Settings Modal -->
