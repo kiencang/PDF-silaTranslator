@@ -30,6 +30,7 @@ Chất lượng của 2 phiên bản trên như nhau, dùng qua AI Studio (link 
   <img src="images/kha-nang-tach-anh.png" alt="Một bản dịch được tách ảnh">
    <br><em>Ảnh trong bản gốc được tách và đưa vào trong bản dịch</em>
 </p>
+
 - Nhìn chung công cụ tách ảnh rất tốt đối với hầu hết các file PDF thông thường, tuy nhiên cũng có giới hạn: Đối với file PDF dạng scan, nó sẽ không tách được;
 - Một số file PDF không phải scan nhưng có cấu trúc, định dạng quá phức tạp cũng có thể không tách được ảnh;
 
@@ -60,9 +61,7 @@ Bạn có thể tham khảo repo này (cùng tác giả) để sử dụng OpenR
 
 Công cụ vừa nhắc cần các AI có khả năng nhận diện cả ảnh (để bản dịch có định dạng tốt và gần tương tự với bản gốc), do vậy bạn phải chọn các AI đa phương thức (Multimodal AI). Các AI mà chỉ nhận được đầu vào là text sẽ không hợp với ứng dụng này.
 
-Tôi cũng phát triển một nhánh khác, chuyên dùng model của Meta AI (công ty mẹ của Facebook): https://github.com/kiencang/PDF-ownWay
-
-Lưu ý: Các model AI trên OpenRouter hoặc khi bạn dùng nhánh Meta AI đều **có phí** (phí cụ thể tùy thuộc bạn dùng model nào). Kể cả bạn dùng Gemini thông qua OpenRouter thì vẫn mất phí. Nếu muốn tiết kiệm tối đa, dùng repo này (PDF-silaTranslator) trên AI Studio là giải pháp tốt nhất. Chỉ khi bắt buộc cần dùng đến các AI khác thì mới dùng nhánh OpenRouter ở trên (PDF-openSky).
+Lưu ý: Các model AI trên OpenRouter hều hết đều **có phí** (phí cụ thể tùy thuộc bạn dùng model nào). Kể cả bạn dùng Gemini thông qua OpenRouter thì vẫn mất phí. Nếu muốn tiết kiệm tối đa, dùng repo này (PDF-silaTranslator) trên AI Studio là giải pháp tốt nhất. Chỉ khi bắt buộc cần dùng đến các AI khác thì mới dùng nhánh OpenRouter ở trên (PDF-openSky).
 
 ## Tách ảnh với file PDF scan
 Với trường hợp file PDF dạng scan, công cụ này sẽ không tách được ảnh, nó chỉ dịch được text. Nếu Bạn muốn dịch giữ được ảnh, thì cách đơn giản nhất là dùng các công cụ OCR chuyên dụng để chuyển PDF sang dạng markdown (ví dụ dùng [PaddleOCR](https://aistudio.baidu.com/paddleocr) hoặc [MinerU](https://mineru.net/)), rồi tải định dạng đó lên các công cụ có khả năng dịch markdown, ví dụ [silaBook](https://github.com/kiencang/silaBook).
