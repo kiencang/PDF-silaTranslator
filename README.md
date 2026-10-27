@@ -26,6 +26,10 @@ Chất lượng của 2 phiên bản trên như nhau, dùng qua AI Studio (link 
 - Tìm kiếm tài liệu tiếng Anh trên Google Scholar bằng từ khóa tiếng Việt;
 
 ## Về khả năng tách ảnh
+<p align="center">
+  <img src="images/kha-nang-tach-anh.png" alt="Một bản dịch được tách ảnh">
+   <br><em>Ảnh trong bản gốc được tách và đưa vào trong bản dịch</em>
+</p>
 - Nhìn chung công cụ tách ảnh rất tốt đối với hầu hết các file PDF thông thường, tuy nhiên cũng có giới hạn: Đối với file PDF dạng scan, nó sẽ không tách được;
 - Một số file PDF không phải scan nhưng có cấu trúc, định dạng quá phức tạp cũng có thể không tách được ảnh;
 
