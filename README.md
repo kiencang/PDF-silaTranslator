@@ -6,13 +6,15 @@
 
 ## Link dùng
 Người dùng cuối sử dụng ngay sản phẩm qua giao diện web mà không cần phải cài thêm bất cứ phần mềm nào.
-- **Link app AI Studio**: https://aistudio.google.com/apps/bb5c61b7-e110-49aa-933c-04c4ccd18e16?showPreview=true&showAssistant=true&fullscreenApplet=true (**API Key miễn phí** là đủ dùng);
-- Link web: https://pdf-silatranslator.wpsila.com (cần API Key trả phí);
+- **Link app AI Studio**: https://aistudio.google.com/apps/bb5c61b7-e110-49aa-933c-04c4ccd18e16?showPreview=true&showAssistant=true&fullscreenApplet=true (Có thể Remix, sao chép mã nguồn để vibe coding thêm nếu muốn)
+- Link web: https://pdf-silatranslator.wpsila.com
 
-Chất lượng của 2 phiên bản trên như nhau, dùng qua AI Studio (link app) bạn sẽ tận dụng được ngưỡng miễn phí hàng ngày tương đối thoải mái của Gemini. Chỉ cần [tạo Key miễn phí](https://github.com/kiencang/PDF-silaTranslator/blob/main/create-api-key.md) để nhập vào.
+Chất lượng của 2 phiên bản trên như nhau.
 
 - Hướng dẫn cách dùng mọi người đọc thêm ở đây nhé: https://pdf-translator.wpsila.com
 - Chương trình sử dụng SI/Prompt đã được tối ưu sẵn ở dự án này (có điều chỉnh trong phiên bản thực tế/cùng tác giả): https://github.com/kiencang/SI-Prompt-PDF-EV-Translate (v1.3.48)
+
+**Lưu ý**: Từ ngày 28/10/2026, việc sử dụng API Key miễn phí trên AI Studio không được thoải mái như trước đây, thường gặp giới hạn (thông báo dạng `model AI đang có nhu cầu sử dụng cao, vui lòng thử lại sau`). Hiện chỉ Key trả phí là tiện dùng ứng dụng được ngay.
 
 ## Một số tính năng
 - Dịch các file PDF ngắn, chuyên ngành từ 25 - 40 trang đổ lại (ngưỡng chính xác là 25 ngàn token);
@@ -49,10 +51,6 @@ Việc sử dụng định dạng HTML cho bản dịch có nhiều lợi thế:
 Về giới hạn 25 ngàn token đầu vào là vì ứng dụng này chỉ sử dụng duy nhất một phiên gọi API để dịch, và giới hạn đầu ra của Gemini rơi vào khoảng 65 ngàn token, do đã mất tương đối nhiều token cho các thẻ HTML và CSS, nên giới hạn trần đầu vào 25 ngàn token là hợp lý, dù đôi khi con số này có thể tăng lên đôi chút mà vẫn dịch đầy đủ trọn vẹn được.
 
 ## Phát triển thêm
-Nhìn chung, ở thời điểm hiện tại dùng Gemini để dịch tối ưu về nhiều khía cạnh: 
-- Họ cung cấp gói miễn phí hàng ngày tương đối rộng rãi để người dùng thoải mái mà không phải mua API;
-- Chất lượng dịch của Gemini rất tốt, nhất là dùng với model mới nhất Pro hoặc Flash;
-
 Nếu người dùng muốn sử dụng các model AI khác, có thể tự vibe coding, chẳng hạn để kết hợp với OpenAI, Claude, vân vân.
 
 Một cách khác là sử dụng [OpenRouter](https://openrouter.ai/), một **cổng trung gian API AI** có thể kết hợp với hầu như bất cứ AI nào đang tồn tại. Làm như vậy mã nguồn sẽ đỡ phức tạp đi nhiều.
