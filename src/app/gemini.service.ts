@@ -30,6 +30,215 @@ export class GeminiService {
     throw new Error('Vui lòng thiết lập "API Key cá nhân" trong phần "Nhập API Key" (nằm ngay dưới logo) để sử dụng ứng dụng.');
   }
 
+  private serverProxyAvailable: boolean | null = null;
+
+  constructor() {
+    if (typeof localStorage !== 'undefined') {
+      const saved = localStorage.getItem('sila_server_proxy_available');
+      if (saved === 'false') {
+        this.serverProxyAvailable = false;
+      } else if (saved === 'true') {
+        this.serverProxyAvailable = true;
+      }
+    }
+  }
+
+  private markServerProxyUnavailable(): void {
+    this.serverProxyAvailable = false;
+    if (typeof localStorage !== 'undefined') {
+      try {
+        localStorage.setItem('sila_server_proxy_available', 'false');
+      } catch (e: unknown) {
+        console.warn('Cannot write to localStorage', e);
+      }
+    }
+  }
+
+  private markServerProxyAvailable(): void {
+    this.serverProxyAvailable = true;
+    if (typeof localStorage !== 'undefined') {
+      try {
+        localStorage.setItem('sila_server_proxy_available', 'true');
+      } catch (e: unknown) {
+        console.warn('Cannot write to localStorage', e);
+      }
+    }
+  }
+
+  private async safeFetchServer(url: string, payload: any): Promise<any | null> {
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      // If endpoint doesn't exist (e.g. static hosting on Cloudflare/Vercel/S3)
+      if (response.status === 404 || response.status === 405) {
+        this.markServerProxyUnavailable();
+        return null;
+      }
+
+      const rawText = await response.text();
+      if (!rawText || rawText.trim() === '') {
+        this.markServerProxyUnavailable();
+        return null;
+      }
+
+      let parsed: any;
+      try {
+        parsed = JSON.parse(rawText);
+      } catch {
+        // Received non-JSON (like an HTML 404 error page from static host)
+        this.markServerProxyUnavailable();
+        return null;
+      }
+
+      if (!response.ok) {
+        throw new Error(parsed?.error?.message || `HTTP ${response.status}: Lỗi máy chủ`);
+      }
+
+      this.markServerProxyAvailable();
+      return parsed;
+    } catch (e: unknown) {
+      if (this.serverProxyAvailable === false) {
+        return null;
+      }
+      if (e instanceof Error && !e.message.includes('fetch') && !e.message.includes('NetworkError')) {
+        throw e;
+      }
+      this.markServerProxyUnavailable();
+      return null;
+    }
+  }
+
+  private async directGenerate(payload: {
+    model: string;
+    parts: any[];
+    systemInstruction?: string;
+    useGoogleSearch?: boolean;
+    thinkingLevel?: string;
+    userApiKey: string;
+  }): Promise<ServerGenerateResponse> {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${payload.model}:generateContent?key=${payload.userApiKey}`;
+
+    const body: Record<string, any> = {
+      contents: [
+        {
+          parts: payload.parts
+        }
+      ],
+      safetySettings: [
+        { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_NONE' },
+        { category: 'HARM_CATEGORY_HATE_SPEECH', threshold: 'BLOCK_NONE' },
+        { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_NONE' },
+        { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_NONE' }
+      ]
+    };
+
+    if (payload.systemInstruction) {
+      body['systemInstruction'] = {
+        parts: [{ text: payload.systemInstruction }]
+      };
+    }
+
+    if (payload.thinkingLevel) {
+      body['generationConfig'] = {
+        thinkingConfig: {
+          thinkingLevel: payload.thinkingLevel
+        }
+      };
+    }
+
+    if (payload.useGoogleSearch) {
+      body['tools'] = [{ googleSearch: {} }];
+    }
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    });
+
+    const rawText = await response.text();
+    let data: any = {};
+    try {
+      if (rawText && rawText.trim() !== '') {
+        data = JSON.parse(rawText);
+      }
+    } catch {
+      throw new Error(`Phản hồi không hợp lệ từ Google Gemini API (HTTP ${response.status})`);
+    }
+
+    if (!response.ok) {
+      throw new Error(data?.error?.message || `Lỗi từ Google Gemini API (HTTP ${response.status})`);
+    }
+
+    const candidate = data.candidates?.[0];
+    let extractedText = '';
+    if (candidate?.content?.parts) {
+      extractedText = candidate.content.parts
+        .map((p: any) => p.text || '')
+        .join('');
+    }
+
+    return {
+      text: extractedText,
+      candidates: data.candidates?.map((c: any) => ({ finishReason: c.finishReason })),
+      usageMetadata: data.usageMetadata
+    };
+  }
+
+  private async directCountTokens(fileData: string, mimeType: string, userApiKey: string): Promise<number> {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-lite-latest:countTokens?key=${userApiKey}`;
+    const cleanFileData = fileData.includes(',') ? fileData.split(',')[1] : fileData;
+    const contentParts =
+      mimeType === 'text/html'
+        ? [{ text: fileData }]
+        : [
+            {
+              inlineData: {
+                data: cleanFileData,
+                mimeType: mimeType
+              }
+            }
+          ];
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        contents: [
+          {
+            parts: contentParts
+          }
+        ]
+      })
+    });
+
+    const rawText = await response.text();
+    let data: any = {};
+    try {
+      if (rawText && rawText.trim() !== '') {
+        data = JSON.parse(rawText);
+      }
+    } catch {
+      throw new Error(`Phản hồi không hợp lệ từ Google Gemini API (HTTP ${response.status})`);
+    }
+
+    if (!response.ok) {
+      throw new Error(data?.error?.message || `Lỗi khi tính số token (HTTP ${response.status})`);
+    }
+
+    return data.totalTokens || 0;
+  }
+
   private async callGenerateEndpoint(payload: {
     model: string;
     parts: any[];
@@ -38,47 +247,31 @@ export class GeminiService {
     thinkingLevel?: string;
     userApiKey: string;
   }): Promise<ServerGenerateResponse> {
-    const response = await fetch('/api/gemini/generate', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(payload)
-    });
-
-    const data = (await response.json()) as ServerGenerateResponse;
-    if (!response.ok) {
-      throw new Error(data.error?.message || `HTTP ${response.status}: Lỗi khi gọi máy chủ dịch thuật`);
+    if (this.serverProxyAvailable !== false) {
+      const serverResult = await this.safeFetchServer('/api/gemini/generate', payload);
+      if (serverResult !== null) {
+        return serverResult;
+      }
     }
-    return data;
+
+    return await this.directGenerate(payload);
   }
 
   async countTokens(fileData: string, mimeType: string): Promise<number> {
-    try {
-      const userApiKey = this.getUserApiKey();
-      const response = await fetch('/api/gemini/count-tokens', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          fileData,
-          mimeType,
-          userApiKey
-        })
-      });
+    const userApiKey = this.getUserApiKey();
 
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data?.error?.message || 'Lỗi khi tính số token.');
+    if (this.serverProxyAvailable !== false) {
+      const serverResult = await this.safeFetchServer('/api/gemini/count-tokens', {
+        fileData,
+        mimeType,
+        userApiKey
+      });
+      if (serverResult !== null && typeof serverResult.totalTokens === 'number') {
+        return serverResult.totalTokens;
       }
-      return data.totalTokens || 0;
-    } catch (e: unknown) {
-      if (e instanceof Error) {
-        throw new Error(e.message);
-      }
-      throw new Error('Lỗi khi tính số token.');
     }
+
+    return await this.directCountTokens(fileData, mimeType, userApiKey);
   }
 
   private extractTextFromResponse(response: { candidates?: { finishReason?: string }[]; text?: string }): string {
