@@ -21,6 +21,11 @@
           "options": {
             "outputPath": "dist",
             "browser": "src/main.ts",
+            "server": "src/main.server.ts",
+            "outputMode": "server",
+            "ssr": {
+              "entry": "src/server.ts"
+            },
             "tsConfig": "tsconfig.app.json",
             "assets": [
               {
@@ -54,7 +59,10 @@
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true
+              "sourceMap": true,
+              "externalDependencies": [
+                "@google/genai"
+              ]
             }
           },
           "defaultConfiguration": "production"

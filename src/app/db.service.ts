@@ -17,28 +17,33 @@ interface AppDB extends DBSchema {
   providedIn: 'root'
 })
 export class DbService {
-  private dbPromise: Promise<IDBPDatabase<AppDB>>;
+  private dbPromise: Promise<IDBPDatabase<AppDB>> | null = null;
 
   constructor() {
-    this.dbPromise = openDB<AppDB>('sila-translator-db', 1, {
-      upgrade(db) {
-        const store = db.createObjectStore('images', { keyPath: 'id' });
-        store.createIndex('by-pdf', 'pdfHash');
-      },
-    });
+    if (typeof window !== 'undefined' && typeof indexedDB !== 'undefined') {
+      this.dbPromise = openDB<AppDB>('sila-translator-db', 1, {
+        upgrade(db) {
+          const store = db.createObjectStore('images', { keyPath: 'id' });
+          store.createIndex('by-pdf', 'pdfHash');
+        },
+      });
+    }
   }
 
   async saveImage(id: string, pdfHash: string, dataUrl: string): Promise<void> {
+    if (!this.dbPromise) return;
     const db = await this.dbPromise;
     await db.put('images', { id, pdfHash, dataUrl });
   }
 
   async getImagesByPdf(pdfHash: string): Promise<{ id: string, dataUrl: string }[]> {
+    if (!this.dbPromise) return [];
     const db = await this.dbPromise;
     return await db.getAllFromIndex('images', 'by-pdf', pdfHash);
   }
 
   async clearImagesByPdf(pdfHash: string): Promise<void> {
+    if (!this.dbPromise) return;
     const db = await this.dbPromise;
     const tx = db.transaction('images', 'readwrite');
     const index = tx.store.index('by-pdf');

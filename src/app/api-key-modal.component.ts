@@ -30,7 +30,7 @@ import { LucideAngularModule, Key, X, ExternalLink, EyeOff, Eye, Trash2 } from '
         </div>
         <div class="p-6">
           <p class="text-slate-500 text-sm mb-4 leading-relaxed">
-            Để sử dụng công cụ dịch file PDF này bạn cần khóa API Key của Gemini. Bạn hãy vào link "Nơi lấy Gemini API Key" để thao tác. Key miễn phí (Free tier) chỉ có hiệu lực nếu bạn dùng <a href="https://aistudio.google.com/apps/bb5c61b7-e110-49aa-933c-04c4ccd18e16?showPreview=true&showAssistant=true" target="_blank" rel="noopener noreferrer" class="text-indigo-600 hover:text-indigo-700 hover:underline transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-sm">ứng dụng qua AI Studio</a>, với ai dùng trên pdf-silatranslator.wpsila.com, chỉ Key trả phí mới dùng được. Hãy Remix ứng dụng trên AI Studio để dùng miễn phí.
+            Để sử dụng công cụ dịch file PDF này bạn cần khóa API Key của Gemini. Bạn hãy vào link "Nơi lấy Gemini API Key" để thao tác. Key miễn phí (Free tier) hiện bị giới hạn sử dụng khá nhiều, không còn thoải mái như trước. Hiện chỉ Key trả phí mới tiện dùng ngay.
           </p>
 
           <div class="flex items-center justify-between gap-3 text-sm mt-3 bg-slate-50/50 px-3 py-2 rounded-xl border border-slate-100">

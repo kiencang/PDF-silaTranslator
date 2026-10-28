@@ -173,10 +173,12 @@ export class App {
     this.saveSettings();
   }
   saveSettings() {
+    const selectedDefaultMode = this.defaultModeControl.value;
     if (typeof localStorage !== 'undefined') {
-      localStorage.setItem('sila_pdf_translator_default_mode', this.defaultModeControl.value);
+      localStorage.setItem('sila_pdf_translator_default_mode', selectedDefaultMode);
       localStorage.setItem('sila_pdf_translator_search_model', this.defaultSearchModelControl.value);
     }
+    this.modeControl.setValue(selectedDefaultMode);
     this.translationState.searchModel.set(this.defaultSearchModelControl.value);
     this.showSettingsModal.set(false);
     this.showToast('success', 'Đã lưu cấu hình mặc định!');
@@ -258,7 +260,14 @@ export class App {
     if (this.isBusy()) return;
     this.translationState.resetSession();
     this.isFullscreen.set(false);
-    this.modeControl.setValue('zero_svg');
+    let defaultMode: TranslationMode = this.defaultModeControl.value || 'zero_svg';
+    if (typeof localStorage !== 'undefined') {
+      const savedMode = localStorage.getItem('sila_pdf_translator_default_mode') as TranslationMode;
+      if (savedMode) {
+        defaultMode = savedMode;
+      }
+    }
+    this.modeControl.setValue(defaultMode);
     this.showToast('info', 'Đã quay về màn hình chính.');
   }
 

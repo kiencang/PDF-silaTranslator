@@ -1,9 +1,15 @@
 import { Injectable } from '@angular/core';
-import { GoogleGenAI, HarmCategory, HarmBlockThreshold } from '@google/genai';
 
 export interface TranslationResult {
   text: string;
   usageMetadata?: any;
+}
+
+interface ServerGenerateResponse {
+  text?: string;
+  candidates?: { finishReason?: string }[];
+  usageMetadata?: any;
+  error?: { message?: string };
 }
 
 @Injectable({
@@ -14,36 +20,59 @@ export class GeminiService {
   private readonly MODEL_NAME_FLASH = 'gemini-flash-latest';
   private readonly MODEL_NAME_FLASH_LITE = 'gemini-flash-lite-latest';
 
-  private getAiInstance(): GoogleGenAI {
+  private getUserApiKey(): string {
     if (typeof localStorage !== 'undefined') {
       const userKey = localStorage.getItem('sila_pdf_translator_user_api_key');
       if (userKey && userKey.trim() !== '') {
-        return new GoogleGenAI({ 
-           apiKey: userKey.trim(),
-           // When calling from browser, the SDK handles CORS properly with rest endpoints.
-        });
+        return userKey.trim();
       }
     }
     throw new Error('Vui lòng thiết lập "API Key cá nhân" trong phần "Nhập API Key" (nằm ngay dưới logo) để sử dụng ứng dụng.');
   }
 
+  private async callGenerateEndpoint(payload: {
+    model: string;
+    parts: any[];
+    systemInstruction?: string;
+    useGoogleSearch?: boolean;
+    thinkingLevel?: string;
+    userApiKey: string;
+  }): Promise<ServerGenerateResponse> {
+    const response = await fetch('/api/gemini/generate', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    });
+
+    const data = (await response.json()) as ServerGenerateResponse;
+    if (!response.ok) {
+      throw new Error(data.error?.message || `HTTP ${response.status}: Lỗi khi gọi máy chủ dịch thuật`);
+    }
+    return data;
+  }
+
   async countTokens(fileData: string, mimeType: string): Promise<number> {
     try {
-      const ai = this.getAiInstance();
-      const contentParts = mimeType === 'text/html' ? [{ text: fileData }] : [{
-        inlineData: {
-          data: fileData,
-          mimeType: mimeType
-        }
-      }];
-      
-      const result = await ai.models.countTokens({
-        model: 'gemini-flash-lite-latest',
-        contents: [
-          { parts: contentParts as unknown as Record<string, unknown>[] }
-        ]
+      const userApiKey = this.getUserApiKey();
+      const response = await fetch('/api/gemini/count-tokens', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          fileData,
+          mimeType,
+          userApiKey
+        })
       });
-      return result.totalTokens || 0;
+
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data?.error?.message || 'Lỗi khi tính số token.');
+      }
+      return data.totalTokens || 0;
     } catch (e: unknown) {
       if (e instanceof Error) {
         throw new Error(e.message);
@@ -80,22 +109,7 @@ export class GeminiService {
     modelName: string = this.MODEL_NAME_FLASH,
     images: {id: string, dataUrl: string}[] = []
   ): Promise<TranslationResult> {
-    const ai = this.getAiInstance();
-    const config: Record<string, unknown> = {
-      systemInstruction: { parts: [{ text: systemInstruction }] },
-      thinkingConfig: { thinkingLevel: 'HIGH' },
-      safetySettings: [
-        { category: HarmCategory.HARM_CATEGORY_HARASSMENT, threshold: HarmBlockThreshold.BLOCK_NONE },
-        { category: HarmCategory.HARM_CATEGORY_HATE_SPEECH, threshold: HarmBlockThreshold.BLOCK_NONE },
-        { category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT, threshold: HarmBlockThreshold.BLOCK_NONE },
-        { category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, threshold: HarmBlockThreshold.BLOCK_NONE }
-      ]
-    };
-    
-    if (useGoogleSearch) {
-      config['tools'] = [{ googleSearch: {} }];
-    }
-
+    const userApiKey = this.getUserApiKey();
     const parts: any[] = [];
     
     // Add the main document
@@ -126,10 +140,13 @@ export class GeminiService {
     parts.push({ text: prompt });
 
     try {
-      const response = await ai.models.generateContent({
+      const response = await this.callGenerateEndpoint({
         model: modelName,
-        contents: [{ parts: parts }],
-        config
+        parts,
+        systemInstruction,
+        useGoogleSearch,
+        thinkingLevel: 'HIGH',
+        userApiKey
       });
 
       return {
@@ -152,21 +169,7 @@ export class GeminiService {
     modelName: string = this.MODEL_NAME_FLASH,
     images: {id: string, dataUrl: string}[] = []
   ): Promise<TranslationResult> {
-    const ai = this.getAiInstance();
-    const config: Record<string, unknown> = {
-      systemInstruction: { parts: [{ text: systemInstruction }] },
-      thinkingConfig: { thinkingLevel: 'HIGH' },
-      safetySettings: [
-        { category: HarmCategory.HARM_CATEGORY_HARASSMENT, threshold: HarmBlockThreshold.BLOCK_NONE },
-        { category: HarmCategory.HARM_CATEGORY_HATE_SPEECH, threshold: HarmBlockThreshold.BLOCK_NONE },
-        { category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT, threshold: HarmBlockThreshold.BLOCK_NONE },
-        { category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, threshold: HarmBlockThreshold.BLOCK_NONE }
-      ]
-    };
-    if (useGoogleSearch) {
-      config['tools'] = [{ googleSearch: {} }];
-    }
-
+    const userApiKey = this.getUserApiKey();
     const parts: any[] = [];
     
     const cleanHtmlContent = htmlContent.includes(',') ? htmlContent.split(',')[1] : htmlContent;
@@ -185,10 +188,13 @@ export class GeminiService {
     parts.push({ text: prompt });
 
     try {
-      const response = await ai.models.generateContent({
+      const response = await this.callGenerateEndpoint({
         model: modelName,
-        contents: [{ parts: parts }],
-        config
+        parts,
+        systemInstruction,
+        useGoogleSearch,
+        thinkingLevel: 'HIGH',
+        userApiKey
       });
 
       return {
@@ -204,7 +210,7 @@ export class GeminiService {
   }
 
   async translateSingleImageToHtml(dataUrl: string, modelName: string = this.MODEL_NAME_FLASH): Promise<string> {
-    const ai = this.getAiInstance();
+    const userApiKey = this.getUserApiKey();
     const systemInstruction = `Bạn là một chuyên gia thiết kế web, UI/UX và phiên dịch.
 Người dùng gửi cho bạn một hình ảnh.
 Nhiệm vụ 1: Đánh giá xem hình ảnh này có phải là sơ đồ, biểu đồ, hình vẽ kỹ thuật, hay bất kỳ hình thức nào chứa văn bản cần dịch không. Nếu đây là ảnh chụp thông thường (chân dung, phong cảnh, động vật, nhà cửa, v.v.) không chứa nội dung cần dịch, hãy trả về CHÍNH XÁC chuỗi: [REJECT].
@@ -215,17 +221,6 @@ YÊU CẦU KỸ THUẬT QUAN TRỌNG:
 3. Typography & UI: Sử dụng \`font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;\` để văn bản hiển thị hiện đại, chuyên nghiệp. Điều chỉnh \`font-size\`, \`line-height\` và \`padding\` linh hoạt sao cho nội dung tiếng Việt dễ đọc, không bị che khuất hoặc tràn khỏi container.
 4. Màu sắc & Hình khối: Cố gắng mô phỏng trung thực (hoặc cải thiện để đẹp mắt hơn) màu sắc nền, độ tương phản chữ, border-radius, border, và shadow từ ảnh gốc để kết quả trông sắc nét và chuyên nghiệp.
 Chỉ trả về mã HTML (được phép bao gồm thẻ <style> bên trong, không chứa markdown như \`\`\`html), không giải thích gì thêm.`;
-
-    const config: Record<string, unknown> = {
-      systemInstruction: { parts: [{ text: systemInstruction }] },
-      thinkingConfig: { thinkingLevel: 'HIGH' },
-      safetySettings: [
-        { category: HarmCategory.HARM_CATEGORY_HARASSMENT, threshold: HarmBlockThreshold.BLOCK_NONE },
-        { category: HarmCategory.HARM_CATEGORY_HATE_SPEECH, threshold: HarmBlockThreshold.BLOCK_NONE },
-        { category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT, threshold: HarmBlockThreshold.BLOCK_NONE },
-        { category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, threshold: HarmBlockThreshold.BLOCK_NONE }
-      ]
-    };
 
     const mime = dataUrl.split(';')[0].split(':')[1];
     const data = dataUrl.split(',')[1];
@@ -241,10 +236,12 @@ Chỉ trả về mã HTML (được phép bao gồm thẻ <style> bên trong, kh
     ];
 
     try {
-      const response = await ai.models.generateContent({
+      const response = await this.callGenerateEndpoint({
         model: modelName,
-        contents: [{ parts: parts }],
-        config
+        parts,
+        systemInstruction,
+        thinkingLevel: 'HIGH',
+        userApiKey
       });
       return this.extractTextFromResponse(response);
     } catch (e: unknown) {
@@ -256,7 +253,7 @@ Chỉ trả về mã HTML (được phép bao gồm thẻ <style> bên trong, kh
   }
 
   async translateSearchQuery(query: string, searchModel: 'gemini-flash-lite-latest' | 'gemini-flash-latest' = 'gemini-flash-lite-latest'): Promise<string> {
-    const ai = this.getAiInstance();
+    const userApiKey = this.getUserApiKey();
     const systemInstruction = `Bạn là một AI chuyên dịch truy vấn tìm kiếm (search queries) từ tiếng Việt sang Tiếng Anh. Nhiệm vụ DUY NHẤT của bạn là trả về MỘT (1) truy vấn tìm kiếm tiếng Anh hiệu quả nhất, dựa trên đánh giá của bạn về ý định (search intent) và cách tìm kiếm phổ biến nhất trong tiếng Anh.
 
 QUY TẮC BẮT BUỘC TUÂN THỦ:
@@ -269,20 +266,11 @@ QUY TẮC BẮT BUỘC TUÂN THỦ:
     const prompt = `Provide the single best English search query translation for the following Vietnamese query. Output ONLY the raw English text, nothing else: ${query}`;
 
     try {
-      const response = await ai.models.generateContent({
+      const response = await this.callGenerateEndpoint({
         model: searchModel,
-        contents: [
-          { parts: [{ text: prompt }] }
-        ],
-        config: {
-          systemInstruction: { parts: [{ text: systemInstruction }] },
-          safetySettings: [
-            { category: HarmCategory.HARM_CATEGORY_HARASSMENT, threshold: HarmBlockThreshold.BLOCK_NONE },
-            { category: HarmCategory.HARM_CATEGORY_HATE_SPEECH, threshold: HarmBlockThreshold.BLOCK_NONE },
-            { category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT, threshold: HarmBlockThreshold.BLOCK_NONE },
-            { category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, threshold: HarmBlockThreshold.BLOCK_NONE }
-          ]
-        }
+        parts: [{ text: prompt }],
+        systemInstruction,
+        userApiKey
       });
 
       return (response.text || '').trim();
@@ -319,4 +307,3 @@ QUY TẮC BẮT BUỘC TUÂN THỦ:
     return errorMessage;
   }
 }
-

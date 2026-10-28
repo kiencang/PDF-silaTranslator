@@ -9,6 +9,11 @@ Riêng chỉ sửa nhỏ giao diện mà không động đến logic dịch thu�
 
 Ví dụ 1.0.19.i nghĩa là phiên bản này có lõi giống y phiên bản 1.0.19, chỉ có giao diện người dùng là chỉnh sửa nhỏ.
 
+## [1.0.93] - 2026-10-28
+### Fixed
+- Gemini bắt buộc call API thông qua server trung gian thay vì gọi trực tiếp từ trình duyệt;
+- Điều chỉnh `Thay đổi phong cách mặc định` sẽ được cập nhật ngay lập tức trên giao diện, hoặc khi click vào logo;
+
 ## [1.0.92] - 2026-10-24
 ### Fixed
 - Loại bỏ tính năng dư thừa của button `Làm mới`;
