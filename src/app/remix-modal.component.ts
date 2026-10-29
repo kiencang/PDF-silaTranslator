@@ -21,8 +21,7 @@ import { LucideAngularModule, ExternalLink, X } from 'lucide-angular';
         </div>
         <div class="p-6 overflow-y-auto">
           <p class="text-slate-600 text-sm mb-4 leading-relaxed">
-            Chỉ ứng dụng dùng trên AI Studio mới dùng ngưỡng miễn phí thoải mái, hãy remix app này về AI Studio để tận dụng ngưỡng Free từ Gemini. 
-            <a href="https://aistudio.google.com/apps/bb5c61b7-e110-49aa-933c-04c4ccd18e16?showAssistant=true&showPreview=true" target="_blank" rel="noopener noreferrer" class="text-indigo-600 hover:text-indigo-700 hover:underline transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-sm font-medium">Vào app</a>, rồi remix như hình bên dưới. Thi thoảng bạn hãy vào app gốc để remix lại nếu bạn thấy app gốc ra phiên bản mới và bạn muốn dùng phiên bản mới nhất đó.
+            Nếu bạn muốn vibe coding (chỉnh sửa mã nguồn theo ý muốn) app này, bạn có thể remix nó về tài khoản cá nhân để chỉnh thêm.
           </p>
           
           <div class="mt-4 rounded-xl border border-slate-200 overflow-hidden bg-slate-50 flex items-center justify-center">

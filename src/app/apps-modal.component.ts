@@ -26,12 +26,12 @@ import { LucideAngularModule, LayoutGrid, X, FileText, Youtube, Globe, ArrowRigh
         <!-- Content -->
         <div class="p-6 overflow-y-auto bg-white flex-1">
           <p class="text-sm text-slate-600 leading-relaxed mb-4">
-            Ngoài dịch tài liệu chuyên ngành định dạng PDF, chúng tôi còn cung cấp bộ giải pháp dịch thuật chuyên sâu bằng AI, miễn phí trên AI Studio. Hãy tham khảo ứng dụng bạn muốn sử dụng dưới đây:
+            Ngoài dịch tài liệu chuyên ngành định dạng PDF, chúng tôi còn cung cấp bộ giải pháp dịch thuật chuyên sâu bằng AI. Hãy tham khảo ứng dụng bạn muốn sử dụng dưới đây:
           </p>
           
           <div class="grid grid-cols-1 gap-4">
             <!-- App 1: Dịch sách dài -->
-            <a href="https://aistudio.google.com/apps/d25924ff-35f1-42f7-9543-f142ecfe037a?showPreview=true&showAssistant=true&fullscreenApplet=true" 
+            <a href="https://github.com/kiencang/silaBook" 
                target="_blank" 
                rel="noopener noreferrer" 
                class="group flex items-start p-4 bg-slate-50/50 hover:bg-slate-50 border border-slate-200 hover:border-slate-300 rounded-2xl transition-all duration-200 text-left cursor-pointer no-underline focus:outline-none focus:ring-2 focus:ring-indigo-500">
@@ -55,7 +55,7 @@ import { LucideAngularModule, LayoutGrid, X, FileText, Youtube, Globe, ArrowRigh
             </a>
 
             <!-- App 2: Dịch phụ đề YouTube -->
-            <a href="https://aistudio.google.com/apps/b98324ac-cdef-4887-961c-dbcc2c50a6c7?fullscreenApplet=true&showPreview=true&showAssistant=true" 
+            <a href="https://github.com/kiencang/silaSub" 
                target="_blank" 
                rel="noopener noreferrer" 
                class="group flex items-start p-4 bg-slate-50/50 hover:bg-slate-50 border border-slate-200 hover:border-slate-300 rounded-2xl transition-all duration-200 text-left cursor-pointer no-underline focus:outline-none focus:ring-2 focus:ring-indigo-500">
@@ -79,7 +79,7 @@ import { LucideAngularModule, LayoutGrid, X, FileText, Youtube, Globe, ArrowRigh
             </a>
 
             <!-- App 3: Dịch website -->
-            <a href="https://aistudio.google.com/apps/4cc7e19e-46dd-4d38-8617-ba38ef1c80c3?fullscreenApplet=true&showPreview=true&showAssistant=true" 
+            <a href="https://github.com/kiencang/3W-silaTranslator" 
                target="_blank" 
                rel="noopener noreferrer" 
                class="group flex items-start p-4 bg-slate-50/50 hover:bg-slate-50 border border-slate-200 hover:border-slate-300 rounded-2xl transition-all duration-200 text-left cursor-pointer no-underline focus:outline-none focus:ring-2 focus:ring-indigo-500">
