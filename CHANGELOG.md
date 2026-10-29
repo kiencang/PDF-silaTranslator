@@ -9,6 +9,10 @@ Riêng chỉ sửa nhỏ giao diện mà không động đến logic dịch thu�
 
 Ví dụ 1.0.19.i nghĩa là phiên bản này có lõi giống y phiên bản 1.0.19, chỉ có giao diện người dùng là chỉnh sửa nhỏ.
 
+## [1.0.94] - 2026-10-29
+### Fixed
+- Cập nhật link GitHub bền vững hơn thay vì để các link AI Studio cho app;
+
 ## [1.0.93] - 2026-10-28
 ### Fixed
 - Gemini bắt buộc call API thông qua server trung gian thay vì gọi trực tiếp từ trình duyệt;
