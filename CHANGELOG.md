@@ -9,6 +9,12 @@ Riêng chỉ sửa nhỏ giao diện mà không động đến logic dịch thu�
 
 Ví dụ 1.0.19.i nghĩa là phiên bản này có lõi giống y phiên bản 1.0.19, chỉ có giao diện người dùng là chỉnh sửa nhỏ.
 
+## [1.0.95] - 2026-11-04
+### Fixed
+- Chuyển sang hẳn kiểu call API Clientside, vì để cả SSR thường gây quá tải khởi động rất lâu mỗi khi chỉnh code;
+- Bảo vệ khóa API Key tốt hơn;
+- Loại bỏ thư viện icon Lucide, thay thế bằng icon SVG nhẹ hơn;
+
 ## [1.0.94] - 2026-10-29
 ### Fixed
 - Cập nhật link GitHub bền vững hơn thay vì để các link AI Studio cho app;

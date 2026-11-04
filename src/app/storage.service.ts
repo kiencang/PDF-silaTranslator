@@ -1,0 +1,192 @@
+import { Injectable, inject } from '@angular/core';
+import { DbService } from './db.service';
+
+export interface TranslatedDoc {
+  id?: number;
+  originalFileName: string;
+  vietnameseTitle: string;
+  mode: string;
+  model?: string;
+  timestamp: number;
+  content: string;
+  pdfHash?: string;
+  originalFileBlob?: Blob;
+  originalFileMimeType?: string;
+  promptTokens?: number;
+  candidatesTokens?: number;
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class StorageService {
+  private dbName = 'SilaTranslatorDB';
+  private storeName = 'translations';
+  private db: IDBDatabase | null = null;
+  private isBrowser: boolean;
+
+  private dbService = inject(DbService);
+
+  constructor() {
+    this.isBrowser = typeof window !== 'undefined' && typeof indexedDB !== 'undefined';
+    if (this.isBrowser) {
+      this.initDB().catch(err => console.error('Error auto-initializing DB:', err));
+    }
+  }
+
+  private async initDB(): Promise<IDBDatabase | null> {
+    if (!this.isBrowser) return null;
+    if (this.db) return this.db;
+
+    return new Promise((resolve, reject) => {
+      try {
+        const request = indexedDB.open(this.dbName, 1);
+
+        request.onupgradeneeded = (event: IDBVersionChangeEvent) => {
+          const db = (event.target as IDBOpenDBRequest).result;
+          if (!db.objectStoreNames.contains(this.storeName)) {
+            db.createObjectStore(this.storeName, { keyPath: 'id', autoIncrement: true });
+          }
+        };
+
+        request.onsuccess = (event: Event) => {
+          this.db = (event.target as IDBOpenDBRequest).result;
+          resolve(this.db!);
+        };
+
+        request.onerror = () => {
+          reject('Error opening IndexedDB');
+        };
+      } catch (err) {
+        reject(err);
+      }
+    });
+  }
+
+  private async addItemToStore(db: IDBDatabase, doc: TranslatedDoc): Promise<number> {
+    return new Promise((resolve, reject) => {
+      try {
+        const transaction = db.transaction([this.storeName], 'readwrite');
+        const store = transaction.objectStore(this.storeName);
+        const request = store.add(doc);
+
+        request.onsuccess = () => resolve(request.result as number);
+        request.onerror = (e) => reject(request.error || e || 'Error saving translation');
+      } catch (err) {
+        reject(err);
+      }
+    });
+  }
+
+  async saveTranslation(doc: TranslatedDoc): Promise<number | undefined> {
+    if (!this.isBrowser) return undefined;
+    const db = await this.initDB();
+    if (!db) return undefined;
+    
+    // First, cleanup if more than 10
+    const all = await this.getAll();
+    if (all.length >= 10) {
+      // Sort by timestamp and remove oldest
+      const sorted = [...all].sort((a, b) => a.timestamp - b.timestamp);
+      const toDeleteCount = all.length - 9; // We want to have 9 so after adding 1 it is 10
+      const toDelete = sorted.slice(0, toDeleteCount);
+      for (const item of toDelete) {
+        if (item.id) {
+          if (item.pdfHash) {
+            try {
+              await this.dbService.clearImagesByPdf(item.pdfHash);
+            } catch (err) {
+              console.warn('Lỗi khi xóa ảnh của tài liệu cũ trong lịch sử:', err);
+            }
+          }
+          await this.delete(item.id);
+        }
+      }
+    }
+
+    try {
+      return await this.addItemToStore(db, doc);
+    } catch (err) {
+      console.warn('Lỗi khi lưu kèm file gốc, đang thử lưu lại không kèm file gốc:', err);
+      if (doc.originalFileBlob) {
+        const fallbackDoc = { ...doc };
+        delete fallbackDoc.originalFileBlob;
+        delete fallbackDoc.originalFileMimeType;
+        return await this.addItemToStore(db, fallbackDoc);
+      } else {
+        throw err;
+      }
+    }
+  }
+
+  async updateTranslationContent(id: number, content: string): Promise<void> {
+    if (!this.isBrowser) return;
+    const db = await this.initDB();
+    if (!db) return;
+
+    return new Promise((resolve, reject) => {
+      try {
+        const transaction = db.transaction([this.storeName], 'readwrite');
+        const store = transaction.objectStore(this.storeName);
+        const getReq = store.get(id);
+
+        getReq.onsuccess = () => {
+          const doc = getReq.result as TranslatedDoc;
+          if (doc) {
+            doc.content = content;
+            const putReq = store.put(doc);
+            putReq.onsuccess = () => resolve();
+            putReq.onerror = () => reject(putReq.error || 'Error updating translation content');
+          } else {
+            resolve();
+          }
+        };
+        getReq.onerror = () => reject(getReq.error || 'Error fetching item to update');
+      } catch (err) {
+        reject(err);
+      }
+    });
+  }
+
+  async getAll(): Promise<TranslatedDoc[]> {
+    if (!this.isBrowser) return [];
+    const db = await this.initDB();
+    if (!db) return [];
+
+    return new Promise((resolve, reject) => {
+      try {
+        const transaction = db.transaction([this.storeName], 'readonly');
+        const store = transaction.objectStore(this.storeName);
+        const request = store.getAll();
+
+        request.onsuccess = () => {
+          const results = request.result as TranslatedDoc[];
+          // Return newest first
+          resolve(results.sort((a, b) => b.timestamp - a.timestamp));
+        };
+        request.onerror = () => reject('Error fetching translations');
+      } catch (err) {
+        reject(err);
+      }
+    });
+  }
+
+  async delete(id: number): Promise<void> {
+    if (!this.isBrowser) return;
+    const db = await this.initDB();
+    if (!db) return;
+
+    return new Promise((resolve, reject) => {
+      try {
+        const transaction = db.transaction([this.storeName], 'readwrite');
+        const store = transaction.objectStore(this.storeName);
+        const request = store.delete(id);
+
+        request.onsuccess = () => resolve();
+        request.onerror = () => reject('Error deleting translation');
+      } catch (err) {
+        reject(err);
+      }
+    });
+  }
+}
