@@ -5,11 +5,9 @@
 </p>
 
 ## Link dùng
-Người dùng cuối sử dụng ngay sản phẩm qua giao diện web mà không cần phải cài thêm bất cứ phần mềm nào.
-
 - Link web: https://pdf-silatranslator.wpsila.com
 
-Chất lượng của 2 phiên bản trên như nhau.
+Người dùng cuối sử dụng ngay sản phẩm qua giao diện web mà không cần phải cài thêm bất cứ phần mềm nào.
 
 - Hướng dẫn cách dùng mọi người đọc thêm ở đây nhé: https://pdf-translator.wpsila.com
 - Chương trình sử dụng SI/Prompt đã được tối ưu sẵn ở dự án này (có điều chỉnh trong phiên bản thực tế/cùng tác giả): https://github.com/kiencang/SI-Prompt-PDF-EV-Translate (v1.3.48)
