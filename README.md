@@ -6,7 +6,7 @@
 
 ## Link dùng
 Người dùng cuối sử dụng ngay sản phẩm qua giao diện web mà không cần phải cài thêm bất cứ phần mềm nào.
-- **Link app AI Studio**: https://aistudio.google.com/apps/bb5c61b7-e110-49aa-933c-04c4ccd18e16?showPreview=true&showAssistant=true&fullscreenApplet=true (Có thể Remix, sao chép mã nguồn để vibe coding thêm nếu muốn)
+
 - Link web: https://pdf-silatranslator.wpsila.com
 
 Chất lượng của 2 phiên bản trên như nhau.
