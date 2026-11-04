@@ -16,6 +16,11 @@ Chất lượng của 2 phiên bản trên như nhau.
 
 **Lưu ý**: Từ ngày 28/10/2026, việc sử dụng API Key miễn phí trên AI Studio không được thoải mái như trước đây, thường gặp giới hạn (thông báo dạng `model AI đang có nhu cầu sử dụng cao, vui lòng thử lại sau`). Hiện chỉ Key trả phí là tiện dùng ứng dụng được ngay.
 
+## Một số lưu ý khi dùng với API Key trả phí
+- Không chia sẻ API Key trả phí với người dùng khác, vì bạn sẽ bị tốn chi phí;
+- Luôn thiết lập ngưỡng cho API Key bạn dùng để tránh chi tiêu quá mức, ví dụ thiết lập ngưỡng chi tiêu tối đa 300 ngàn đồng/tháng;
+- Nên dùng ứng dụng này trên các trình duyệt đáng tin cậy, tốt nhất là Chrome, Firefox hoặc Edge. Ngoài ra nên hạn chế các addon cài trên trình duyệt;
+
 ## Một số tính năng
 - Dịch các file PDF ngắn, chuyên ngành từ 25 - 40 trang đổ lại (ngưỡng chính xác là 25 ngàn token);
 - Có khả năng tái tạo tương đối tốt định dạng của tài liệu gốc;
