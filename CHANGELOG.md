@@ -9,6 +9,10 @@ Riêng chỉ sửa nhỏ giao diện mà không động đến logic dịch thu�
 
 Ví dụ 1.0.19.i nghĩa là phiên bản này có lõi giống y phiên bản 1.0.19, chỉ có giao diện người dùng là chỉnh sửa nhỏ.
 
+## [1.0.96] - 2026-11-05
+### Fixed
+- Gọi khóa qua header x-goog-api-key thay vì nối trên URL;
+
 ## [1.0.95] - 2026-11-04
 ### Fixed
 - Chuyển sang hẳn kiểu call API Clientside, vì để cả SSR thường gây quá tải khởi động rất lâu mỗi khi chỉnh code;

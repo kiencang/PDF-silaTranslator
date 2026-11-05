@@ -37,7 +37,7 @@ export class GeminiService {
     thinkingLevel?: string;
     userApiKey: string;
   }): Promise<ServerGenerateResponse> {
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/${payload.model}:generateContent?key=${payload.userApiKey}`;
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${payload.model}:generateContent`;
 
     const body: Record<string, any> = {
       contents: [
@@ -74,7 +74,8 @@ export class GeminiService {
     const response = await fetch(url, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'x-goog-api-key': payload.userApiKey
       },
       body: JSON.stringify(body)
     });
@@ -109,7 +110,7 @@ export class GeminiService {
   }
 
   private async directCountTokens(fileData: string, mimeType: string, userApiKey: string): Promise<number> {
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-lite-latest:countTokens?key=${userApiKey}`;
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-lite-latest:countTokens`;
     const cleanFileData = fileData.includes(',') ? fileData.split(',')[1] : fileData;
     const contentParts =
       mimeType === 'text/html'
@@ -126,7 +127,8 @@ export class GeminiService {
     const response = await fetch(url, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'x-goog-api-key': userApiKey
       },
       body: JSON.stringify({
         contents: [

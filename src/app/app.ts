@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, signal, inject, DestroyRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule, FormControl } from '@angular/forms';
-import { LucideAngularModule, UploadCloud, FileText, Settings, Play, Download, CheckCircle2, AlertCircle, Loader2, ArrowDown, RefreshCw, Maximize, Minimize, Clock, Info, X, Search, ExternalLink, Scissors, FileEdit, User, Copy, Key, Eye, EyeOff, Trash2, LayoutGrid } from './lucide-icons';
+import { LucideAngularModule, UploadCloud, FileText, Settings, Play, Download, CheckCircle2, AlertCircle, Loader2, ArrowDown, RefreshCw, Maximize, Minimize, Clock, Info, X, Search, ExternalLink, Scissors, FileEdit, User, Key, Eye, EyeOff, Trash2, LayoutGrid } from './lucide-icons';
 import { SettingsModalComponent } from './settings-modal.component';
 import { ApiKeyModalComponent } from './api-key-modal.component';
 import { ToastsComponent } from './toasts.component';
@@ -10,7 +10,6 @@ import { UploadZoneComponent } from './upload-zone.component';
 import { ConfigSectionComponent } from './config-section.component';
 import { ResultSectionComponent } from './result-section.component';
 import { HistoryModalComponent } from './history-modal.component';
-import { RemixModalComponent } from './remix-modal.component';
 import { AppsModalComponent } from './apps-modal.component';
 import { ToastService } from './toast.service';
 import { TranslationState } from './translation.state';
@@ -22,7 +21,7 @@ export type { TranslationMode } from './translation.state';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, LucideAngularModule, SettingsModalComponent, ApiKeyModalComponent, ToastsComponent, HeaderControlsComponent, UploadZoneComponent, ConfigSectionComponent, ResultSectionComponent, HistoryModalComponent, RemixModalComponent, AppsModalComponent],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, LucideAngularModule, SettingsModalComponent, ApiKeyModalComponent, ToastsComponent, HeaderControlsComponent, UploadZoneComponent, ConfigSectionComponent, ResultSectionComponent, HistoryModalComponent, AppsModalComponent],
   templateUrl: './app.html',
   styleUrl: './app.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -53,7 +52,6 @@ export class App {
   readonly Scissors = Scissors;
   readonly FileEdit = FileEdit;
   readonly User = User;
-  readonly Copy = Copy;
   readonly Key = Key;
   readonly Eye = Eye;
   readonly EyeOff = EyeOff;
@@ -73,7 +71,6 @@ export class App {
   tempApiKey = signal<string>('');
   showKeyPlain = signal<boolean>(false);
   showHistoryModal = signal<boolean>(false);
-  showRemixModal = signal<boolean>(false);
   showAppsModal = signal<boolean>(false);
   isFullscreen = signal<boolean>(false);
 
@@ -313,14 +310,6 @@ export class App {
 
   closeHistory() {
     this.showHistoryModal.set(false);
-  }
-
-  openRemix() {
-    this.showRemixModal.set(true);
-  }
-
-  closeRemix() {
-    this.showRemixModal.set(false);
   }
 
   openApps() {
