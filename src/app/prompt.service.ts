@@ -15,7 +15,13 @@ export class PromptService {
     }
     try {
       const content = await firstValueFrom(
-        this.http.get(`/prompts/${filename}`, { responseType: 'text' })
+        this.http.get(`/prompts/${filename}?v=${Date.now()}`, {
+          responseType: 'text',
+          headers: {
+            'Cache-Control': 'no-cache',
+            'Pragma': 'no-cache'
+          }
+        })
       );
       this.promptCache.set(filename, content);
       return content;
