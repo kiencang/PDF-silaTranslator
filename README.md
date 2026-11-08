@@ -10,7 +10,7 @@
 Người dùng cuối sử dụng ngay sản phẩm qua giao diện web mà không cần phải cài thêm bất cứ phần mềm nào.
 
 - Hướng dẫn cách dùng mọi người đọc thêm ở đây nhé: https://pdf-translator.wpsila.com
-- Chương trình sử dụng SI/Prompt đã được tối ưu sẵn ở dự án này (có điều chỉnh trong phiên bản thực tế/cùng tác giả): https://github.com/kiencang/SI-Prompt-PDF-EV-Translate (v1.3.48)
+- Chương trình sử dụng SI/Prompt đã được tối ưu sẵn ở dự án này (có điều chỉnh trong phiên bản thực tế/cùng tác giả): https://github.com/kiencang/SI-Prompt-PDF-EV-Translate (v1.3.48) / Có điều chỉnh phát triển thêm.
 
 **Lưu ý**: Từ ngày 28/10/2026, việc sử dụng API Key miễn phí trên AI Studio không được thoải mái như trước đây, thường gặp giới hạn (thông báo dạng `model AI đang có nhu cầu sử dụng cao, vui lòng thử lại sau`). Hiện chỉ Key trả phí là tiện dùng ứng dụng được ngay.
 
