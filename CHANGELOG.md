@@ -9,7 +9,7 @@ Riêng chỉ sửa nhỏ giao diện mà không động đến logic dịch thu�
 
 Ví dụ 1.0.19.i nghĩa là phiên bản này có lõi giống y phiên bản 1.0.19, chỉ có giao diện người dùng là chỉnh sửa nhỏ.
 
-## [1.0.97] - 2026-11-09
+## [1.0.98] - 2026-11-09
 ### Fixed
 - Cập nhật SI, điều chỉnh các ví dụ dịch mẫu ngắn gọn và chính xác hơn. Ngoài ra thắt chặt hơn việc bảo toàn sắc thái khoa học;
 
