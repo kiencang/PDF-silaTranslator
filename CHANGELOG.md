@@ -9,6 +9,10 @@ Riêng chỉ sửa nhỏ giao diện mà không động đến logic dịch thu�
 
 Ví dụ 1.0.19.i nghĩa là phiên bản này có lõi giống y phiên bản 1.0.19, chỉ có giao diện người dùng là chỉnh sửa nhỏ.
 
+## [1.0.97] - 2026-11-08
+### Fixed
+- Loại bỏ các thư viện dư thừa không dùng đến;
+
 ## [1.0.96] - 2026-11-05
 ### Fixed
 - Gọi khóa qua header x-goog-api-key thay vì nối trên URL;
