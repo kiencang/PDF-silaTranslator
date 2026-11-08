@@ -396,7 +396,10 @@ export class TranslationState {
         originalFileBlob: fileBlobToSave,
         originalFileMimeType: this.mimeType() || undefined,
         promptTokens: this.lastTranslationUsageMetadata?.promptTokenCount,
-        candidatesTokens: this.lastTranslationUsageMetadata?.candidatesTokenCount
+        candidatesTokens: this.lastTranslationUsageMetadata
+          ? (this.lastTranslationUsageMetadata.candidatesTokenCount || 0) +
+            (this.lastTranslationUsageMetadata.thoughtsTokenCount || 0)
+          : undefined
       }).catch(err => {
         console.error('Lỗi khi lưu lịch sử:', err);
         return undefined;

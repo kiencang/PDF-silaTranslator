@@ -12,6 +12,8 @@ Ví dụ 1.0.19.i nghĩa là phiên bản này có lõi giống y phiên bản 1
 ## [1.0.97] - 2026-11-08
 ### Fixed
 - Loại bỏ các thư viện dư thừa không dùng đến;
+- Thống kê token đầu ra được sửa thành token cho bản dịch + token thinking (trước đây chỉ có token cho bản dịch);
+- Điều chỉnh lại thiết kế của card `Đang mở` (bao gồm vị trí và thiết kế của badge `Đang mở`);
 
 ## [1.0.96] - 2026-11-05
 ### Fixed

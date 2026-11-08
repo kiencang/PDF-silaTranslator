@@ -46,14 +46,21 @@ import { TranslatedDoc } from './storage.service';
             </div>
           } @else {
             <div class="space-y-3">
-              @for (item of historyItems; track item.id) {
-                <div class="flex flex-col gap-3 group p-3 rounded-xl transition-all duration-200 border bg-white hover:border-slate-300 hover:shadow-sm shadow-sm"
+              @for (item of sortedHistoryItems; track item.id) {
+                <div class="relative overflow-hidden flex flex-col gap-3 group p-3 rounded-xl transition-all duration-200 border bg-white hover:border-slate-300 hover:shadow-sm shadow-sm"
+                     [class.pt-7]="item.id === activeHistoryItemId"
                      [class.bg-indigo-50]="item.id === activeHistoryItemId"
                      [class.border-indigo-200]="item.id === activeHistoryItemId"
                      [class.shadow-sm]="item.id === activeHistoryItemId"
                      [class.border-slate-200]="item.id !== activeHistoryItemId"
                      [class.hover:bg-slate-50]="item.id !== activeHistoryItemId">
                   
+                  @if (item.id === activeHistoryItemId) {
+                    <span class="absolute top-0 left-0 inline-flex items-center px-2.5 py-0.5 text-[10px] font-semibold tracking-wide text-indigo-700 bg-indigo-100/90 border-b border-r border-indigo-200 rounded-br-lg select-none">
+                      Đang mở
+                    </span>
+                  }
+
                   <div class="flex items-start justify-between gap-4">
                     <button type="button" class="flex items-start text-left gap-3 flex-1 min-w-0 cursor-pointer focus:outline-none" (click)="selectItem.emit(item)">
                       <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 mt-0.5 transition-colors"
@@ -72,9 +79,6 @@ import { TranslatedDoc } from './storage.service';
                              [class.text-indigo-700]="item.id === activeHistoryItemId"
                              [title]="item.vietnameseTitle">
                           {{ item.vietnameseTitle }}
-                          @if (item.id === activeHistoryItemId) {
-                            <span class="ml-2 inline-flex items-center rounded bg-indigo-600 px-1.5 py-0.5 text-[10px] font-semibold text-white">ĐANG MỞ</span>
-                          }
                         </div>
                         <div class="text-xs text-slate-500 truncate mt-0.5" [title]="item.originalFileName">
                           Tên tệp gốc: <span class="font-mono text-[11px] bg-slate-100 px-1 py-0.5 rounded text-slate-600">{{ item.originalFileName }}</span>
@@ -106,7 +110,7 @@ import { TranslatedDoc } from './storage.service';
                         </div>
                         @if (item.promptTokens !== undefined || item.candidatesTokens !== undefined) {
                           <div class="flex items-center gap-1.5 mt-1.5">
-                            <span class="text-[11px] text-slate-500 flex items-center gap-1 bg-slate-50 px-1.5 py-0.5 rounded border border-slate-100" title="Tokens đầu vào / đầu ra">
+                            <span class="text-[11px] text-slate-500 flex items-center gap-1 bg-slate-50 px-1.5 py-0.5 rounded border border-slate-100" title="Tokens đầu vào / đầu ra (đã bao gồm token suy luận)">
                               <lucide-icon [img]="Coins" class="w-3 h-3 text-amber-500"></lucide-icon>
                               Input: {{ formatTokens(item.promptTokens) }} token <span class="text-slate-300">|</span> Output: {{ formatTokens(item.candidatesTokens) }} token
                             </span>
@@ -182,6 +186,20 @@ export class HistoryModalComponent {
   @Output() closeModal = new EventEmitter<void>();
 
   deletingItemId: number | null = null;
+
+  get sortedHistoryItems(): TranslatedDoc[] {
+    if (!this.activeHistoryItemId || !this.historyItems.length) {
+      return this.historyItems;
+    }
+    const activeItem = this.historyItems.find(item => item.id === this.activeHistoryItemId);
+    if (!activeItem) {
+      return this.historyItems;
+    }
+    return [
+      activeItem,
+      ...this.historyItems.filter(item => item.id !== this.activeHistoryItemId)
+    ];
+  }
 
   downloadFile(item: TranslatedDoc, event: MouseEvent) {
     event.stopPropagation();
