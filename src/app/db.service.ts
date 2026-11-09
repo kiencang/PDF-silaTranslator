@@ -54,4 +54,10 @@ export class DbService {
     }
     await tx.done;
   }
+
+  async clearAllImages(): Promise<void> {
+    if (!this.dbPromise) return;
+    const db = await this.dbPromise;
+    await db.clear('images');
+  }
 }

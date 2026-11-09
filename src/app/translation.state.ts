@@ -140,12 +140,12 @@ export class TranslationState {
 
       // Extract images from the cropped PDF
       try {
+        await this.dbService.clearAllImages();
         const hash = await this.pdfService.hashFile(result.croppedFile);
         this.pdfHash.set(hash);
         const extractedImages = await this.pdfService.extractImagesFromPDF(result.croppedFile, hash);
         
         // Save images to IndexedDB
-        await this.dbService.clearImagesByPdf(hash);
         for (const img of extractedImages) {
            await this.dbService.saveImage(img.id, hash, img.dataUrl);
         }
@@ -465,12 +465,14 @@ export class TranslationState {
     this.selectedModel.set('gemini-flash-latest');
     this.fileBase64.set(null);
     this.rawOriginalFileBlob.set(null);
+    this.pdfHash.set(null);
     this.mimeType.set('');
     this.resultHtml.set(null);
     this.error.set(null);
     this.tokenCount.set(0);
     this.progressMessage.set('');
     this.elapsedTime.set(0);
+    this.dbService.clearAllImages().catch(err => console.warn('Không thể dọn ảnh tạm:', err));
   }
 
   async fetchHistory() {
@@ -494,6 +496,9 @@ export class TranslationState {
         }
       }
       await this.storageService.delete(id);
+      if (this.activeHistoryItemId() === id) {
+        this.resetSession();
+      }
       await this.fetchHistory();
       this.showToast('success', 'Đã xóa bản dịch khỏi lịch sử thành công.');
     } catch (err) {
