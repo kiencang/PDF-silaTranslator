@@ -12,6 +12,8 @@ Ví dụ 1.0.19.i nghĩa là phiên bản này có lõi giống y phiên bản 1
 ## [1.0.102] - 2026-11-09
 ### Fixed
 - Xóa các file ảnh rác không dùng đến, tránh làm phình dữ liệu;
+- Quá trình tách ảnh diễn ra sau khi bấm nút `Bắt đầu ngay` thay vì trước đó;
+- Điều chỉnh thiết kế Skeleton UI cột phải khi quá trình dịch đang diễn ra;
 
 ## [1.0.101] - 2026-11-09
 ### Fixed
