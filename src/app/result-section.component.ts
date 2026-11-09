@@ -67,18 +67,18 @@ import { TranslationState } from './translation.state';
               <p class="text-slate-500 text-sm mt-4 max-w-md text-center">Thời gian thao tác sẽ cần từ 2 cho đến khoảng 5 phút, tùy thuộc vào độ dài và mức độ phức tạp của nội dung.</p>
             </div>
             <!-- Skeleton UI -->
-            <div class="p-8 space-y-8 animate-pulse">
-              <div class="h-8 bg-slate-200 rounded-lg w-3/4"></div>
-              <div class="space-y-4">
+            <div class="flex-1 flex flex-col p-8 space-y-8 animate-pulse">
+              <div class="h-8 bg-slate-200 rounded-lg w-3/4 shrink-0"></div>
+              <div class="space-y-4 shrink-0">
                 <div class="h-4 bg-slate-200 rounded w-full"></div>
                 <div class="h-4 bg-slate-200 rounded w-full"></div>
                 <div class="h-4 bg-slate-200 rounded w-5/6"></div>
               </div>
-              <div class="space-y-4 pt-4">
+              <div class="space-y-4 pt-4 shrink-0">
                 <div class="h-4 bg-slate-200 rounded w-full"></div>
                 <div class="h-4 bg-slate-200 rounded w-4/5"></div>
               </div>
-              <div class="h-40 bg-slate-100 rounded-xl border border-slate-100 mt-8"></div>
+              <div class="flex-1 min-h-[160px] bg-slate-100 rounded-xl border border-slate-100 mt-8"></div>
             </div>
           </div>
         }

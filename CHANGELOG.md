@@ -9,6 +9,10 @@ Riêng chỉ sửa nhỏ giao diện mà không động đến logic dịch thu�
 
 Ví dụ 1.0.19.i nghĩa là phiên bản này có lõi giống y phiên bản 1.0.19, chỉ có giao diện người dùng là chỉnh sửa nhỏ.
 
+## [1.0.101] - 2026-11-09
+### Fixed
+- Cập nhật cho SI, bổ sung các từ khóa tiếng Anh vào phần chỉ thị tái cấu trúc câu để AI hiểu rõ hơn yêu cầu;
+
 ## [1.0.100] - 2026-11-09
 ### Fixed
 - Cập nhật nhỏ cho SI cho phần nhập vai;
