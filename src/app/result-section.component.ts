@@ -67,18 +67,44 @@ import { TranslationState } from './translation.state';
               <p class="text-slate-500 text-sm mt-4 max-w-md text-center">Thời gian thao tác sẽ cần từ 2 cho đến khoảng 5 phút, tùy thuộc vào độ dài và mức độ phức tạp của nội dung.</p>
             </div>
             <!-- Skeleton UI -->
-            <div class="flex-1 flex flex-col p-8 space-y-8 animate-pulse">
-              <div class="h-8 bg-slate-200 rounded-lg w-3/4 shrink-0"></div>
-              <div class="space-y-4 shrink-0">
-                <div class="h-4 bg-slate-200 rounded w-full"></div>
-                <div class="h-4 bg-slate-200 rounded w-full"></div>
-                <div class="h-4 bg-slate-200 rounded w-5/6"></div>
+            <div class="flex-1 flex flex-col justify-between p-8 space-y-6 animate-pulse overflow-hidden select-none" aria-hidden="true">
+              <!-- Document Title & Subtitle -->
+              <div class="space-y-3 shrink-0">
+                <div class="h-7 bg-slate-200 rounded-lg w-3/4"></div>
+                <div class="h-3 bg-slate-200/70 rounded w-1/3"></div>
               </div>
-              <div class="space-y-4 pt-4 shrink-0">
-                <div class="h-4 bg-slate-200 rounded w-full"></div>
-                <div class="h-4 bg-slate-200 rounded w-4/5"></div>
+
+              <!-- Paragraph 1 (4 lines) -->
+              <div class="space-y-3 shrink-0">
+                <div class="h-3.5 bg-slate-200 rounded w-full"></div>
+                <div class="h-3.5 bg-slate-200 rounded w-full"></div>
+                <div class="h-3.5 bg-slate-200 rounded w-11/12"></div>
+                <div class="h-3.5 bg-slate-200 rounded w-4/5"></div>
               </div>
-              <div class="flex-1 min-h-[160px] bg-slate-100 rounded-xl border border-slate-100 mt-8"></div>
+
+              <!-- Figure / Formula Box + Caption -->
+              <div class="space-y-2.5 py-1 shrink-0">
+                <div class="h-32 bg-slate-100 rounded-xl border border-slate-200/60 w-full"></div>
+                <div class="h-2.5 bg-slate-200/80 rounded w-1/3 mx-auto"></div>
+              </div>
+
+              <!-- Subheading + Paragraph 2 (5 lines) -->
+              <div class="space-y-3 shrink-0">
+                <div class="h-5 bg-slate-200 rounded-md w-2/5 mb-3.5"></div>
+                <div class="h-3.5 bg-slate-200 rounded w-full"></div>
+                <div class="h-3.5 bg-slate-200 rounded w-full"></div>
+                <div class="h-3.5 bg-slate-200 rounded w-11/12"></div>
+                <div class="h-3.5 bg-slate-200 rounded w-full"></div>
+                <div class="h-3.5 bg-slate-200 rounded w-3/4"></div>
+              </div>
+
+              <!-- Paragraph 3 (4 lines at bottom) -->
+              <div class="space-y-3 shrink-0">
+                <div class="h-3.5 bg-slate-200 rounded w-full"></div>
+                <div class="h-3.5 bg-slate-200 rounded w-11/12"></div>
+                <div class="h-3.5 bg-slate-200 rounded w-5/6"></div>
+                <div class="h-3.5 bg-slate-200 rounded w-3/5"></div>
+              </div>
             </div>
           </div>
         }

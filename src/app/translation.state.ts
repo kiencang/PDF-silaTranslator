@@ -137,21 +137,6 @@ export class TranslationState {
       this.croppedFile.set(result.croppedFile);
       this.fileBase64.set(result.fileBase64);
       await this.checkTokenLimit(result.fileBase64, file.type);
-
-      // Extract images from the cropped PDF
-      try {
-        await this.dbService.clearAllImages();
-        const hash = await this.pdfService.hashFile(result.croppedFile);
-        this.pdfHash.set(hash);
-        const extractedImages = await this.pdfService.extractImagesFromPDF(result.croppedFile, hash);
-        
-        // Save images to IndexedDB
-        for (const img of extractedImages) {
-           await this.dbService.saveImage(img.id, hash, img.dataUrl);
-        }
-      } catch (err) {
-        console.warn('Lỗi khi trích xuất hình ảnh từ PDF:', err);
-      }
     } catch (error) {
       console.error('Error cropping PDF:', error);
       this.showToast('error', 'Lỗi khi cắt PDF.');
@@ -253,11 +238,19 @@ export class TranslationState {
       const currentMode = this.mode();
       
       let extractedImages: ExtractedImage[] = [];
-      if (this.pdfHash()) {
+      if (mime === 'application/pdf' && this.croppedFile()) {
         try {
-          extractedImages = await this.dbService.getImagesByPdf(this.pdfHash()!);
-        } catch (e) {
-          console.warn('Không thể lấy ảnh từ DB', e);
+          this.progressMessage.set('Đang trích xuất hình ảnh từ PDF...');
+          await this.dbService.clearAllImages();
+          const cropped = this.croppedFile()!;
+          const hash = await this.pdfService.hashFile(cropped);
+          this.pdfHash.set(hash);
+          extractedImages = await this.pdfService.extractImagesFromPDF(cropped, hash);
+          for (const img of extractedImages) {
+            await this.dbService.saveImage(img.id, hash, img.dataUrl);
+          }
+        } catch (err) {
+          console.warn('Lỗi khi trích xuất hình ảnh từ PDF:', err);
         }
       }
 
@@ -464,6 +457,7 @@ export class TranslationState {
     this.activeHistoryItemId.set(null);
     this.selectedModel.set('gemini-flash-latest');
     this.fileBase64.set(null);
+    this.croppedFile.set(null);
     this.rawOriginalFileBlob.set(null);
     this.pdfHash.set(null);
     this.mimeType.set('');
