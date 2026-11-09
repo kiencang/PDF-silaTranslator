@@ -9,6 +9,11 @@ Riêng chỉ sửa nhỏ giao diện mà không động đến logic dịch thu�
 
 Ví dụ 1.0.19.i nghĩa là phiên bản này có lõi giống y phiên bản 1.0.19, chỉ có giao diện người dùng là chỉnh sửa nhỏ.
 
+## [1.0.104] - 2026-11-09
+### Fixed
+- Chuyển sang thống nhất sử dụng thư viện idb để quản lý IndexedDB thay vì cả mã thuần;
+- Xóa database lưu ảnh dư thừa do cơ chế tách ảnh sau khi bấm dịch giúp cho việc lưu ảnh trên db là không còn cần thiết nữa;
+
 ## [1.0.103] - 2026-11-09
 ### Fixed
 - Cập nhật SI phần liên quan đến `Đơn vị đo lường, Định dạng Số, Ngày tháng và Tiền tệ`;

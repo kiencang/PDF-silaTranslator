@@ -1,5 +1,5 @@
-import { Injectable, inject } from '@angular/core';
-import { DbService } from './db.service';
+import { Injectable } from '@angular/core';
+import { openDB, DBSchema, IDBPDatabase } from 'idb';
 
 export interface TranslatedDoc {
   id?: number;
@@ -16,103 +16,77 @@ export interface TranslatedDoc {
   candidatesTokens?: number;
 }
 
+interface TranslatorHistoryDB extends DBSchema {
+  translations: {
+    key: number;
+    value: TranslatedDoc;
+  };
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class StorageService {
-  private dbName = 'SilaTranslatorDB';
-  private storeName = 'translations';
-  private db: IDBDatabase | null = null;
+  private readonly dbName = 'SilaTranslatorDB';
+  private readonly storeName = 'translations' as const;
+  private dbPromise: Promise<IDBPDatabase<TranslatorHistoryDB>> | null = null;
   private isBrowser: boolean;
-
-  private dbService = inject(DbService);
 
   constructor() {
     this.isBrowser = typeof window !== 'undefined' && typeof indexedDB !== 'undefined';
     if (this.isBrowser) {
-      this.initDB().catch(err => console.error('Error auto-initializing DB:', err));
+      // Clean up legacy temporary image database if it exists from older versions
+      try {
+        indexedDB.deleteDatabase('sila-translator-db');
+      } catch {
+        // Ignore cleanup errors
+      }
+      this.initDB()?.catch(err => console.error('Error auto-initializing DB:', err));
     }
   }
 
-  private async initDB(): Promise<IDBDatabase | null> {
+  private initDB(): Promise<IDBPDatabase<TranslatorHistoryDB>> | null {
     if (!this.isBrowser) return null;
-    if (this.db) return this.db;
-
-    return new Promise((resolve, reject) => {
-      try {
-        const request = indexedDB.open(this.dbName, 1);
-
-        request.onupgradeneeded = (event: IDBVersionChangeEvent) => {
-          const db = (event.target as IDBOpenDBRequest).result;
-          if (!db.objectStoreNames.contains(this.storeName)) {
-            db.createObjectStore(this.storeName, { keyPath: 'id', autoIncrement: true });
+    if (!this.dbPromise) {
+      const storeName = this.storeName;
+      this.dbPromise = openDB<TranslatorHistoryDB>(this.dbName, 1, {
+        upgrade(db) {
+          if (!db.objectStoreNames.contains(storeName)) {
+            db.createObjectStore(storeName, { keyPath: 'id', autoIncrement: true });
           }
-        };
-
-        request.onsuccess = (event: Event) => {
-          this.db = (event.target as IDBOpenDBRequest).result;
-          resolve(this.db!);
-        };
-
-        request.onerror = () => {
-          reject('Error opening IndexedDB');
-        };
-      } catch (err) {
-        reject(err);
-      }
-    });
-  }
-
-  private async addItemToStore(db: IDBDatabase, doc: TranslatedDoc): Promise<number> {
-    return new Promise((resolve, reject) => {
-      try {
-        const transaction = db.transaction([this.storeName], 'readwrite');
-        const store = transaction.objectStore(this.storeName);
-        const request = store.add(doc);
-
-        request.onsuccess = () => resolve(request.result as number);
-        request.onerror = (e) => reject(request.error || e || 'Error saving translation');
-      } catch (err) {
-        reject(err);
-      }
-    });
+        },
+      });
+    }
+    return this.dbPromise;
   }
 
   async saveTranslation(doc: TranslatedDoc): Promise<number | undefined> {
-    if (!this.isBrowser) return undefined;
-    const db = await this.initDB();
-    if (!db) return undefined;
-    
-    // First, cleanup if more than 10
+    const dbPromise = this.initDB();
+    if (!dbPromise) return undefined;
+    const db = await dbPromise;
+
+    // Cleanup oldest items if we already have 10 items
     const all = await this.getAll();
     if (all.length >= 10) {
-      // Sort by timestamp and remove oldest
       const sorted = [...all].sort((a, b) => a.timestamp - b.timestamp);
-      const toDeleteCount = all.length - 9; // We want to have 9 so after adding 1 it is 10
+      const toDeleteCount = all.length - 9;
       const toDelete = sorted.slice(0, toDeleteCount);
       for (const item of toDelete) {
-        if (item.id) {
-          if (item.pdfHash) {
-            try {
-              await this.dbService.clearImagesByPdf(item.pdfHash);
-            } catch (err) {
-              console.warn('Lỗi khi xóa ảnh của tài liệu cũ trong lịch sử:', err);
-            }
-          }
+        if (item.id !== undefined) {
           await this.delete(item.id);
         }
       }
     }
 
     try {
-      return await this.addItemToStore(db, doc);
+      return await db.add(this.storeName, doc);
     } catch (err) {
       console.warn('Lỗi khi lưu kèm file gốc, đang thử lưu lại không kèm file gốc:', err);
       if (doc.originalFileBlob) {
         const fallbackDoc = { ...doc };
         delete fallbackDoc.originalFileBlob;
         delete fallbackDoc.originalFileMimeType;
-        return await this.addItemToStore(db, fallbackDoc);
+        return await db.add(this.storeName, fallbackDoc);
       } else {
         throw err;
       }
@@ -120,73 +94,33 @@ export class StorageService {
   }
 
   async updateTranslationContent(id: number, content: string): Promise<void> {
-    if (!this.isBrowser) return;
-    const db = await this.initDB();
-    if (!db) return;
+    const dbPromise = this.initDB();
+    if (!dbPromise) return;
+    const db = await dbPromise;
 
-    return new Promise((resolve, reject) => {
-      try {
-        const transaction = db.transaction([this.storeName], 'readwrite');
-        const store = transaction.objectStore(this.storeName);
-        const getReq = store.get(id);
-
-        getReq.onsuccess = () => {
-          const doc = getReq.result as TranslatedDoc;
-          if (doc) {
-            doc.content = content;
-            const putReq = store.put(doc);
-            putReq.onsuccess = () => resolve();
-            putReq.onerror = () => reject(putReq.error || 'Error updating translation content');
-          } else {
-            resolve();
-          }
-        };
-        getReq.onerror = () => reject(getReq.error || 'Error fetching item to update');
-      } catch (err) {
-        reject(err);
-      }
-    });
+    const tx = db.transaction(this.storeName, 'readwrite');
+    const doc = await tx.store.get(id);
+    if (doc) {
+      doc.content = content;
+      await tx.store.put(doc);
+    }
+    await tx.done;
   }
 
   async getAll(): Promise<TranslatedDoc[]> {
-    if (!this.isBrowser) return [];
-    const db = await this.initDB();
-    if (!db) return [];
+    const dbPromise = this.initDB();
+    if (!dbPromise) return [];
+    const db = await dbPromise;
 
-    return new Promise((resolve, reject) => {
-      try {
-        const transaction = db.transaction([this.storeName], 'readonly');
-        const store = transaction.objectStore(this.storeName);
-        const request = store.getAll();
-
-        request.onsuccess = () => {
-          const results = request.result as TranslatedDoc[];
-          // Return newest first
-          resolve(results.sort((a, b) => b.timestamp - a.timestamp));
-        };
-        request.onerror = () => reject('Error fetching translations');
-      } catch (err) {
-        reject(err);
-      }
-    });
+    const results = await db.getAll(this.storeName);
+    return results.sort((a, b) => b.timestamp - a.timestamp);
   }
 
   async delete(id: number): Promise<void> {
-    if (!this.isBrowser) return;
-    const db = await this.initDB();
-    if (!db) return;
+    const dbPromise = this.initDB();
+    if (!dbPromise) return;
+    const db = await dbPromise;
 
-    return new Promise((resolve, reject) => {
-      try {
-        const transaction = db.transaction([this.storeName], 'readwrite');
-        const store = transaction.objectStore(this.storeName);
-        const request = store.delete(id);
-
-        request.onsuccess = () => resolve();
-        request.onerror = () => reject('Error deleting translation');
-      } catch (err) {
-        reject(err);
-      }
-    });
+    await db.delete(this.storeName, id);
   }
 }

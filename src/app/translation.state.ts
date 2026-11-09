@@ -2,7 +2,6 @@ import { Injectable, signal, computed, inject } from '@angular/core';
 import { GeminiService } from './gemini.service';
 import { ToastService } from './toast.service';
 import { PdfService } from './pdf.service';
-import { DbService } from './db.service';
 import { StorageService, TranslatedDoc } from './storage.service';
 import { PromptService } from './prompt.service';
 import { ImageProcessorService, ExtractedImage } from './image-processor.service';
@@ -17,7 +16,6 @@ export class TranslationState {
   private geminiService = inject(GeminiService);
   private toastService = inject(ToastService);
   private pdfService = inject(PdfService);
-  private dbService = inject(DbService);
   private storageService = inject(StorageService);
   private promptService = inject(PromptService);
   private imageProcessorService = inject(ImageProcessorService);
@@ -241,14 +239,10 @@ export class TranslationState {
       if (mime === 'application/pdf' && this.croppedFile()) {
         try {
           this.progressMessage.set('Đang trích xuất hình ảnh từ PDF...');
-          await this.dbService.clearAllImages();
           const cropped = this.croppedFile()!;
           const hash = await this.pdfService.hashFile(cropped);
           this.pdfHash.set(hash);
           extractedImages = await this.pdfService.extractImagesFromPDF(cropped, hash);
-          for (const img of extractedImages) {
-            await this.dbService.saveImage(img.id, hash, img.dataUrl);
-          }
         } catch (err) {
           console.warn('Lỗi khi trích xuất hình ảnh từ PDF:', err);
         }
@@ -466,7 +460,6 @@ export class TranslationState {
     this.tokenCount.set(0);
     this.progressMessage.set('');
     this.elapsedTime.set(0);
-    this.dbService.clearAllImages().catch(err => console.warn('Không thể dọn ảnh tạm:', err));
   }
 
   async fetchHistory() {
@@ -481,14 +474,6 @@ export class TranslationState {
 
   async deleteHistoryItem(id: number) {
     try {
-      const itemToDelete = this.historyItems().find(item => item.id === id);
-      if (itemToDelete && itemToDelete.pdfHash) {
-        try {
-          await this.dbService.clearImagesByPdf(itemToDelete.pdfHash);
-        } catch (err) {
-          console.error('Lỗi khi xóa ảnh của tài liệu:', err);
-        }
-      }
       await this.storageService.delete(id);
       if (this.activeHistoryItemId() === id) {
         this.resetSession();
