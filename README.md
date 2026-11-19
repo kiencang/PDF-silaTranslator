@@ -22,7 +22,7 @@ Người dùng cuối sử dụng ngay sản phẩm qua giao diện web mà khô
 Nếu gặp vấn đề về chi phí, và vẫn có nhu cầu dịch, bạn hãy dịch luôn trong môi trường Playground của Gemini, bạn chỉ cần thêm một file hướng dẫn cho AI là đủ.
 Xem cách làm ở đây: [MarkdownBox](https://github.com/kiencang/MarkdownBox).
 
-Một cách khác hay hơn và vẫn miễn phí là sử dụng agent Gemini thông qua Antigravity, bạn có thể xem cách làm ở đây: https://github.com/kiencang/luka-loop
+Một cách khác hay hơn và vẫn miễn phí là sử dụng agent Gemini thông qua Antigravity, bạn có thể xem cách làm ở đây: https://github.com/kiencang/Luka-Loop
 
 ## Một số tính năng
 - Dịch các file PDF ngắn, chuyên ngành từ 25 - 40 trang đổ lại (ngưỡng chính xác là 25 ngàn token);
